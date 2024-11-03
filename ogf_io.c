@@ -6,6 +6,7 @@
 #include "ogf_chunks.c"
 #include "ogf_verts.c"
 #include "ogf_indices.c"
+#include "ogf_swis.c"
 #include "chunk_io.c"
 #include "types.h"
 
@@ -16,12 +17,19 @@ void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, in
         chunks->chunks[chunk_index].offset + *chunks->chunks[chunk_index].size
     );
     for (int i=0; i<chunks_child->count; i++) {
+
         // printf("    id=%d size=%d\n", *chunks_child->chunks[i].id, *chunks_child->chunks[i].size);
+
         if (*chunks_child->chunks[i].id == VERTICES) {
             read_verts(ogf_child, file_data, &chunks_child->chunks[i]);
+
         } else if (*chunks_child->chunks[i].id == INDICES) {
             read_indices(ogf_child, file_data, &chunks_child->chunks[i]);
+
+        } else if (*chunks_child->chunks[i].id == SWIDATA) {
+            read_swis(ogf_child, file_data, &chunks_child->chunks[i]);
         }
+
     }
     // printf("\n");
 }

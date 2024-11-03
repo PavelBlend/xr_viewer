@@ -66,9 +66,16 @@ typedef struct OgfIndices {
     uint16_t* indices;
 } OgfIndices;
 
+typedef struct OgfSwis {
+    uint32_t* offset;
+    uint16_t* tris_count;
+    uint16_t* verts_count;
+} OgfSwis;
+
 typedef struct OgfChild {
-    OgfVerts* verts;
-    OgfIndices* indices;
+    OgfVerts*       verts;
+    OgfIndices*     indices;
+    OgfSwis*        swis;
 } OgfChild;
 
 typedef struct OgfFile {
