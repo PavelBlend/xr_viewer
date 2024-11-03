@@ -16,6 +16,9 @@ void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, in
         chunks->chunks[chunk_index].offset,
         chunks->chunks[chunk_index].offset + *chunks->chunks[chunk_index].size
     );
+
+    uint8_t has_swis = 0;
+
     for (int i=0; i<chunks_child->count; i++) {
 
         // printf("    id=%d size=%d\n", *chunks_child->chunks[i].id, *chunks_child->chunks[i].size);
@@ -28,9 +31,24 @@ void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, in
 
         } else if (*chunks_child->chunks[i].id == SWIDATA) {
             read_swis(ogf_child, file_data, &chunks_child->chunks[i]);
+            has_swis = 1;
         }
 
     }
+
+    if (!has_swis) {
+        ogf_child->swis                 = malloc(sizeof(OgfSwis));
+
+        ogf_child->swis->offset         = malloc(sizeof(uint32_t));
+        ogf_child->swis->tris_count     = malloc(sizeof(uint16_t));
+        ogf_child->swis->verts_count    = malloc(sizeof(uint16_t));
+
+        *ogf_child->swis->offset         = 0;
+        *ogf_child->swis->tris_count     = *ogf_child->indices->count / 3;
+        *ogf_child->swis->verts_count    = *ogf_child->verts->count;
+
+    }
+
     // printf("\n");
 }
 
