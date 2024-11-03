@@ -34,10 +34,12 @@ void read_ogf_children(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, i
     );
 
     ogf_file->children = (OgfChild*) malloc(sizeof(OgfChild) * 10);
+    ogf_file->children_count = 0;
 
     for (int visual_id=0; visual_id<chunks_children->count; visual_id++) {
         // printf("  visual_id=%d\n", visual_id);
         read_ogf_child(&ogf_file->children[visual_id], file_data, chunks_children, visual_id);
+        ogf_file->children_count++;
     }
 
 }

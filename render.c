@@ -16,8 +16,9 @@ int last_pan_x, last_pan_y;
 #define IDI_ICON1 101
 
 typedef struct RenderContext {
-    GLuint vao;
-    uint32_t count;
+    GLuint*     vao;
+    uint32_t*   indices_count;
+    uint32_t    children_count;
 } RenderContext;
 
 // Создать контекст рендера
@@ -54,9 +55,10 @@ void display() {
     glRotatef(camera_angle_x, 1.0f, 0.0f, 0.0f);
     glRotatef(camera_angle_y, 0.0f, 1.0f, 0.0f);
 
-    glBindVertexArray(ctx.vao);
-    //glDrawArrays(GL_POINTS, 0, ctx.count);
-    glDrawElements(GL_TRIANGLES, ctx.count, GL_UNSIGNED_SHORT, 0);
+    for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
+        glBindVertexArray(ctx.vao[child_id]);
+        glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+    }
 
     // Обновление окна
     glutSwapBuffers();
@@ -201,44 +203,52 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     // Установить цвет для очистки экрана
     glClearColor(0.5, 0.5, 0.5, 1.0);
 
-    // Создать VAO
-    glGenVertexArrays(1, &ctx.vao);
-    glBindVertexArray(ctx.vao);
+    ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
+    ctx.children_count  = ogf_file->children_count;
 
-    // Создать вершинный буфер
-    GLuint vertex_buffer;
-    glGenBuffers(1, &vertex_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    for (uint32_t child_id=0; child_id<ogf_file->children_count; child_id++) {
 
-    size_t verts_size;
+        // Создать VAO
+        glGenVertexArrays(1, &ctx.vao[child_id]);
+        glBindVertexArray(ctx.vao[child_id]);
 
-    OgfChild* ogf_child = &ogf_file->children[0];
+        // Создать вершинный буфер
+        GLuint vertex_buffer;
+        glGenBuffers(1, &vertex_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
 
-    if (*ogf_child->verts->format == FVF_1L_SOC) {
-        verts_size = *ogf_child->verts->count * 60;
+        size_t verts_size;
 
-        glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_1_link, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 60, (void*) 48);    // uv attribute
+        OgfChild* ogf_child = &ogf_file->children[child_id];
 
-    } else {
-        verts_size = *ogf_child->verts->count * 64;
-        glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_2_link, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 64, (void*) 4);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 64, (void*) 56);    // uv attribute
+        if (*ogf_child->verts->format == FVF_1L_SOC) {
+            verts_size = *ogf_child->verts->count * 60;
+
+            glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_1_link, GL_STATIC_DRAW);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 60, (void*) 48);    // uv attribute
+
+        } else {
+            verts_size = *ogf_child->verts->count * 64;
+            glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_2_link, GL_STATIC_DRAW);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 64, (void*) 4);
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 64, (void*) 56);    // uv attribute
+        }
+
+        // Настройка атрибута позиции
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        // Создать буфер индексов
+        GLuint indices_buffer;
+        glGenBuffers(1, &indices_buffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * *ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
+
+        ctx.indices_count[child_id] = *ogf_child->indices->count;
+
     }
-
-    // Настройка атрибута позиции
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-
-    // Создать буфер индексов
-    GLuint indices_buffer;
-    glGenBuffers(1, &indices_buffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * *ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
-
-    ctx.count = *ogf_child->indices->count;
 
     // Обработка событий мыши
     glutMouseFunc(mouse_fun);
