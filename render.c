@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "GL\glew.h"
 #include "GL\freeglut.h"
 #include "cglm\cglm.h"
@@ -19,6 +20,15 @@ typedef struct RenderContext {
 
 // Создать контекст рендера
 RenderContext ctx;
+
+void maximizeWindow() {
+    // Получаем handle окна FreeGLUT
+    HWND hwnd = FindWindow(NULL, "OGF Viewer");
+
+    if (hwnd) {
+        ShowWindow(hwnd, SW_MAXIMIZE);
+    }
+}
 
 void display() {
     // Очистка экрана
@@ -141,22 +151,30 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    // Получение разрешения экрана
-    int screen_width = glutGet(GLUT_SCREEN_WIDTH);
-    int screen_height = glutGet(GLUT_SCREEN_HEIGHT);
-
-    int win_size_x = screen_width * 0.8;
-    int win_size_y = screen_height * 0.8;
-
     // Создание окна
     glutCreateWindow("OGF Viewer");
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
-    glutReshapeWindow(win_size_x, win_size_y);
-    glutPositionWindow(
-        (screen_width - win_size_x) / 2,
-        (screen_height - win_size_y) / 2
-    );
+
+    int maximize_window = 1;
+
+    if (maximize_window) {
+        // открыть окно на весь экран
+        maximizeWindow();
+
+    } else {
+        // Получение разрешения экрана
+        int screen_width = glutGet(GLUT_SCREEN_WIDTH);
+        int screen_height = glutGet(GLUT_SCREEN_HEIGHT);
+
+        int win_size_x = screen_width * 0.8;
+        int win_size_y = screen_height * 0.8;
+        glutReshapeWindow(win_size_x, win_size_y);
+        glutPositionWindow(
+            (screen_width - win_size_x) / 2,
+            (screen_height - win_size_y) / 2
+        );
+    }
 
     // Инициализация GLEW
     GLenum glewStatus = glewInit();
