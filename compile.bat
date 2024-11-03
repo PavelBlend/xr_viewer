@@ -16,7 +16,7 @@ C:\progs\mingw64\bin\gcc.exe main.c ogf.o -o ogf_tool.exe -Wall --std=c11 ^
 -LC:\libs\freeimage\FreeImage3180Win32Win64\FreeImage\Dist\x64 ^
 -lFreeImage ^
  ^
--lopengl32 ^
--mwindows
+-lopengl32
+rem -mwindows
 
 pause
