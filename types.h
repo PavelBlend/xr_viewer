@@ -66,9 +66,14 @@ typedef struct OgfIndices {
     uint16_t* indices;
 } OgfIndices;
 
-typedef struct OgfFile {
+typedef struct OgfChild {
     OgfVerts* verts;
     OgfIndices* indices;
+} OgfChild;
+
+typedef struct OgfFile {
+    uint32_t children_count;
+    OgfChild* children;
 } OgfFile;
 
 #endif    // TYPES_H

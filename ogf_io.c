@@ -1,13 +1,15 @@
 #ifndef OGF_IO_C
 #define OGF_IO_C
 
+#include <stdlib.h>
+
 #include "ogf_chunks.c"
 #include "ogf_verts.c"
 #include "ogf_indices.c"
 #include "chunk_io.c"
 #include "types.h"
 
-void read_ogf_child(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, int chunk_index) {
+void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, int chunk_index) {
     Chunks* chunks_child = read_chunks(
         file_data,
         chunks->chunks[chunk_index].offset,
@@ -16,9 +18,9 @@ void read_ogf_child(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, int 
     for (int i=0; i<chunks_child->count; i++) {
         // printf("    id=%d size=%d\n", *chunks_child->chunks[i].id, *chunks_child->chunks[i].size);
         if (*chunks_child->chunks[i].id == VERTICES) {
-            read_verts(ogf_file, file_data, &chunks_child->chunks[i]);
+            read_verts(ogf_child, file_data, &chunks_child->chunks[i]);
         } else if (*chunks_child->chunks[i].id == INDICES) {
-            read_indices(ogf_file, file_data, &chunks_child->chunks[i]);
+            read_indices(ogf_child, file_data, &chunks_child->chunks[i]);
         }
     }
     // printf("\n");
@@ -31,9 +33,11 @@ void read_ogf_children(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, i
         chunks->chunks[chunk_index].offset + *chunks->chunks[chunk_index].size
     );
 
+    ogf_file->children = (OgfChild*) malloc(sizeof(OgfChild) * 10);
+
     for (int visual_id=0; visual_id<chunks_children->count; visual_id++) {
         // printf("  visual_id=%d\n", visual_id);
-        read_ogf_child(ogf_file, file_data, chunks_children, visual_id);
+        read_ogf_child(&ogf_file->children[visual_id], file_data, chunks_children, visual_id);
     }
 
 }
