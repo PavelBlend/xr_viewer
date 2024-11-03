@@ -156,6 +156,12 @@ void mouse_wheel(int wheel, int direction, int x, int y) {
     glutPostRedisplay();
 }
 
+void keyboard_fun(unsigned char key, int x, int y) {
+    if (key == 27) {    // Esc
+        glutLeaveMainLoop();
+    }
+}
+
 void render(OgfFile* ogf_file, int argc, char** argv) {
 
     // Инициализация FreeGLUT
@@ -254,6 +260,9 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     glutMouseFunc(mouse_fun);
     glutMotionFunc(motion_fun);
     glutMouseWheelFunc(mouse_wheel);
+
+    // Обработка событий клавиатуры
+    glutKeyboardFunc(keyboard_fun);
 
     // Главный цикл OpenGL
     glutMainLoop(); 
