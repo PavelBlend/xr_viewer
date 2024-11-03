@@ -13,6 +13,8 @@ float pan_x = 0.0f, pan_y = 0.0f;
 bool is_panning = 0;
 int last_pan_x, last_pan_y;
 
+#define IDI_ICON1 101
+
 typedef struct RenderContext {
     GLuint vao;
     uint32_t count;
@@ -26,7 +28,18 @@ void maximizeWindow() {
     HWND hwnd = FindWindow(NULL, "OGF Viewer");
 
     if (hwnd) {
+        // максимизировать окно
         ShowWindow(hwnd, SW_MAXIMIZE);
+
+        // Загружаем иконку из файла
+        //HICON hIcon = (HICON)LoadImage(NULL, "ogf.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
+        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+        if (hIcon) {
+            // Устанавливаем иконку для окна
+            SendMessage(hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
+            SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        }
+
     }
 }
 
