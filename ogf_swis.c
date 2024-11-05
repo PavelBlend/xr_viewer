@@ -28,6 +28,9 @@ void read_swis(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
 
     }
 
+    ogf_child->indices->indices += ogf_child->swis->tris_offset;
+    ogf_child->indices->count = ogf_child->swis->tris_count * 3;
+
 }
 
 #endif    // OGF_SWIS_C

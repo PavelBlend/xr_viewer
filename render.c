@@ -250,9 +250,9 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
         GLuint indices_buffer;
         glGenBuffers(1, &indices_buffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->swis->tris_count * 3, ogf_child->indices->indices + ogf_child->swis->tris_offset, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
 
-        ctx.indices_count[child_id] = ogf_child->swis->tris_count * 3;
+        ctx.indices_count[child_id] = ogf_child->indices->count;
 
     }
 
