@@ -228,15 +228,15 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
 
         OgfChild* ogf_child = &ogf_file->children[child_id];
 
-        if (*ogf_child->verts->format == FVF_1L_SOC) {
-            verts_size = *ogf_child->verts->count * 60;
+        if (ogf_child->verts->format == FVF_1L_SOC) {
+            verts_size = ogf_child->verts->count * 60;
 
             glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_1_link, GL_STATIC_DRAW);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 60, (void*) 48);    // uv attribute
 
         } else {
-            verts_size = *ogf_child->verts->count * 64;
+            verts_size = ogf_child->verts->count * 64;
             glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_2_link, GL_STATIC_DRAW);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 64, (void*) 4);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 64, (void*) 56);    // uv attribute
@@ -250,9 +250,9 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
         GLuint indices_buffer;
         glGenBuffers(1, &indices_buffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * *ogf_child->swis->tris_count * 3, ogf_child->indices->indices + *ogf_child->swis->offset, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->swis->tris_count * 3, ogf_child->indices->indices + ogf_child->swis->tris_offset, GL_STATIC_DRAW);
 
-        ctx.indices_count[child_id] = *ogf_child->swis->tris_count * 3;
+        ctx.indices_count[child_id] = ogf_child->swis->tris_count * 3;
 
     }
 

@@ -15,14 +15,14 @@ void read_swis(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
 
     for (uint32_t swi_id=0; swi_id<*swis_count; swi_id++) {
 
-        ogf_child->swis->offset = (uint32_t*) (file_data->bytes + offset);
-        offset += sizeof(*ogf_child->swis->offset);
+        ogf_child->swis->tris_offset = *(uint32_t*) (file_data->bytes + offset);
+        offset += sizeof(ogf_child->swis->tris_offset);
 
-        ogf_child->swis->tris_count = (uint16_t*) (file_data->bytes + offset);
-        offset += sizeof(*ogf_child->swis->tris_count);
+        ogf_child->swis->tris_count = *(uint16_t*) (file_data->bytes + offset);
+        offset += sizeof(ogf_child->swis->tris_count);
 
-        ogf_child->swis->verts_count = (uint16_t*) (file_data->bytes + offset);
-        offset += sizeof(*ogf_child->swis->verts_count);
+        ogf_child->swis->verts_count = *(uint16_t*) (file_data->bytes + offset);
+        offset += sizeof(ogf_child->swis->verts_count);
 
         break;
 

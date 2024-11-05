@@ -13,23 +13,23 @@ void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
 
     uint32_t offset = chunk->offset;
 
-    ogf_child->verts->format = (uint32_t*) (file_data->bytes + offset);
-    offset += sizeof(*ogf_child->verts->format);
+    ogf_child->verts->format = *(uint32_t*)(file_data->bytes + offset);
+    offset += sizeof(ogf_child->verts->format);
 
-    ogf_child->verts->count = (uint32_t*) (file_data->bytes + offset);
-    offset += sizeof(*ogf_child->verts->count);
+    ogf_child->verts->count = *(uint32_t*) (file_data->bytes + offset);
+    offset += sizeof(ogf_child->verts->count);
 
-    // printf("      vertex format 0x%x\n", *ogf_child->verts->format);
-    // printf("      vertices count %d\n", *ogf_child->verts->count);
+    // printf("      vertex format 0x%x\n", ogf_child->verts->format);
+    // printf("      vertices count %d\n", ogf_child->verts->count);
 
-    if (*ogf_child->verts->format == FVF_1L_SOC) {
+    if (ogf_child->verts->format == FVF_1L_SOC) {
         ogf_child->verts->verts_1_link = (OgfVert1Link*) (file_data->bytes + offset);
 
-    } else if (*ogf_child->verts->format == FVF_2L_SOC) {
+    } else if (ogf_child->verts->format == FVF_2L_SOC) {
         ogf_child->verts->verts_2_link = (OgfVert2Link*) (file_data->bytes + offset);
 
     } else {
-        printf("unsupported vertex format: 0x%x\n", *ogf_child->verts->format);
+        printf("unsupported vertex format: 0x%x\n", ogf_child->verts->format);
         exit(EXIT_FAILURE);
     }
 

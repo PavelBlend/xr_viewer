@@ -55,21 +55,21 @@ typedef struct OgfVert2Link{
 } OgfVert2Link;
 
 typedef struct OgfVerts{
-    uint32_t* format;
-    uint32_t* count;
+    uint32_t format;
+    uint32_t count;
     OgfVert1Link* verts_1_link;
     OgfVert2Link* verts_2_link;
 } OgfVerts;
 
 typedef struct OgfIndices {
-    uint32_t* count;
+    uint32_t count;
     uint16_t* indices;
 } OgfIndices;
 
 typedef struct OgfSwis {
-    uint32_t* offset;
-    uint16_t* tris_count;
-    uint16_t* verts_count;
+    uint32_t tris_offset;
+    uint16_t tris_count;
+    uint16_t verts_count;
 } OgfSwis;
 
 typedef struct OgfChild {
