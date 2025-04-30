@@ -230,7 +230,6 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
 
         if (ogf_child->verts->format == FVF_1L_SOC || ogf_child->verts->format == FVF_1L_CSCOP) {
             verts_size = ogf_child->verts->count * 60;
-
             glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_1_link, GL_STATIC_DRAW);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 60, (void*) 48);    // uv attribute
@@ -243,13 +242,13 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
 
         } else if (ogf_child->verts->format == FVF_3L_CSCOP) {
             verts_size = ogf_child->verts->count * 70;
-            glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_2_link, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_3_link, GL_STATIC_DRAW);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 70, (void*) 6);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 70, (void*) 62);    // uv attribute
 
         } else if (ogf_child->verts->format == FVF_4L_CSCOP) {
-            verts_size = ogf_child->verts->count * 64;
-            glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_2_link, GL_STATIC_DRAW);
+            verts_size = ogf_child->verts->count * 76;
+            glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_4_link, GL_STATIC_DRAW);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 76, (void*) 8);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 76, (void*) 68);    // uv attribute
 

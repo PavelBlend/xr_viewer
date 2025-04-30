@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#pragma pack(push, 1)
+
 typedef struct OgfVert1Link{
 
     float pos_x;
