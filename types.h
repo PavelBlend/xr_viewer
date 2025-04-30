@@ -54,11 +54,75 @@ typedef struct OgfVert2Link{
 
 } OgfVert2Link;
 
+typedef struct OgfVert3Link{
+
+    uint16_t bone_1;
+    uint16_t bone_2;
+    uint16_t bone_3;
+
+    float pos_x;
+    float pos_y;
+    float pos_z;
+
+    float nor_x;
+    float nor_y;
+    float nor_z;
+
+    float tan_x;
+    float tan_y;
+    float tan_z;
+
+    float bit_x;
+    float bit_y;
+    float bit_z;
+
+    float weight_1;
+    float weight_2;
+
+    float tex_u;
+    float tex_v;
+
+} OgfVert3Link;
+
+typedef struct OgfVert4Link{
+
+    uint16_t bone_1;
+    uint16_t bone_2;
+    uint16_t bone_3;
+    uint16_t bone_4;
+
+    float pos_x;
+    float pos_y;
+    float pos_z;
+
+    float nor_x;
+    float nor_y;
+    float nor_z;
+
+    float tan_x;
+    float tan_y;
+    float tan_z;
+
+    float bit_x;
+    float bit_y;
+    float bit_z;
+
+    float weight_1;
+    float weight_2;
+    float weight_3;
+
+    float tex_u;
+    float tex_v;
+
+} OgfVert4Link;
+
 typedef struct OgfVerts{
     uint32_t format;
     uint32_t count;
     OgfVert1Link* verts_1_link;
     OgfVert2Link* verts_2_link;
+    OgfVert3Link* verts_3_link;
+    OgfVert4Link* verts_4_link;
 } OgfVerts;
 
 typedef struct OgfIndices {

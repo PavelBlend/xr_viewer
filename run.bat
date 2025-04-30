@@ -1,3 +1,3 @@
-ogf_tool.exe wpn_ak74u_hud.ogf
+ogf_tool.exe drug_anabiotic.ogf
 echo %ERRORLEVEL%
 pause
