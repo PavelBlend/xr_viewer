@@ -54,6 +54,7 @@ void display() {
     glTranslatef(pan_x, pan_y, 0.0f); // Применяем панорамирование
     glRotatef(camera_angle_x, 1.0f, 0.0f, 0.0f);
     glRotatef(camera_angle_y, 0.0f, 1.0f, 0.0f);
+    glScalef(1.0, 1.0, -1.0);    // Инверсия оси Z для перехода от DirectX к OpenGL
 
     for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
         glBindVertexArray(ctx.vao[child_id]);
