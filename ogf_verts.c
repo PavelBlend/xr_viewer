@@ -10,8 +10,8 @@
 
 #define FVF_1L_CSCOP 1
 #define FVF_2L_CSCOP 2
-#define FVF_3L_CSCOP 1
-#define FVF_4L_CSCOP 2
+#define FVF_3L_CSCOP 3
+#define FVF_4L_CSCOP 4
 
 void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->verts = malloc(sizeof(OgfVerts));
@@ -24,7 +24,7 @@ void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->verts->count = *(uint32_t*) (file_data->bytes + offset);
     offset += sizeof(ogf_child->verts->count);
 
-    // printf("      vertex format 0x%x\n", ogf_child->verts->format);
+    printf("      vertex format 0x%x\n", ogf_child->verts->format);
     // printf("      vertices count %d\n", ogf_child->verts->count);
 
     if (ogf_child->verts->format == FVF_1L_SOC || ogf_child->verts->format == FVF_1L_CSCOP) {
