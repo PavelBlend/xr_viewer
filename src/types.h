@@ -139,6 +139,8 @@ typedef struct OgfSwis {
 } OgfSwis;
 
 typedef struct OgfChild {
+    char*           texture;
+    char*           texture_path;
     OgfVerts*       verts;
     OgfIndices*     indices;
     OgfSwis*        swis;

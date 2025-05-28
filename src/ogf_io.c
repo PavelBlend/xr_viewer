@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "ogf_chunks.c"
+#include "ogf_tex.c"
 #include "ogf_verts.c"
 #include "ogf_indices.c"
 #include "ogf_swis.c"
@@ -21,7 +22,10 @@ void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, in
 
         // printf("    id=%d size=%d\n", *chunks_child->chunks[i].id, *chunks_child->chunks[i].size);
 
-        if (*chunks_child->chunks[i].id == VERTICES) {
+        if (*chunks_child->chunks[i].id == TEXTURE) {
+            read_texture(ogf_child, file_data, &chunks_child->chunks[i]);
+
+        } else if (*chunks_child->chunks[i].id == VERTICES) {
             read_verts(ogf_child, file_data, &chunks_child->chunks[i]);
 
         } else if (*chunks_child->chunks[i].id == INDICES) {

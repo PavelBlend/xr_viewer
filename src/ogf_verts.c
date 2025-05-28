@@ -24,7 +24,7 @@ void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->verts->count = *(uint32_t*) (file_data->bytes + offset);
     offset += sizeof(ogf_child->verts->count);
 
-    printf("      vertex format 0x%x\n", ogf_child->verts->format);
+    // printf("      vertex format 0x%x\n", ogf_child->verts->format);
     // printf("      vertices count %d\n", ogf_child->verts->count);
 
     if (ogf_child->verts->format == FVF_1L_SOC || ogf_child->verts->format == FVF_1L_CSCOP) {
