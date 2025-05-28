@@ -35,8 +35,8 @@ void motion_fun(int x, int y) {
         camera_angle_y += delta_x * 0.25f;
 
         // Ограничиваем углы для удобства
-        if (camera_angle_x > 89.0f) camera_angle_x = 89.0f;
-        if (camera_angle_x < -89.0f) camera_angle_x = -89.0f;
+        /*if (camera_angle_x > 89.0f) camera_angle_x = 89.0f;
+        if (camera_angle_x < -89.0f) camera_angle_x = -89.0f;*/
 
         // Обновляем экран после изменений
         glutPostRedisplay();

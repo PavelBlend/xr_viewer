@@ -1,21 +1,21 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-extern float camera_angle_x;
-extern float camera_angle_y;
+float camera_angle_x = 0.0f;
+float camera_angle_y = 0.0f;
 
-extern int last_mouse_x;
-extern int last_mouse_y;
+int is_rotating = 0;
+int is_panning = 0;
 
-extern int is_rotating;
-extern int is_panning;
+float zoom = 1.0f;
 
-extern float zoom;
+float pan_x = 0.0f;
+float pan_y = 0.0f;
 
-extern float pan_x;
-extern float pan_y;
+int last_mouse_x;
+int last_mouse_y;
 
-extern int last_pan_x;
-extern int last_pan_y;
+int last_pan_x;
+int last_pan_y;
 
 #endif    // GLOBALS_H

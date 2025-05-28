@@ -3,15 +3,8 @@
 #include "GL\freeglut.h"
 #include "cglm\cglm.h"
 #include "FreeImage.h"
-
-float camera_angle_x = 0.0f;
-float camera_angle_y = 0.0f;
-int last_mouse_x, last_mouse_y;
-bool is_rotating = 0;
-float zoom = 1.0f;
-float pan_x = 0.0f, pan_y = 0.0f;
-bool is_panning = 0;
-int last_pan_x, last_pan_y;
+#include "io_fun.c"
+#include "globals.c"
 
 #define IDI_ICON1 101
 
@@ -93,74 +86,6 @@ void reshape(int width, int height) {
     // Возвращаемся к модели
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-}
-
-void mouse_fun(int button, int state, int x, int y) {
-    if (button == GLUT_LEFT_BUTTON) {
-        if (state == GLUT_DOWN) {
-            is_rotating = 1;
-            last_mouse_x = x;
-            last_mouse_y = y;
-        } else {
-            is_rotating = 0;
-        }
-    }
-    if (button == GLUT_MIDDLE_BUTTON) {
-        if (state == GLUT_DOWN) {
-            is_panning = 1;
-            last_pan_x = x;
-            last_pan_y = y;
-        } else {
-            is_panning = 0;
-        }
-    }
-}
-
-void motion_fun(int x, int y) {
-    if (is_rotating) {
-        float delta_x = x - last_mouse_x;
-        float delta_y = y - last_mouse_y;
-        last_mouse_x = x;
-        last_mouse_y = y;
-
-        camera_angle_x += delta_y * 0.25f;
-        camera_angle_y += delta_x * 0.25f;
-
-        // Ограничиваем углы для удобства
-        if (camera_angle_x > 89.0f) camera_angle_x = 89.0f;
-        if (camera_angle_x < -89.0f) camera_angle_x = -89.0f;
-
-        // Обновляем экран после изменений
-        glutPostRedisplay();
-    }
-    if (is_panning) {
-        float delta_x = ((x - last_pan_x) / zoom) * 0.0025f;  // Коэффициент для чувствительности
-        float delta_y = ((y - last_pan_y) / zoom) * 0.0025f;
-        pan_x += delta_x;
-        pan_y -= delta_y;
-        last_pan_x = x;
-        last_pan_y = y;
-
-        glutPostRedisplay();
-    }
-}
-
-void mouse_wheel(int wheel, int direction, int x, int y) {
-    // Увеличиваем или уменьшаем zoom
-    if (direction > 0) {
-        zoom *= 1.1f; // При прокрутке вверх увеличиваем масштаб
-    } else if (direction < 0) {
-        zoom /= 1.1f; // При прокрутке вниз уменьшаем масштаб
-    }
-    
-    // Обновляем экран после изменений
-    glutPostRedisplay();
-}
-
-void keyboard_fun(unsigned char key, int x, int y) {
-    if (key == 27) {    // Esc
-        glutLeaveMainLoop();
-    }
 }
 
 void render(OgfFile* ogf_file, int argc, char** argv) {
