@@ -7,6 +7,7 @@
 #include "globals.c"
 #include "tex_io.c"
 #include "shaders.c"
+#include "overlays.c"
 
 #define IDI_ICON1 101
 
@@ -58,6 +59,8 @@ void display() {
         glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
 
     }
+
+    render_overlays();
 
     // Обновление окна
     glutSwapBuffers();
