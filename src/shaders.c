@@ -103,8 +103,10 @@ static void set_shader_matrices(GLuint ShaderProgram) {
     }
 
     mat4 model;
+    vec3 scale = {1.0, 1.0, -1.0};
     // Создаём единичную матрицу
     glm_mat4_identity(model);
+    glm_scale(model, scale);
 
     // направление камеры (spherical coordinates)
     float rad_x = glm_rad(camera_angle_x);

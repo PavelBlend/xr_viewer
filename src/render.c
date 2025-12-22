@@ -89,7 +89,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
     glEnable(GL_CULL_FACE);          // Включаем отсечение задних граней
     glCullFace(GL_BACK);             // Отсекаем задние
-    glFrontFace(GL_CCW);             // CCW = counter-clockwise — стандарт для OpenGL
+    glFrontFace(GL_CW);
 
     int maximize_window = 1;
 
