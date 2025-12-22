@@ -34,9 +34,9 @@ GLuint load_dds_texture(char* filename) {
     // Проверка формата
     GLenum format;
     if (bpp == 24) {
-        format = GL_RGB;
+        format = GL_BGR;
     } else if (bpp == 32) {
-        format = GL_RGBA;
+        format = GL_BGRA;
     } else {
         printf("Unsupported image format\n");
         FreeImage_Unload(bitmap);

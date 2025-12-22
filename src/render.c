@@ -6,12 +6,14 @@
 #include "io_fun.c"
 #include "globals.c"
 #include "tex_io.c"
+#include "shaders.c"
 
 #define IDI_ICON1 101
 
 typedef struct RenderContext {
     GLuint*     vao;
     GLuint*     textures;
+    GLuint      ShaderProgram;
     uint32_t*   indices_count;
     uint32_t    children_count;
 } RenderContext;
@@ -41,15 +43,11 @@ void maximizeWindow() {
 
 void display() {
     // Очистка экрана
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Устанавливаем матрицу вида
-    glLoadIdentity();
-    glScalef(zoom, zoom, zoom);    // Применяем масштаб
-    glTranslatef(pan_x, pan_y, 0.0f); // Применяем панорамирование
-    glRotatef(camera_angle_x, 1.0f, 0.0f, 0.0f);
-    glRotatef(camera_angle_y, 0.0f, 1.0f, 0.0f);
-    glScalef(1.0, 1.0, -1.0);    // Инверсия оси Z для перехода от DirectX к OpenGL
+    glUseProgram(ctx.ShaderProgram);
+
+    set_shader_matrices(ctx.ShaderProgram);
 
     for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
@@ -65,34 +63,9 @@ void display() {
     glutSwapBuffers();
 }
 
-void reshape(int width, int height) {
-    // Избегаем деления на ноль
-    if (height == 0) height = 1;
-
-    // Соотношение сторон окна
-    float aspect = (float)width / (float)height;
-
-    // Устанавливаем область просмотра
-    glViewport(0, 0, width, height);
-
-    // Выбираем матрицу проекции
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    float vertical_offset = 0.5;
-
-    // Ортографическая проекция или перспектива
-    if (aspect >= 1.0f) {
-        // Ширина больше или равна высоте, корректируем по ширине
-        glOrtho(-aspect, aspect, -1.0 + vertical_offset, 1.0 + vertical_offset, -10.0, 10.0);
-    } else {
-        // Высота больше ширины, корректируем по высоте
-        glOrtho(-1.0, 1.0, -1.0 / aspect + vertical_offset, 1.0 / aspect + vertical_offset, -10.0, 10.0);
-    }
-
-    // Возвращаемся к модели
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+void reshape(int w, int h) {
+    glViewport(0, 0, w, h);
+    glutPostRedisplay();  // Чтобы матрицы пересчитались с новым aspect
 }
 
 void render(OgfFile* ogf_file, int argc, char** argv) {
@@ -101,14 +74,18 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-    // Настройка рендера
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
     // Создание окна
     glutCreateWindow("OGF Viewer");
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
+
+    // Настройка рендера
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+    glEnable(GL_CULL_FACE);          // Включаем отсечение задних граней
+    glCullFace(GL_BACK);             // Отсекаем задние
+    glFrontFace(GL_CCW);             // CCW = counter-clockwise — стандарт для OpenGL
 
     int maximize_window = 1;
 
@@ -137,7 +114,7 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     }
 
     // Режим заливки полигонов
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT, GL_FILL);
 
     // Установить цвет для очистки экрана
     glClearColor(0.5, 0.5, 0.5, 1.0);
@@ -146,6 +123,9 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
     ctx.textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
     ctx.children_count  = ogf_file->children_count;
+
+    // загрузить шейдеры
+    ctx.ShaderProgram = compile_shaders();
 
     for (uint32_t child_id=0; child_id<ogf_file->children_count; child_id++) {
 

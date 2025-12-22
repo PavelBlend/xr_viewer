@@ -1,2 +1,2 @@
-ogf_tool.exe wpn_ak74u_hud.ogf
+ogf_tool.exe 1.ogf
 pause

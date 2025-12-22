@@ -56,9 +56,9 @@ void motion_fun(int x, int y) {
 void mouse_wheel(int wheel, int direction, int x, int y) {
     // Увеличиваем или уменьшаем zoom
     if (direction > 0) {
-        zoom *= 1.1f; // При прокрутке вверх увеличиваем масштаб
+        zoom /= 1.1f;
     } else if (direction < 0) {
-        zoom /= 1.1f; // При прокрутке вниз уменьшаем масштаб
+        zoom *= 1.1f;
     }
     
     // Обновляем экран после изменений
