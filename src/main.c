@@ -6,6 +6,7 @@
 #include "ogf_io.c"
 #include "render.c"
 #include "types.h"
+#include "tex_io.c"
 
 int main (int argc, char* argv[]) {
 
@@ -27,12 +28,16 @@ int main (int argc, char* argv[]) {
     Chunks* chunks = read_chunks(file_data, 0, (uint32_t)file_data->size);
     OgfFile* ogf_file = read_ogf(file_data, chunks);
 
+    init_free_image();
+
     // render
     render(ogf_file, argc, argv);
 
     // free memory
     free_file_data(file_data);
     free_chunks(chunks);
+
+    deinit_free_image();
 
     return 0;
 }

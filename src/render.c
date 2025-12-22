@@ -5,11 +5,13 @@
 #include "FreeImage.h"
 #include "io_fun.c"
 #include "globals.c"
+#include "tex_io.c"
 
 #define IDI_ICON1 101
 
 typedef struct RenderContext {
     GLuint*     vao;
+    GLuint*     textures;
     uint32_t*   indices_count;
     uint32_t    children_count;
 } RenderContext;
@@ -50,8 +52,13 @@ void display() {
     glScalef(1.0, 1.0, -1.0);    // Инверсия оси Z для перехода от DirectX к OpenGL
 
     for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);
+
         glBindVertexArray(ctx.vao[child_id]);
         glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+
     }
 
     // Обновление окна
@@ -130,13 +137,14 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     }
 
     // Режим заливки полигонов
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     // Установить цвет для очистки экрана
     glClearColor(0.5, 0.5, 0.5, 1.0);
 
     ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
     ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
+    ctx.textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
     ctx.children_count  = ogf_file->children_count;
 
     for (uint32_t child_id=0; child_id<ogf_file->children_count; child_id++) {
@@ -194,6 +202,9 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
 
         ctx.indices_count[child_id] = ogf_child->indices->count;
+
+        // Загрузить текстуру
+        ctx.textures[child_id] = load_dds_texture(ogf_child->texture_path);
 
     }
 
