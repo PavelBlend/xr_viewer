@@ -122,18 +122,12 @@ static void set_shader_matrices(GLuint ShaderProgram) {
         up[2] = 0.0f;
     }
 
-    // позиция камеры
+    vec3 center = {pan_x, pan_y, pan_z};
+
     vec3 eye = {
         pan_x + zoom * cosf(rad_x) * sinf(rad_y),
         pan_y + zoom * sinf(rad_x),
-        zoom * cosf(rad_x) * cosf(rad_y)
-    };
-
-    // куда смотрим
-    vec3 center = {
-        pan_x,
-        pan_y,
-        0.0f
+        pan_z + zoom * cosf(rad_x) * cosf(rad_y)
     };
 
     mat4 view;

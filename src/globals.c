@@ -11,6 +11,7 @@ float zoom = 1.0f;
 
 float pan_x = 0.0f;
 float pan_y = 0.0f;
+float pan_z = 0.0f;
 
 int last_mouse_x;
 int last_mouse_y;
