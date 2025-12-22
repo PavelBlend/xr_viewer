@@ -1,7 +1,14 @@
 #ifndef OVERLAYS_C
 #define OVERLAYS_C
 
-void render_navigation_center() {
+#include "render.h"
+
+const float gridSize = 5.0f;    // Половина размера сетки
+const int gridSteps = 10;        // Количество линий в каждую сторону
+
+void render_navigation_center(RenderContext ctx) {
+
+    glUniform3f(ctx.solidColorLoc, 1.0f, 1.0f, 1.0f);
 
     static GLuint axis_vao = 0, axis_vbo = 0;
     static int axis_initialized = 0;
@@ -32,37 +39,81 @@ void render_navigation_center() {
     glLineWidth(1.0f);
 }
 
-void render_grid() {
+void render_grid(RenderContext ctx) {
 
-    glLineWidth(0.1f);
+    glUniform3f(ctx.solidColorLoc, 0.25f, 0.25f, 0.25f);
 
-    const float gridSize = 5.0f;    // Половина размера сетки
-    const int gridSteps = 10;        // Количество линий в каждую сторону
+    glLineWidth(0.5f);
 
     glBegin(GL_LINES);
 
     // Оси X (параллельно Z)
     for (int i = -gridSteps; i <= gridSteps; i++) {
         float pos = i * (gridSize / gridSteps);
-        glVertex3f(-gridSize, 0.0f, pos);
-        glVertex3f( gridSize, 0.0f, pos);
+        if (pos != 0.0f) {
+            glVertex3f(-gridSize, 0.0f, pos);
+            glVertex3f( gridSize, 0.0f, pos);
+        }
     }
 
     // Оси Z (параллельно X)
     for (int i = -gridSteps; i <= gridSteps; i++) {
         float pos = i * (gridSize / gridSteps);
-        glVertex3f(pos, 0.0f, -gridSize);
-        glVertex3f(pos, 0.0f,  gridSize);
+        if (pos != 0.0f) {
+            glVertex3f(pos, 0.0f, -gridSize);
+            glVertex3f(pos, 0.0f,  gridSize);
+        }
     }
     
     glEnd();
 
 }
 
-void render_overlays() {
+void render_axis(RenderContext ctx) {
+
+    glLineWidth(1.5f);
+
+    // Ось X
+    glUniform3f(ctx.solidColorLoc, 0.5f, 0.0f, 0.0f);
+
+    glBegin(GL_LINES);
+
+    glVertex3f(-gridSize, 0.0f, 0.0f);
+    glVertex3f(+gridSize, 0.0f, 0.0f);
+
+    glEnd();
+
+    // Ось Y
+    glUniform3f(ctx.solidColorLoc, 0.0f, 0.5f, 0.0f);
+
+    glBegin(GL_LINES);
+
+    glVertex3f(0.0f, -gridSize, 0.0f);
+    glVertex3f(0.0f, +gridSize, 0.0f);
+
+    glEnd();
+
+    // Ось Z
+    glUniform3f(ctx.solidColorLoc, 0.0f, 0.0f, 0.5f);
+
+    glBegin(GL_LINES);
+
+    glVertex3f(0.0f, 0.0f,-gridSize);
+    glVertex3f(0.0f, 0.0f,+gridSize);
+
+    glEnd();
+
+}
+
+void render_overlays(RenderContext ctx) {
+
+    glUniform1i(ctx.useTextureLoc, 0);  // Выключаем текстуру
     glBindTexture(GL_TEXTURE_2D, 0);
-    render_navigation_center();
-    render_grid();
+
+    render_grid(ctx);
+    render_axis(ctx);
+    render_navigation_center(ctx);
+
 }
 
 #endif    // OVERLAYS_C

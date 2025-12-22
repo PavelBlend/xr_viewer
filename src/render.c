@@ -1,8 +1,11 @@
 #include <windows.h>
+
 #include "GL\glew.h"
 #include "GL\freeglut.h"
 #include "cglm\cglm.h"
 #include "FreeImage.h"
+
+#include "render.h"
 #include "io_fun.c"
 #include "globals.c"
 #include "tex_io.c"
@@ -10,14 +13,6 @@
 #include "overlays.c"
 
 #define IDI_ICON1 101
-
-typedef struct RenderContext {
-    GLuint*     vao;
-    GLuint*     textures;
-    GLuint      ShaderProgram;
-    uint32_t*   indices_count;
-    uint32_t    children_count;
-} RenderContext;
 
 // Создать контекст рендера
 RenderContext ctx;
@@ -50,6 +45,8 @@ void display() {
 
     set_shader_matrices(ctx.ShaderProgram);
 
+    glUniform1i(ctx.useTextureLoc, 1);  // Включаем текстуру
+
     for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
         glActiveTexture(GL_TEXTURE0);
@@ -60,7 +57,7 @@ void display() {
 
     }
 
-    render_overlays();
+    render_overlays(ctx);
 
     // Обновление окна
     glutSwapBuffers();
@@ -129,6 +126,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
     // загрузить шейдеры
     ctx.ShaderProgram = compile_shaders(exe_path);
+
+    ctx.useTextureLoc = glGetUniformLocation(ctx.ShaderProgram, "useTexture");
+    ctx.solidColorLoc = glGetUniformLocation(ctx.ShaderProgram, "solidColor");
 
     for (uint32_t child_id=0; child_id<ogf_file->children_count; child_id++) {
 
