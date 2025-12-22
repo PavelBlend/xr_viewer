@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 
 #include "file_io.c"
 #include "chunk_io.c"
@@ -9,6 +10,14 @@
 #include "tex_io.c"
 
 int main (int argc, char* argv[]) {
+
+    char exe_path[MAX_PATH];
+    GetModuleFileNameA(NULL, exe_path, MAX_PATH);
+    printf("\nExecutable file: \"%s\"\n\n", exe_path);
+    char *last = strrchr(exe_path, '\\');
+    if (last) {
+        *(last + 1) = '\0';
+    };
 
     // check cmd arguments
     if (argc < 2) {
@@ -31,7 +40,7 @@ int main (int argc, char* argv[]) {
     init_free_image();
 
     // render
-    render(ogf_file, argc, argv);
+    render(ogf_file, argc, argv, exe_path);
 
     // free memory
     free_file_data(file_data);

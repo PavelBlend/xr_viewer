@@ -32,7 +32,7 @@ void read_texture(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     }
 
     ogf_child->texture_path[tex_abspath_length - 1] = 0;
-    printf("%s\n", ogf_child->texture_path);
+
 }
 
 #endif    // OGF_TEX_C

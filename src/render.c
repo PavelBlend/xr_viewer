@@ -68,7 +68,7 @@ void reshape(int w, int h) {
     glutPostRedisplay();  // Чтобы матрицы пересчитались с новым aspect
 }
 
-void render(OgfFile* ogf_file, int argc, char** argv) {
+void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
     // Инициализация FreeGLUT
     glutInit(&argc, argv);
@@ -125,7 +125,7 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
     ctx.children_count  = ogf_file->children_count;
 
     // загрузить шейдеры
-    ctx.ShaderProgram = compile_shaders();
+    ctx.ShaderProgram = compile_shaders(exe_path);
 
     for (uint32_t child_id=0; child_id<ogf_file->children_count; child_id++) {
 
@@ -185,6 +185,7 @@ void render(OgfFile* ogf_file, int argc, char** argv) {
 
         // Загрузить текстуру
         ctx.textures[child_id] = load_dds_texture(ogf_child->texture_path);
+        printf("Load Texture: \"%s\"\n", ogf_child->texture_path);
 
     }
 

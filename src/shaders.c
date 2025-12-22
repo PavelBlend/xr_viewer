@@ -14,9 +14,7 @@
 
 #include "globals.c"
 
-static void create_shader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType, char* file_path)
-{
-    printf("Create Shader: %s\n", file_path);
+static void create_shader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType, char* file_path) {
 
     GLuint ShaderObj = glCreateShader(ShaderType);
 
@@ -41,12 +39,29 @@ static void create_shader(GLuint ShaderProgram, const char* pShaderText, GLenum 
     glAttachShader(ShaderProgram, ShaderObj);
 }
 
-char* read_shader_file(char *file_name) {
+char* read_shader_file(char* exe_path, char* file_name) {
+
+    size_t abs_path_length = strlen(exe_path) + strlen(file_name) + 1;
+    char* abs_path = malloc(abs_path_length);
+
+    size_t exe_len = strlen(exe_path);
+    size_t shader_len = strlen(file_name);
+
+    // Копируем первую строку
+    memcpy(abs_path, exe_path, exe_len);
+
+    // Копируем вторую строку сразу после первой
+    memcpy(abs_path + exe_len, file_name, shader_len);
+
+    // Добавляем завершающий нулевой символ
+    abs_path[exe_len + shader_len] = 0;
+
+    printf("Load Shader: \"%s\"\n", abs_path);
 
     // Открыть файл
-    FILE *file = fopen(file_name, "r");
+    FILE *file = fopen(abs_path, "r");
     if (file == NULL) {
-        fprintf(stderr, "Error: Cannot open shader file '%s'\n", file_name);
+        fprintf(stderr, "Error: Cannot open shader file '%s'\n", abs_path);
         exit(1);
     }
 
@@ -138,7 +153,7 @@ static void set_shader_matrices(GLuint ShaderProgram) {
 
 }
 
-static GLuint compile_shaders() {
+static GLuint compile_shaders(char* exe_path) {
 
     // создать шейдерную программу
     GLuint ShaderProgram = glCreateProgram();
@@ -149,8 +164,8 @@ static GLuint compile_shaders() {
     }
 
     // прочитать шейдерный код из файлов
-    char *vertex_shader = read_shader_file("shaders\\vertex_shader.glsl");
-    char *fragment_shader = read_shader_file("shaders\\fragment_shader.glsl");
+    char *vertex_shader = read_shader_file(exe_path, "shaders\\vertex_shader.glsl");
+    char *fragment_shader = read_shader_file(exe_path, "shaders\\fragment_shader.glsl");
 
     // создать шейдеры
     create_shader(ShaderProgram, vertex_shader, GL_VERTEX_SHADER, "shaders\\vertex_shader.glsl");
