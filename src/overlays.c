@@ -32,9 +32,37 @@ void render_navigation_center() {
     glLineWidth(1.0f);
 }
 
+void render_grid() {
+
+    glLineWidth(0.1f);
+
+    const float gridSize = 5.0f;    // Половина размера сетки
+    const int gridSteps = 10;        // Количество линий в каждую сторону
+
+    glBegin(GL_LINES);
+
+    // Оси X (параллельно Z)
+    for (int i = -gridSteps; i <= gridSteps; i++) {
+        float pos = i * (gridSize / gridSteps);
+        glVertex3f(-gridSize, 0.0f, pos);
+        glVertex3f( gridSize, 0.0f, pos);
+    }
+
+    // Оси Z (параллельно X)
+    for (int i = -gridSteps; i <= gridSteps; i++) {
+        float pos = i * (gridSize / gridSteps);
+        glVertex3f(pos, 0.0f, -gridSize);
+        glVertex3f(pos, 0.0f,  gridSize);
+    }
+    
+    glEnd();
+
+}
+
 void render_overlays() {
     glBindTexture(GL_TEXTURE_2D, 0);
     render_navigation_center();
+    render_grid();
 }
 
 #endif    // OVERLAYS_C
