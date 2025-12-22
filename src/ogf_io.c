@@ -47,7 +47,7 @@ void read_ogf_children(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, i
         chunks->chunks[chunk_index].offset + *chunks->chunks[chunk_index].size
     );
 
-    ogf_file->children = (OgfChild*) malloc(sizeof(OgfChild) * 10);
+    ogf_file->children = (OgfChild*) malloc(sizeof(OgfChild) * 500);
     ogf_file->children_count = 0;
 
     for (int visual_id=0; visual_id<chunks_children->count; visual_id++) {

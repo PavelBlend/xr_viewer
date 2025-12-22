@@ -135,7 +135,7 @@ static void set_shader_matrices(GLuint ShaderProgram) {
 
     // Матриа проекции
     mat4 projection;
-    glm_perspective(glm_rad(67.5f), aspect, 0.05f, 100.0f, projection);
+    glm_perspective(glm_rad(67.5f), aspect, 0.01f, 2000.0f, projection);
 
     GLint modelLoc = glGetUniformLocation(ShaderProgram, "model");
     GLint projLoc = glGetUniformLocation(ShaderProgram, "projection");

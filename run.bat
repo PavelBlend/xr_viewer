@@ -1,2 +1,2 @@
-ogf_tool.exe 1.ogf
+ogf_tool.exe city.ogf
 pause
