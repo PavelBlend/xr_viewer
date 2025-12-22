@@ -118,6 +118,21 @@ typedef struct OgfVert4Link{
 
 } OgfVert4Link;
 
+typedef struct OgfVertStatic{
+
+    float pos_x;
+    float pos_y;
+    float pos_z;
+
+    float nor_x;
+    float nor_y;
+    float nor_z;
+
+    float tex_u;
+    float tex_v;
+
+} OgfVertStatic;
+
 typedef struct OgfVerts{
     uint32_t format;
     uint32_t count;
@@ -125,6 +140,7 @@ typedef struct OgfVerts{
     OgfVert2Link* verts_2_link;
     OgfVert3Link* verts_3_link;
     OgfVert4Link* verts_4_link;
+    OgfVertStatic* verts_static;
 } OgfVerts;
 
 typedef struct OgfIndices {

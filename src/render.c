@@ -173,6 +173,12 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 76, (void*) 8);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 76, (void*) 68);    // uv attribute
 
+        } else if (ogf_child->verts->format == FVF_OGF) {
+            verts_size = ogf_child->verts->count * 32;
+            glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_static, GL_STATIC_DRAW);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, (void*) 0);
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 32, (void*) 24);    // uv attribute
+
         } else {
             printf("unsupported rendering for vertex format: 0x%x\n", ogf_child->verts->format);
             exit(EXIT_FAILURE);

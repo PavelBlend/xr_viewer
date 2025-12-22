@@ -13,6 +13,8 @@
 #define FVF_3L_CSCOP 3
 #define FVF_4L_CSCOP 4
 
+#define FVF_OGF 0x112
+
 void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->verts = malloc(sizeof(OgfVerts));
 
@@ -38,6 +40,9 @@ void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
 
     } else if (ogf_child->verts->format == FVF_4L_CSCOP) {
         ogf_child->verts->verts_4_link = (OgfVert4Link*) (file_data->bytes + offset);
+
+    } else if (ogf_child->verts->format == FVF_OGF) {
+        ogf_child->verts->verts_static = (OgfVertStatic*) (file_data->bytes + offset);
 
     } else {
         printf("unsupported vertex format: 0x%x\n", ogf_child->verts->format);
