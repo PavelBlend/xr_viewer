@@ -45,12 +45,16 @@ void display() {
 
     set_shader_matrices(ctx.ShaderProgram);
 
-    glUniform1i(ctx.useTextureLoc, 1);  // Включаем текстуру
-
     for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);
+        if (ctx.textures[child_id]) {
+            glUniform1i(ctx.useTextureLoc, 1);  // Включаем текстуру
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);
+        } else {
+            glUniform1i(ctx.useTextureLoc, 0);
+            glUniform3f(ctx.solidColorLoc, 1.0f, 1.0f, 1.0f);
+        }
 
         glBindVertexArray(ctx.vao[child_id]);
         glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
