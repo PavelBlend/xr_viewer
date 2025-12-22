@@ -91,11 +91,21 @@ static void set_shader_matrices(GLuint ShaderProgram) {
     // Создаём единичную матрицу
     glm_mat4_identity(model);
 
-
-
     // направление камеры (spherical coordinates)
     float rad_x = glm_rad(camera_angle_x);
     float rad_y = glm_rad(-camera_angle_y);
+
+    vec3 up;
+    if (cosf(rad_x) < 0.0f) {
+        // камера перевёрнута
+        up[0] = 0.0f;
+        up[1] = -1.0f;
+        up[2] = 0.0f;
+    } else {
+        up[0] = 0.0f;
+        up[1] = 1.0f;
+        up[2] = 0.0f;
+    }
 
     // позиция камеры
     vec3 eye = {
@@ -110,8 +120,6 @@ static void set_shader_matrices(GLuint ShaderProgram) {
         pan_y,
         0.0f
     };
-
-    vec3 up = {0.0f, 1.0f, 0.0f};
 
     mat4 view;
     glm_lookat(eye, center, up, view);
