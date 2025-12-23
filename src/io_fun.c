@@ -14,20 +14,22 @@ static void get_camera_right_and_up(vec3 right, vec3 up) {
         cosf(rad_x) * cosf(rad_y)
     };
 
-    // Forward = направление взгляда камеры (от камеры к центру) = -to_camera
+    // forward = от камеры к центру
     vec3 forward;
     glm_vec3_negate_to(to_camera, forward);
+    glm_vec3_normalize(forward);
 
-    // Up — как в вашем оригинальном коде (чтобы не переворачиваться при взгляде вниз)
-    if (cosf(rad_x) < 0.0f) {
-        up[0] = 0.0f; up[1] = -1.0f; up[2] = 0.0f;
-    } else {
-        up[0] = 0.0f; up[1] = 1.0f; up[2] = 0.0f;
-    }
+    // мировой up
+    vec3 world_up = {0.0f, 1.0f, 0.0f};
 
-    // Right = cross(up, forward)
-    glm_vec3_cross(up, forward, right);
+    // right = world_up × forward
+    glm_vec3_cross(world_up, forward, right);
     glm_vec3_normalize(right);
+
+    // up = forward × right
+    glm_vec3_cross(forward, right, up);
+    glm_vec3_normalize(up);
+
 }
 
 void mouse_fun(int button, int state, int x, int y) {
