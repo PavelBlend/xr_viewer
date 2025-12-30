@@ -13,7 +13,7 @@ int main (int argc, char* argv[]) {
 
     char exe_path[MAX_PATH];
     GetModuleFileNameA(NULL, exe_path, MAX_PATH);
-    printf("\nExecutable file: \"%s\"\n\n", exe_path);
+    // printf("\nExecutable file: \"%s\"\n\n", exe_path);
     char *last = strrchr(exe_path, '\\');
     if (last) {
         *(last + 1) = '\0';

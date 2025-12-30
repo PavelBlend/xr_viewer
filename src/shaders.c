@@ -56,7 +56,7 @@ char* read_shader_file(char* exe_path, char* file_name) {
     // Добавляем завершающий нулевой символ
     abs_path[exe_len + shader_len] = 0;
 
-    printf("Load Shader: \"%s\"\n", abs_path);
+    // printf("Load Shader: \"%s\"\n", abs_path);
 
     // Открыть файл
     FILE *file = fopen(abs_path, "r");
@@ -162,6 +162,8 @@ static GLuint compile_shaders(char* exe_path) {
     // прочитать шейдерный код из файлов
     char *vertex_shader = read_shader_file(exe_path, "shaders\\vertex_shader.glsl");
     char *fragment_shader = read_shader_file(exe_path, "shaders\\fragment_shader.glsl");
+
+    // printf("\n");
 
     // создать шейдеры
     create_shader(ShaderProgram, vertex_shader, GL_VERTEX_SHADER, "shaders\\vertex_shader.glsl");

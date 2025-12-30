@@ -198,7 +198,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
         // Загрузить текстуру
         ctx.textures[child_id] = load_dds_texture(ogf_child->texture_path);
-        printf("Load Texture: \"%s\"\n", ogf_child->texture_path);
+        // printf("Load Texture: \"%s\"\n", ogf_child->texture_path);
 
     }
 
