@@ -50,6 +50,8 @@ GLuint load_dds_texture(char* filename) {
     glBindTexture(GL_TEXTURE_2D, textureID);
 
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+
+    // Генерация MipMaps
     glGenerateMipmap(GL_TEXTURE_2D);
 
     // Установка параметров текстуры
