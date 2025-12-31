@@ -21,11 +21,12 @@ int main (int argc, char* argv[]) {
 
     // check cmd arguments
     if (argc < 2) {
-        printf("file not specified, command:\n");
+        printf("\nfile not specified, current command:\n    ");
         for (int i=0; i<argc; i++) {
             printf("%s ", argv[i]);
         }
-        printf("\n");
+        printf("\n\n");
+        printf("\nusage:\n    %s file_name.ogf\n\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
