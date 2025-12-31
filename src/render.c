@@ -76,6 +76,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
     // Инициализация FreeGLUT
     glutInit(&argc, argv);
+    glutInitContextVersion(4, 6);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
     // Создание окна
