@@ -1,6 +1,7 @@
 *.ogf
 *.exe
 *.dll
+*.ico
 *.o
 *.blend1
 *.blend2
