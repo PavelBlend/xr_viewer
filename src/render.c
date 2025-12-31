@@ -14,19 +14,20 @@
 
 #define IDI_ICON1 101
 
+char* window_title = "X-Ray Viewer";
+
 // Создать контекст рендера
 RenderContext ctx;
 
 void maximizeWindow() {
     // Получаем handle окна FreeGLUT
-    HWND hwnd = FindWindow(NULL, "OGF Viewer");
+    HWND hwnd = FindWindow(NULL, window_title);
 
     if (hwnd) {
         // максимизировать окно
         ShowWindow(hwnd, SW_MAXIMIZE);
 
         // Загружаем иконку из файла
-        //HICON hIcon = (HICON)LoadImage(NULL, "ogf.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
         HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
         if (hIcon) {
             // Устанавливаем иконку для окна
@@ -80,7 +81,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
     // Создание окна
-    glutCreateWindow("OGF Viewer");
+    glutCreateWindow(window_title);
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
 

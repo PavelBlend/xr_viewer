@@ -10,7 +10,7 @@ if not exist "icon\icon.o" (
 
 @echo on
 
-C:\progs\mingw\bin\gcc.exe src\main.c icon\icon.o -o ogf_tool.exe -Wall --std=c11 -m64^
+C:\progs\mingw\bin\gcc.exe src\main.c icon\icon.o -o xr_viewer.exe -Wall --std=c11 -m64^
  ^
 -IC:\libs\freeglut\freeglut-3.4.0\include ^
 -LC:\libs\freeglut\freeglut-3.4.0\build\lib\Release ^
