@@ -1,6 +1,6 @@
 chcp 1251
 
-C:\progs\mingw\bin\gcc.exe src\main.c ogf.o -o ogf_tool.exe -Wall --std=c11 -m64^
+C:\progs\mingw\bin\gcc.exe src\main.c icon\icon.o -o ogf_tool.exe -Wall --std=c11 -m64^
  ^
 -IC:\libs\freeglut\freeglut-3.4.0\include ^
 -LC:\libs\freeglut\freeglut-3.4.0\build\lib\Release ^
