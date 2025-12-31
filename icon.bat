@@ -1,2 +1,2 @@
-windres ogf.rc -o ogf.o -F pe-x86-64
+windres icon.rc -o icon.o -F pe-x86-64
 pause
