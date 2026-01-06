@@ -1,5 +1,9 @@
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+
 #include <windows.h>
 
+#include "cimgui.h"
+#include "cimgui_impl.h"
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 #include "cglm\cglm.h"
@@ -240,17 +244,41 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
     glfwGetFramebufferSize(window, &width, &height);
     reshape(window, width, height);
 
+    // Инициализация CImGUI
+    igCreateContext(NULL);
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330 core");
+    igStyleColorsLight(NULL);
+
     // Главный цикл
     while (!glfwWindowShouldClose(window))
     {
         // Обработка событий
         glfwPollEvents();
 
-        // рендер
+        // рендер сцены
         display();
+
+        ImGui_ImplGlfw_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
+        igNewFrame();
+
+        igBegin("X-Ray Viewer", NULL, 0);
+        igText("Test");
+        igEnd();
+
+        igRender();
+        ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());
 
         // Меняем буферы
         glfwSwapBuffers(window);
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    igDestroyContext(NULL);
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
 
 }

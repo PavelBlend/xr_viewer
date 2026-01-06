@@ -2,12 +2,10 @@
 cmake_minimum_required(VERSION 3.10)
 
 # проект
-project(xr_viewer LANGUAGES C)
+project(xr_viewer)
 
-# настройки языка си
-set(CMAKE_C_STANDARD            11)
-set(CMAKE_C_STANDARD_REQUIRED   ON)
-set(CMAKE_C_EXTENSIONS          OFF)
+# настройки языка си++
+set(CMAKE_CXX_STANDARD 11)
 
 # установить путь для исполняемых файлов
 set(BIN_DIRECTORY "C:/progs/xr_viewer")
@@ -87,9 +85,6 @@ add_executable(xr_viewer ${SOURCES} ${RESOURCES})
 
 add_dependencies(xr_viewer GenerateIcon)
 
-# опции компилятора
-target_compile_options(xr_viewer PRIVATE -Wall -m64)
-
 # корневой путь к зависимостям
 set(LIBS_DIR            "C:/libs/")
 
@@ -104,6 +99,7 @@ set(GLFW_INCLUDE            "${GLFW_DIR}include")
 set(GLEW_INCLUDE            "${GLEW_DIR}include")
 set(CGLM_INCLUDE            "${CGLM_DIR}include")
 set(FREE_IMAGE_INCLUDE      "${FREE_IMAGE_DIR}Dist/x64")
+set(CIMGUI_INCLUDE          "C:/libs/cimgui/cimgui")
 
 # пути к библиотекам
 set(GLFW_LIB            "${GLFW_DIR}lib-mingw-w64")
@@ -116,6 +112,7 @@ target_include_directories(xr_viewer PRIVATE
     ${GLEW_INCLUDE}
     ${CGLM_INCLUDE}
     ${FREE_IMAGE_INCLUDE}
+    ${CIMGUI_INCLUDE}
 )
 
 # установить пути к библиотекам
@@ -125,6 +122,58 @@ target_link_directories(xr_viewer PRIVATE
     ${FREE_IMAGE_LIB}
 )
 
+set(BAKENDS_FOLDER "C:/libs/cimgui/cimgui/imgui/backends/")
+set(TABLES_SOURCE "C:/libs/cimgui/cimgui/imgui/imgui_tables.cpp")
+
+include_directories("C:/libs/cimgui/cimgui/imgui")
+
+add_definitions("-DIMGUI_USER_CONFIG=\"C:/libs/cimgui/cimgui/cimconfig.h\"")
+add_definitions("-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1")
+
+set(IMGUI_SOURCES 
+    "C:/libs/cimgui/cimgui/cimgui.cpp"
+    "C:/libs/cimgui/cimgui/imgui/imgui.cpp"
+    "C:/libs/cimgui/cimgui/imgui/imgui_draw.cpp"
+    "C:/libs/cimgui/cimgui/imgui/imgui_demo.cpp"
+    "C:/libs/cimgui/cimgui/imgui/imgui_widgets.cpp"
+    ${TABLES_SOURCE}
+)
+
+set(IMGUI_LIBRARIES )
+
+add_compile_definitions("IMGUI_IMPL_OPENGL_LOADER_GL3W")
+
+# opengl 3
+list(APPEND IMGUI_SOURCES ${BAKENDS_FOLDER}imgui_impl_opengl3.cpp)
+
+# GLFW
+list(APPEND IMGUI_SOURCES ${BAKENDS_FOLDER}imgui_impl_glfw.cpp)
+
+add_library(cimgui SHARED ${IMGUI_SOURCES})
+
+# установить пути к включениям
+target_include_directories(cimgui PRIVATE
+    ${GLFW_INCLUDE}
+)
+
+# установить пути к библиотекам
+target_link_directories(cimgui PRIVATE
+    ${GLFW_LIB}
+)
+
+# использовать библиотеки
+target_link_libraries(cimgui PRIVATE
+    glfw3dll
+)
+
+target_compile_definitions(cimgui PUBLIC "-DIMGUI_IMPL_API=extern \"C\" __declspec\(dllexport\)")
+
+# using library
+target_compile_definitions(${PROJECT_NAME} PUBLIC -DCIMGUI_USE_OPENGL3 -DCIMGUI_USE_GLFW)
+
+# опции компилятора
+target_compile_options(xr_viewer PRIVATE -Wall -m64)
+
 # использовать библиотеки
 target_link_libraries(xr_viewer PRIVATE
     glfw3dll
@@ -132,6 +181,7 @@ target_link_libraries(xr_viewer PRIVATE
     FreeImage
     opengl32
     gdi32
+    cimgui
 )
 
 # пути к dll файлам
