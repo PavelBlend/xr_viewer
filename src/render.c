@@ -151,6 +151,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
     ctx.useTextureLoc = glGetUniformLocation(ctx.ShaderProgram, "useTexture");
     ctx.solidColorLoc = glGetUniformLocation(ctx.ShaderProgram, "solidColor");
 
+    // статистика
+    uint32_t total_vertices = 0;
+    uint32_t total_indices = 0;
+
     if (ogf_file != NULL) {
         ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
@@ -171,6 +175,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
             size_t verts_size;
 
             OgfChild* ogf_child = &ogf_file->children[child_id];
+
+            total_vertices += ogf_child->verts->count;
+            total_indices += ogf_child->indices->count;
 
             if (ogf_child->verts->format == FVF_1L_SOC || ogf_child->verts->format == FVF_1L_CSCOP) {
                 verts_size = ogf_child->verts->count * 60;
@@ -263,8 +270,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
         ImGui_ImplOpenGL3_NewFrame();
         igNewFrame();
 
-        igBegin("X-Ray Viewer", NULL, 0);
-        igText("Test");
+        igBegin("Info", NULL, 0);
+        igText("Children Count: %d", ctx.children_count);
+        igText("Vertices Count: %d", total_vertices);
+        igText("Triangles Count: %d", total_indices / 3);
         igEnd();
 
         igRender();
