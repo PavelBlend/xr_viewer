@@ -1,6 +1,7 @@
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
 
 #include <windows.h>
+#include <math.h>
 
 #include "cimgui.h"
 #include "cimgui_impl.h"
@@ -73,6 +74,21 @@ void display() {
 
 void reshape(GLFWwindow* window, int w, int h) {
     glViewport(0, 0, w, h);
+}
+
+void update_fps(double* last_time, double* fps) {
+    // Получаем текущее время
+    double current_time = igGetTime();
+    
+    // Вычисляем дельту времени между кадрами
+    double delta_time = current_time - *last_time;
+    *last_time = current_time;
+    
+    // Предотвращаем деление на ноль
+    if (delta_time > 0.0) {
+        *fps = 1.0 / delta_time;  // FPS = 1 / время_кадра_в_секундах
+    }
+
 }
 
 void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
@@ -257,6 +273,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
     ImGui_ImplOpenGL3_Init("#version 330 core");
     igStyleColorsLight(NULL);
 
+    // Переменные для подсчёта FPS
+    static double last_time = 0.0;
+    static double fps = 0.0;
+
     // Главный цикл
     while (!glfwWindowShouldClose(window))
     {
@@ -270,7 +290,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
         ImGui_ImplOpenGL3_NewFrame();
         igNewFrame();
 
+        update_fps(&last_time, &fps);
+
         igBegin("Info", NULL, 0);
+        igText("FPS: %d", (int)round(fps));
         igText("Children Count: %d", ctx.children_count);
         igText("Vertices Count: %d", total_vertices);
         igText("Triangles Count: %d", total_indices / 3);
