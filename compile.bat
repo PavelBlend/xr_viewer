@@ -10,7 +10,7 @@ if not exist "icon\icon.o" (
 
 @echo on
 
-C:\progs\mingw\bin\gcc.exe src\main.c icon\icon.o -o xr_viewer.exe -Wall --std=c11 -m64^
+C:\progs\mingw\bin\gcc.exe src\main.c icon\icon.o -o xr_viewer.exe -Wall --std=c11 -m64 ^
  ^
 -IC:\libs\glfw\glfw-3.3.9\include ^
 -LC:\libs\glfw\glfw-3.3.9\lib-mingw-w64 ^
