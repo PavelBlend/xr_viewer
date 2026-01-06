@@ -58,6 +58,13 @@ void read_ogf_children(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, i
 
 }
 
+void free_ogf_file(OgfFile* ogf_file) {
+    if (ogf_file != NULL) {
+        free(ogf_file->children);
+        free(ogf_file);
+    }
+}
+
 OgfFile* read_ogf(FileData* file_data, Chunks* chunks) {
     OgfFile* ogf_file = malloc(sizeof(OgfFile));
 

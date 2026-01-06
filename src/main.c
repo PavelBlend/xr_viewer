@@ -19,6 +19,10 @@ int main (int argc, char* argv[]) {
         *(last + 1) = '\0';
     };
 
+    OgfFile* ogf_file = NULL;
+    FileData* file_data = NULL;
+    Chunks* chunks = NULL;
+
     // check cmd arguments
     if (argc < 2) {
         printf("\nfile not specified, current command:\n    ");
@@ -27,16 +31,17 @@ int main (int argc, char* argv[]) {
         }
         printf("\n\n");
         printf("\nusage:\n    %s file_name.ogf\n\n", argv[0]);
-        exit(EXIT_FAILURE);
+        // exit(EXIT_FAILURE);
+
+    } else {
+        // get file path
+        char* file_path = argv[1];
+
+        // read file
+        file_data = read_file(file_path);
+        chunks = read_chunks(file_data, 0, (uint32_t)file_data->size);
+        ogf_file = read_ogf(file_data, chunks);
     }
-
-    // get file path
-    char* file_path = argv[1];
-
-    // read file
-    FileData* file_data = read_file(file_path);
-    Chunks* chunks = read_chunks(file_data, 0, (uint32_t)file_data->size);
-    OgfFile* ogf_file = read_ogf(file_data, chunks);
 
     init_free_image();
 
@@ -46,6 +51,7 @@ int main (int argc, char* argv[]) {
     // free memory
     free_file_data(file_data);
     free_chunks(chunks);
+    free_ogf_file(ogf_file);
 
     deinit_free_image();
 

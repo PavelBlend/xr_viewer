@@ -70,8 +70,10 @@ FileData* read_file_data(FILE* file, char* file_path) {
 
 // освобожение памяти
 void free_file_data(FileData* file_data) {
-    free(file_data->bytes);
-    free(file_data);
+    if (file_data != NULL) {
+        free(file_data->bytes);
+        free(file_data);
+    }
 }
 
 // прочитать файл

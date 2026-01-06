@@ -18,8 +18,10 @@ typedef struct Chunks {
 } Chunks;
 
 void free_chunks(Chunks* chunked_file) {
-    free(chunked_file->chunks);
-    free(chunked_file);
+    if (chunked_file != NULL) {
+        free(chunked_file->chunks);
+        free(chunked_file);
+    }
 }
 
 uint32_t get_chunks_count(FileData* file_data, uint32_t start, uint32_t end) {
