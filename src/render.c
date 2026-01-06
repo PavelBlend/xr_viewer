@@ -1,7 +1,7 @@
 #include <windows.h>
 
 #include "GL\glew.h"
-#include "GL\freeglut.h"
+#include "GLFW\glfw3.h"
 #include "cglm\cglm.h"
 #include "FreeImage.h"
 
@@ -15,12 +15,13 @@
 #define IDI_ICON1 101
 
 char* window_title = "X-Ray Viewer";
+GLFWwindow* window = NULL;
 
 // Создать контекст рендера
 RenderContext ctx;
 
 void maximizeWindow() {
-    // Получаем handle окна FreeGLUT
+    // Получаем handle окна
     HWND hwnd = FindWindow(NULL, window_title);
 
     if (hwnd) {
@@ -44,7 +45,7 @@ void display() {
 
     glUseProgram(ctx.ShaderProgram);
 
-    set_shader_matrices(ctx.ShaderProgram);
+    set_shader_matrices(window, ctx.ShaderProgram);
 
     for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
@@ -64,26 +65,34 @@ void display() {
 
     render_overlays(ctx);
 
-    // Обновление окна
-    glutSwapBuffers();
 }
 
-void reshape(int w, int h) {
+void reshape(GLFWwindow* window, int w, int h) {
     glViewport(0, 0, w, h);
-    glutPostRedisplay();  // Чтобы матрицы пересчитались с новым aspect
 }
 
 void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
-    // Инициализация FreeGLUT
-    glutInit(&argc, argv);
-    glutInitContextVersion(4, 6);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    // Инициализация GLFW
+    glfwInit();
 
-    // Создание окна
-    glutCreateWindow(window_title);
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
+    // установка версии OpenGL
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+
+    // установка профиля OpenGL
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    // создание окна
+    window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        return;
+    }
+    glfwMakeContextCurrent(window);
+
+    // включаем vsync
+    glfwSwapInterval(1);
 
     // Настройка рендера
     glEnable(GL_DEPTH_TEST);
@@ -100,17 +109,24 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
         maximizeWindow();
 
     } else {
-        // Получение разрешения экрана
-        int screen_width = glutGet(GLUT_SCREEN_WIDTH);
-        int screen_height = glutGet(GLUT_SCREEN_HEIGHT);
+
+        // Получаем размеры экрана
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        int screen_width = mode->width;
+        int screen_height = mode->height;
 
         int win_size_x = screen_width * 0.8;
         int win_size_y = screen_height * 0.8;
-        glutReshapeWindow(win_size_x, win_size_y);
-        glutPositionWindow(
-            (screen_width - win_size_x) / 2,
-            (screen_height - win_size_y) / 2
-        );
+
+        // Устанавливаем размер окна
+        glfwSetWindowSize(window, win_size_x, win_size_y);
+
+        // центрируем окно
+        int pos_x = (screen_width - win_size_x) / 2;
+        int pos_y = (screen_height - win_size_y) / 2;
+        glfwSetWindowPos(window, pos_x, pos_y);
+
     }
 
     // Инициализация GLEW
@@ -209,14 +225,32 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
         ctx.children_count = 0;
     }
 
+    // обработка изменения размера окна
+    glfwSetFramebufferSizeCallback(window, reshape);
+
     // Обработка событий мыши
-    glutMouseFunc(mouse_fun);
-    glutMotionFunc(motion_fun);
-    glutMouseWheelFunc(mouse_wheel);
+    glfwSetCursorPosCallback(window, motion_fun);
+    glfwSetMouseButtonCallback(window, mouse_fun);
+    glfwSetScrollCallback(window, mouse_wheel);
 
     // Обработка событий клавиатуры
-    glutKeyboardFunc(keyboard_fun);
+    glfwSetKeyCallback(window, keyboard_fun);
 
-    // Главный цикл OpenGL
-    glutMainLoop(); 
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    reshape(window, width, height);
+
+    // Главный цикл
+    while (!glfwWindowShouldClose(window))
+    {
+        // Обработка событий
+        glfwPollEvents();
+
+        // рендер
+        display();
+
+        // Меняем буферы
+        glfwSwapBuffers(window);
+    }
+
 }

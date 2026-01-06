@@ -12,9 +12,9 @@ if not exist "icon\icon.o" (
 
 C:\progs\mingw\bin\gcc.exe src\main.c icon\icon.o -o xr_viewer.exe -Wall --std=c11 -m64^
  ^
--IC:\libs\freeglut\freeglut-3.4.0\include ^
--LC:\libs\freeglut\freeglut-3.4.0\build\lib\Release ^
--lfreeglut ^
+-IC:\libs\glfw\glfw-3.3.9\include ^
+-LC:\libs\glfw\glfw-3.3.9\lib-mingw-w64 ^
+-lglfw3dll ^
  ^
 -IC:\libs\glew\glew-2.2.0\include ^
 -LC:\libs\glew\glew-2.2.0\lib\Release\x64 ^
@@ -26,6 +26,7 @@ C:\progs\mingw\bin\gcc.exe src\main.c icon\icon.o -o xr_viewer.exe -Wall --std=c
 -LC:\libs\freeimage\FreeImage3180Win32Win64\FreeImage\Dist\x64 ^
 -lFreeImage ^
  ^
--lopengl32
+-lopengl32 ^
+-lgdi32
 
 pause

@@ -2,7 +2,6 @@
 #define RENDER_H
 
 #include "GL\glew.h"
-#include "GL\freeglut.h"
 
 typedef struct RenderContext {
     GLuint*     vao;

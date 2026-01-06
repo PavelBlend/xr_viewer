@@ -9,7 +9,7 @@
 #include <math.h>
 
 #include "GL\glew.h"
-#include "GL\freeglut.h"
+#include "GLFW\glfw3.h"
 #include "cglm\cglm.h"
 
 #include "globals.c"
@@ -89,10 +89,11 @@ char* read_shader_file(char* exe_path, char* file_name) {
     return file_data;
 }
 
-static void set_shader_matrices(GLuint ShaderProgram) {
+static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram) {
 
-    int width = glutGet(GLUT_WINDOW_WIDTH);  // Получаем ширину окна
-    int height = glutGet(GLUT_WINDOW_HEIGHT);  // Получаем высоту окна
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);    // Получаем ширину и высоту окна
+
     float aspect;
 
     // Чтобы избежать деления на ноль, проверяем высоту
