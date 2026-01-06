@@ -9,6 +9,12 @@ set(CMAKE_C_STANDARD            11)
 set(CMAKE_C_STANDARD_REQUIRED   ON)
 set(CMAKE_C_EXTENSIONS          OFF)
 
+# установить путь для исполняемых файлов
+set(BIN_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BIN_DIRECTORY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BIN_DIRECTORY})
+
 # найти программу magick
 find_program(MAGICK_EXECUTABLE
     NAMES magick convert
