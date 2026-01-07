@@ -93,6 +93,9 @@ void update_fps(double* last_time, double* fps) {
 
 void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
+    // init FreeImage
+    init_free_image();
+
     // Инициализация GLFW
     glfwInit();
 
@@ -312,5 +315,8 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
 
     glfwDestroyWindow(window);
     glfwTerminate();
+
+    // deinit FreeImage
+    deinit_free_image();
 
 }
