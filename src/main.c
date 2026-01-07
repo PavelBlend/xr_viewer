@@ -10,17 +10,17 @@
 
 int main (int argc, char* argv[]) {
 
+    // вычислить абсолютный путь к exe файлу программы
     char exe_path[MAX_PATH];
     GetModuleFileNameA(NULL, exe_path, MAX_PATH);
-    // printf("\nExecutable file: \"%s\"\n\n", exe_path);
     char *last = strrchr(exe_path, '\\');
     if (last) {
         *(last + 1) = '\0';
     };
 
-    OgfFile* ogf_file = NULL;
-    FileData* file_data = NULL;
-    Chunks* chunks = NULL;
+    OgfFile*    ogf_file    = NULL;
+    FileData*   file_data   = NULL;
+    Chunks*     chunks      = NULL;
 
     // check cmd arguments
     if (argc < 2) {
@@ -30,24 +30,33 @@ int main (int argc, char* argv[]) {
         }
         printf("\n\n");
         printf("\nusage:\n    %s file_name.ogf\n\n", argv[0]);
-        // exit(EXIT_FAILURE);
 
     } else {
+
         // get file path
         char* file_path = argv[1];
 
         // read file
         file_data = read_file(file_path);
+
+        // read chunks
         chunks = read_chunks(file_data, 0, (uint32_t)file_data->size);
+
+        // read ogf data
         ogf_file = read_ogf(file_data, chunks);
+
+        // free chunks memory
         free_chunks(chunks);
+
     }
 
     // render
     render(ogf_file, argc, argv, exe_path);
 
-    // free memory
+    // free file memory
     free_file_data(file_data);
+
+    // free ogf memory
     free_ogf_file(ogf_file);
 
     return 0;
