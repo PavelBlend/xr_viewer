@@ -11,7 +11,7 @@ void render_grid(RenderContext ctx) {
 
     glUniform3f(ctx.solidColorLoc, 0.25f, 0.25f, 0.25f);
 
-    glLineWidth(0.5f);
+    glLineWidth(1.0f);
 
     glBegin(GL_LINES);
 
