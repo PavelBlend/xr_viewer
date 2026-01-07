@@ -101,7 +101,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
     // установка профиля OpenGL
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
     // создание окна
     window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
