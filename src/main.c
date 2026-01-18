@@ -10,10 +10,11 @@
 
 int main (int argc, char* argv[]) {
 
-    // вычислить абсолютный путь к exe файлу программы
-    char exe_path[MAX_PATH];
-    GetModuleFileNameA(NULL, exe_path, MAX_PATH);
-    char *last = strrchr(exe_path, '\\');
+    // Вычислить абсолютный путь к папке,
+    // в которой хранится exe файл программы
+    char exe_dir[MAX_PATH];
+    GetModuleFileNameA(NULL, exe_dir, MAX_PATH);
+    char *last = strrchr(exe_dir, '\\');
     if (last) {
         *(last + 1) = '\0';
     };
@@ -51,7 +52,7 @@ int main (int argc, char* argv[]) {
     }
 
     // render
-    render(ogf_file, argc, argv, exe_path);
+    render(ogf_file, argc, argv, exe_dir);
 
     // free file memory
     free_file_data(file_data);

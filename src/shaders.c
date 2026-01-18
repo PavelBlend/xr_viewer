@@ -39,16 +39,16 @@ static void create_shader(GLuint ShaderProgram, const char* pShaderText, GLenum 
     glAttachShader(ShaderProgram, ShaderObj);
 }
 
-char* read_shader_file(char* exe_path, char* file_name) {
+char* read_shader_file(char* exe_dir, char* file_name) {
 
-    size_t abs_path_length = strlen(exe_path) + strlen(file_name) + 1;
+    size_t abs_path_length = strlen(exe_dir) + strlen(file_name) + 1;
     char* abs_path = malloc(abs_path_length);
 
-    size_t exe_len = strlen(exe_path);
+    size_t exe_len = strlen(exe_dir);
     size_t shader_len = strlen(file_name);
 
     // Копируем первую строку
-    memcpy(abs_path, exe_path, exe_len);
+    memcpy(abs_path, exe_dir, exe_len);
 
     // Копируем вторую строку сразу после первой
     memcpy(abs_path + exe_len, file_name, shader_len);
@@ -150,7 +150,7 @@ static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram) {
 
 }
 
-static GLuint compile_shaders(char* exe_path) {
+static GLuint compile_shaders(char* exe_dir) {
 
     // создать шейдерную программу
     GLuint ShaderProgram = glCreateProgram();
@@ -161,8 +161,8 @@ static GLuint compile_shaders(char* exe_path) {
     }
 
     // прочитать шейдерный код из файлов
-    char *vertex_shader = read_shader_file(exe_path, "shaders\\vertex_shader.glsl");
-    char *fragment_shader = read_shader_file(exe_path, "shaders\\fragment_shader.glsl");
+    char *vertex_shader = read_shader_file(exe_dir, "shaders\\vertex_shader.glsl");
+    char *fragment_shader = read_shader_file(exe_dir, "shaders\\fragment_shader.glsl");
 
     // printf("\n");
 

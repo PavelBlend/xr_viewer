@@ -18,6 +18,7 @@
 #include "overlays.c"
 
 #define IDI_ICON1 101
+#define igGetIO igGetIO_Nil
 
 char* window_title = "X-Ray Viewer";
 GLFWwindow* window = NULL;
@@ -91,7 +92,7 @@ void update_fps(double* last_time, double* fps) {
 
 }
 
-void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
+void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
 
     // init FreeImage
     init_free_image();
@@ -165,7 +166,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
     glClearColor(0.5, 0.5, 0.5, 1.0);
 
     // загрузить шейдеры
-    ctx.ShaderProgram = compile_shaders(exe_path);
+    ctx.ShaderProgram = compile_shaders(exe_dir);
 
     ctx.useTextureLoc = glGetUniformLocation(ctx.ShaderProgram, "useTexture");
     ctx.solidColorLoc = glGetUniformLocation(ctx.ShaderProgram, "solidColor");
@@ -275,6 +276,14 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_path) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
     igStyleColorsLight(NULL);
+
+    // Формируем полный путь к imgui.ini
+    static char cimgui_ini_path[MAX_PATH];
+    snprintf(cimgui_ini_path, sizeof(cimgui_ini_path), "%s\\imgui.ini", exe_dir);
+
+    // Указать путь к .ini настройкам ImGUI
+    ImGuiIO* io = igGetIO();
+    io->IniFilename = cimgui_ini_path;
 
     // Переменные для подсчёта FPS
     static double last_time = 0.0;
