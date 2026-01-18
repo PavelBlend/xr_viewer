@@ -17,6 +17,7 @@
 #include "shaders.c"
 #include "overlays.c"
 #include "im_gui_theme.h"
+#include "formating.c"
 
 #define IDI_ICON1 101
 #define igGetIO igGetIO_Nil
@@ -298,6 +299,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     static double last_time = 0.0;
     static double fps = 0.0;
 
+    // общая строка символов для меток в интерфейсе
+    char buffer[15];
+
     // Главный цикл
     while (!glfwWindowShouldClose(window))
     {
@@ -324,28 +328,30 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         igSetColumnWidth(0, 160.0f);     // Ширина для текста
 
         // Первая колонка
-        igText("FOV:");
         igText("FPS:");
         igText("Children Count:");
         igText("Vertices Count:");
         igText("Triangles Count:");
+        igText("FOV:");
 
         igNextColumn();
 
         // Вторая колонка
-        igDragFloat("##", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
         igText("%d", (int)round(fps));
-        igText("%d", ctx.children_count);
-        igText("%d", total_vertices);
-        igText("%d", total_indices / 3);
+
+        format_uint32_with_spaces(ctx.children_count, buffer);
+        igText("%s", buffer);
+
+        format_uint32_with_spaces(total_vertices, buffer);
+        igText("%s", buffer);
+
+        format_uint32_with_spaces(total_indices / 3, buffer);
+        igText("%s", buffer);
+
+        igDragFloat("##", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
 
         // Вернуться к одной колонке
         igColumns(1, NULL, false);
-
-
-
-
-
 
         igEnd();
 
