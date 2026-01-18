@@ -3,6 +3,5 @@
 *.dll
 *.ico
 *.o
-*.blend1
-*.blend2
+*.blend*
 build
