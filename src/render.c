@@ -18,6 +18,8 @@
 #include "overlays.c"
 #include "formating.c"
 #include "ui\im_gui_init.c"
+#include "ui\im_gui_deinit.c"
+#include "ui\im_gui_draw.c"
 
 #define IDI_ICON1 101
 
@@ -101,21 +103,6 @@ void display() {
 
 void reshape(GLFWwindow* window, int w, int h) {
     glViewport(0, 0, w, h);
-}
-
-void update_fps(double* last_time, double* fps) {
-    // Получаем текущее время
-    double current_time = igGetTime();
-    
-    // Вычисляем дельту времени между кадрами
-    double delta_time = current_time - *last_time;
-    *last_time = current_time;
-    
-    // Предотвращаем деление на ноль
-    if (delta_time > 0.0) {
-        *fps = 1.0 / delta_time;  // FPS = 1 / время_кадра_в_секундах
-    }
-
 }
 
 void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
@@ -322,62 +309,15 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         // рендер сцены
         display();
 
-        ImGui_ImplGlfw_NewFrame();
-        ImGui_ImplOpenGL3_NewFrame();
-        igNewFrame();
-
-        update_fps(&last_time, &fps);
-
-        igBegin("Info", NULL, 0);
-
-        igColumns(2, NULL, false);
-        igSetColumnWidth(0, 160.0f);     // Ширина для текста
-
-        // Первая колонка
-        igText("FPS:");
-        igText("Children Count:");
-        igText("Vertices Count:");
-        igText("Triangles Count:");
-        igText("Draw Edges:");
-        igText("FOV:");
-        igText("Far Plane:");
-        igText("Near Plane:");
-
-        igNextColumn();
-
-        // Вторая колонка
-        igText("%d", (int)round(fps));
-
-        format_uint32_with_spaces(ctx.children_count, buffer);
-        igText("%s", buffer);
-
-        format_uint32_with_spaces(total_vertices, buffer);
-        igText("%s", buffer);
-
-        format_uint32_with_spaces(total_indices / 3, buffer);
-        igText("%s", buffer);
-
-        igCheckbox("##1", &draw_edges);
-
-        igDragFloat("##2", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
-        igDragFloat("##3", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
-        igDragFloat("##4", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
-
-        // Вернуться к одной колонке
-        igColumns(1, NULL, false);
-
-        igEnd();
-
-        igRender();
-        ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());
+        // рендер интерфейса
+        draw_ui(ctx, buffer, fps, last_time, total_vertices, total_indices);
 
         // Меняем буферы
         glfwSwapBuffers(window);
     }
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    igDestroyContext(NULL);
+    // деинициализировать cimgui
+    c_im_gui_deinit();
 
     glfwDestroyWindow(window);
     glfwTerminate();
