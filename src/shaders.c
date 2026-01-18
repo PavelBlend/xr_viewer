@@ -16,7 +16,7 @@
 
 float fov = 67.5f;
 float far_plane = 2000.0f;
-float near_plane = 0.01f;
+float near_plane = 0.1f;
 
 static void create_shader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType, char* file_path) {
 
