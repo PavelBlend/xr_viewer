@@ -16,11 +16,10 @@
 #include "tex_io.c"
 #include "shaders.c"
 #include "overlays.c"
-#include "im_gui_theme.h"
 #include "formating.c"
+#include "ui\im_gui_init.c"
 
 #define IDI_ICON1 101
-#define igGetIO igGetIO_Nil
 
 char* window_title = "X-Ray Viewer";
 GLFWwindow* window = NULL;
@@ -280,20 +279,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     reshape(window, width, height);
 
     // Инициализация CImGUI
-    igCreateContext(NULL);
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 330 core");
-
-    // Установить тему для CImGUI
-    cimgui_set_theme();
-
-    // Формируем полный путь к imgui.ini
-    static char cimgui_ini_path[MAX_PATH];
-    snprintf(cimgui_ini_path, sizeof(cimgui_ini_path), "%s\\imgui.ini", exe_dir);
-
-    // Указать путь к .ini настройкам ImGUI
-    ImGuiIO* io = igGetIO();
-    io->IniFilename = cimgui_ini_path;
+    c_im_gui_init(window, exe_dir);
 
     // Переменные для подсчёта FPS
     static double last_time = 0.0;
