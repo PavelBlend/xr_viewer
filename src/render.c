@@ -277,7 +277,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
 
-    // Установить Blender тему для CImGUI
+    // Установить тему для CImGUI
     cimgui_set_theme();
 
     // Формируем полный путь к imgui.ini
