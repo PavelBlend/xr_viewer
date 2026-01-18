@@ -54,6 +54,8 @@ void display() {
 
     set_shader_matrices(window, ctx.ShaderProgram);
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
     for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
         if (ctx.textures[child_id]) {
@@ -67,6 +69,29 @@ void display() {
 
         glBindVertexArray(ctx.vao[child_id]);
         glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+
+    }
+
+    // отрисовка рёбер
+    if (draw_edges) {
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glEnable(GL_POLYGON_OFFSET_LINE);
+        glPolygonOffset(-1.0f, -1.0f);
+        glLineWidth(1.0f);
+
+        for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
+
+            glUniform1i(ctx.useTextureLoc, 0);
+            glUniform3f(ctx.solidColorLoc, 1.0f, 1.0f, 1.0f);
+
+            glBindVertexArray(ctx.vao[child_id]);
+            glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+
+        }
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glDisable(GL_POLYGON_OFFSET_LINE);
 
     }
 
@@ -313,6 +338,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         igText("Children Count:");
         igText("Vertices Count:");
         igText("Triangles Count:");
+        igText("Draw Edges:");
         igText("FOV:");
         igText("Far Plane:");
         igText("Near Plane:");
@@ -331,9 +357,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         format_uint32_with_spaces(total_indices / 3, buffer);
         igText("%s", buffer);
 
-        igDragFloat("##1", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
-        igDragFloat("##2", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
-        igDragFloat("##3", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
+        igCheckbox("##1", &draw_edges);
+
+        igDragFloat("##2", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
+        igDragFloat("##3", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
+        igDragFloat("##4", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
 
         // Вернуться к одной колонке
         igColumns(1, NULL, false);

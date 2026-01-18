@@ -5,7 +5,7 @@
 
 const float gridSize = 5.0f;    // Половина размера сетки
 const int gridSteps = 10;        // Количество линий в каждую сторону
-
+bool draw_edges = false;
 
 void render_grid(RenderContext ctx) {
 
