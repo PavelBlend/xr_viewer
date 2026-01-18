@@ -12,7 +12,7 @@ void cimgui_set_theme(void) {
     colors[ImGuiCol_WindowBg]               = (ImVec4){1.0f, 0.25f, 0.25f, 0.25f};
 
     colors[ImGuiCol_TitleBg]                = (ImVec4){1.0f, 0.20f, 0.20f, 0.20f};
-    colors[ImGuiCol_TitleBgActive]          = (ImVec4){1.0f, 0.30f, 0.70f, 0.30f};
+    colors[ImGuiCol_TitleBgActive]          = (ImVec4){1.0f, 0.30f, 0.30f, 0.30f};
 
 }
 
