@@ -108,6 +108,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     // установка профиля OpenGL
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
+    // включить использование мультисемплинга через glfw
+    glfwWindowHint(GLFW_SAMPLES, 8);
+
     // создание окна
     window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
     if (!window) {
@@ -122,6 +125,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     // Настройка рендера
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+
+    // включить мультисемплинг в OpenGL
+    glEnable(GL_MULTISAMPLE);
 
     glEnable(GL_CULL_FACE);          // Включаем отсечение задних граней
     glCullFace(GL_BACK);             // Отсекаем задние
