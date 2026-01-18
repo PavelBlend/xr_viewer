@@ -16,6 +16,7 @@
 #include "tex_io.c"
 #include "shaders.c"
 #include "overlays.c"
+#include "im_gui_theme.h"
 
 #define IDI_ICON1 101
 #define igGetIO igGetIO_Nil
@@ -275,7 +276,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     igCreateContext(NULL);
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
-    igStyleColorsLight(NULL);
+
+    // Установить Blender тему для CImGUI
+    cimgui_set_theme();
 
     // Формируем полный путь к imgui.ini
     static char cimgui_ini_path[MAX_PATH];
