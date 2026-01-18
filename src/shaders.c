@@ -14,6 +14,8 @@
 
 #include "globals.c"
 
+float fov = 67.5f;
+
 static void create_shader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType, char* file_path) {
 
     GLuint ShaderObj = glCreateShader(ShaderType);
@@ -138,7 +140,7 @@ static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram) {
 
     // Матриа проекции
     mat4 projection;
-    glm_perspective(glm_rad(67.5f), aspect, 0.01f, 2000.0f, projection);
+    glm_perspective(glm_rad(fov), aspect, 0.01f, 2000.0f, projection);
 
     GLint modelLoc = glGetUniformLocation(ShaderProgram, "model");
     GLint projLoc = glGetUniformLocation(ShaderProgram, "projection");

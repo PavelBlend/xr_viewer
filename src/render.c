@@ -314,10 +314,39 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         update_fps(&last_time, &fps);
 
         igBegin("Info", NULL, 0);
-        igText("FPS: %d", (int)round(fps));
+        /*igText("FPS: %d", (int)round(fps));
         igText("Children Count: %d", ctx.children_count);
         igText("Vertices Count: %d", total_vertices);
-        igText("Triangles Count: %d", total_indices / 3);
+        igText("Triangles Count: %d", total_indices / 3);*/
+
+
+        igColumns(2, NULL, false);
+        igSetColumnWidth(0, 160.0f);     // Ширина для текста
+
+        // Первая колонка
+        igText("FOV:");
+        igText("FPS:");
+        igText("Children Count:");
+        igText("Vertices Count:");
+        igText("Triangles Count:");
+
+        igNextColumn();
+
+        // Вторая колонка
+        igDragFloat("##", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
+        igText("%d", (int)round(fps));
+        igText("%d", ctx.children_count);
+        igText("%d", total_vertices);
+        igText("%d", total_indices / 3);
+
+        // Вернуться к одной колонке
+        igColumns(1, NULL, false);
+
+
+
+
+
+
         igEnd();
 
         igRender();
