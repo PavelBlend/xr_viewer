@@ -318,11 +318,6 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         update_fps(&last_time, &fps);
 
         igBegin("Info", NULL, 0);
-        /*igText("FPS: %d", (int)round(fps));
-        igText("Children Count: %d", ctx.children_count);
-        igText("Vertices Count: %d", total_vertices);
-        igText("Triangles Count: %d", total_indices / 3);*/
-
 
         igColumns(2, NULL, false);
         igSetColumnWidth(0, 160.0f);     // Ширина для текста
@@ -333,6 +328,8 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         igText("Vertices Count:");
         igText("Triangles Count:");
         igText("FOV:");
+        igText("Far Plane:");
+        igText("Near Plane:");
 
         igNextColumn();
 
@@ -348,7 +345,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         format_uint32_with_spaces(total_indices / 3, buffer);
         igText("%s", buffer);
 
-        igDragFloat("##", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
+        igDragFloat("##1", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
+        igDragFloat("##2", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
+        igDragFloat("##3", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
 
         // Вернуться к одной колонке
         igColumns(1, NULL, false);
