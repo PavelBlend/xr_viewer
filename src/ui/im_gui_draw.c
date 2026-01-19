@@ -19,13 +19,13 @@ void update_fps(double* last_time, double* fps) {
 
 }
 
-void draw_ui(RenderContext ctx, char* buffer, double fps, double last_time, uint32_t total_vertices, uint32_t total_indices) {
+void draw_ui(RenderContext ctx, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
 
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
     igNewFrame();
 
-    update_fps(&last_time, &fps);
+    update_fps(last_time, fps);
 
     igBegin("Info", NULL, 0);
 
@@ -45,7 +45,7 @@ void draw_ui(RenderContext ctx, char* buffer, double fps, double last_time, uint
     igNextColumn();
 
     // Вторая колонка
-    igText("%d", (int)round(fps));
+    igText("%d", (int)round(*fps));
 
     format_uint32_with_spaces(ctx.children_count, buffer);
     igText("%s", buffer);

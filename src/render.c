@@ -310,7 +310,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         display();
 
         // рендер интерфейса
-        draw_ui(ctx, buffer, fps, last_time, total_vertices, total_indices);
+        draw_ui(ctx, buffer, &fps, &last_time, total_vertices, total_indices);
 
         // Меняем буферы
         glfwSwapBuffers(window);
