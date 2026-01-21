@@ -5,6 +5,8 @@
 
 typedef struct RenderContext {
     GLuint*     vao;
+    GLuint*     vertex_buffers;
+    GLuint*     index_buffers;
     GLuint*     textures;
     GLuint      ShaderProgram;
     GLint       useTextureLoc;

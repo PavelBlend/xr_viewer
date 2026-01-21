@@ -101,6 +101,30 @@ void display() {
 
 }
 
+void clear_gl_data(void) {
+
+    // Очистка ресурсов OpenGL
+    for (uint32_t i = 0; i < ctx.children_count; i++) {
+        glDeleteVertexArrays(1, &ctx.vao[i]);
+        glDeleteBuffers(1, &ctx.vertex_buffers[i]);
+        glDeleteBuffers(1, &ctx.index_buffers[i]);
+        if (ctx.textures[i]) {
+            glDeleteTextures(1, &ctx.textures[i]);
+        }
+    }
+
+    // Освобождение выделенной памяти
+    free(ctx.vao);
+    free(ctx.vertex_buffers);
+    free(ctx.index_buffers);
+    free(ctx.indices_count);
+    free(ctx.textures);
+
+    // Удаление шейдерной программы
+    glDeleteProgram(ctx.ShaderProgram);
+
+}
+
 void reshape(GLFWwindow* window, int w, int h) {
     glViewport(0, 0, w, h);
 }
@@ -196,6 +220,8 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
 
     if (ogf_file != NULL) {
         ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        ctx.vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        ctx.index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
         ctx.textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.children_count  = ogf_file->children_count;
@@ -207,9 +233,8 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
             glBindVertexArray(ctx.vao[child_id]);
 
             // Создать вершинный буфер
-            GLuint vertex_buffer;
-            glGenBuffers(1, &vertex_buffer);
-            glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+            glGenBuffers(1, &ctx.vertex_buffers[child_id]);
+            glBindBuffer(GL_ARRAY_BUFFER, ctx.vertex_buffers[child_id]);
 
             size_t verts_size;
 
@@ -258,9 +283,8 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
             glEnableVertexAttribArray(1);
 
             // Создать буфер индексов
-            GLuint indices_buffer;
-            glGenBuffers(1, &indices_buffer);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
+            glGenBuffers(1, &ctx.index_buffers[child_id]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ctx.index_buffers[child_id]);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
 
             ctx.indices_count[child_id] = ogf_child->indices->count;
@@ -316,6 +340,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         glfwSwapBuffers(window);
 
     }
+
+    // очистка OpenGL данных
+    clear_gl_data();
 
     // деинициализировать cimgui
     c_im_gui_deinit();
