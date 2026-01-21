@@ -301,8 +301,8 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     char buffer[15];
 
     // Главный цикл
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)) {
+
         // Обработка событий
         glfwPollEvents();
 
@@ -314,6 +314,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
 
         // Меняем буферы
         glfwSwapBuffers(window);
+
     }
 
     // деинициализировать cimgui
