@@ -86,7 +86,7 @@ void display() {
         for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
             glUniform1i(ctx.useTextureLoc, 0);
-            glUniform3f(ctx.solidColorLoc, 1.0f, 1.0f, 1.0f);
+            glUniform3f(ctx.solidColorLoc, ctx.edges_color[0], ctx.edges_color[1], ctx.edges_color[2]);
 
             glBindVertexArray(ctx.vao[child_id]);
             glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
@@ -211,6 +211,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     ctx.clear_color[1] = 0.5f;
     ctx.clear_color[2] = 0.5f;
     glClearColor(ctx.clear_color[0], ctx.clear_color[1], ctx.clear_color[2], 1.0);
+
+    // Установить цвет рёбер меша
+    ctx.edges_color[0] = 1.0f;
+    ctx.edges_color[1] = 1.0f;
+    ctx.edges_color[2] = 1.0f;
 
     // загрузить шейдеры
     ctx.ShaderProgram = compile_shaders(exe_dir);

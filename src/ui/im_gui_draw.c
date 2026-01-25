@@ -84,6 +84,17 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
         );
 
+        // Edges Color
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Edges Color:");
+        igTableSetColumnIndex(1);
+        igColorEdit3(
+            "Edges Color",
+            ctx->edges_color,
+            ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+        );
+
         // FOV
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);
