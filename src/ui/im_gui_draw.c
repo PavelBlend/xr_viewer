@@ -27,45 +27,79 @@ void draw_ui(RenderContext ctx, char* buffer, double* fps, double* last_time, ui
 
     update_fps(last_time, fps);
 
-    igBegin("Info", NULL, 0);
+    igBegin("Info", NULL, 0);    // начать рисовать окно с параметрами
 
-    igColumns(2, NULL, false);
-    igSetColumnWidth(0, 160.0f);     // Ширина для текста
+    // Начать рисовать таблицу с параметрами
+    if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_None, (ImVec2){0,0}, 0)) {
 
-    // Первая колонка
-    igText("FPS:");
-    igText("Children Count:");
-    igText("Vertices Count:");
-    igText("Triangles Count:");
-    igText("Draw Edges:");
-    igText("FOV:");
-    igText("Far Plane:");
-    igText("Near Plane:");
+        igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthFixed,   180.0f, 0);
+        igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
 
-    igNextColumn();
+        // FPS
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("FPS:");
+        igTableSetColumnIndex(1);
+        igText("%d", (int)round(*fps));
 
-    // Вторая колонка
-    igText("%d", (int)round(*fps));
+        // Children Count
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Children Count:");
+        igTableSetColumnIndex(1);
+        format_uint32_with_spaces(ctx.children_count, buffer);
+        igText("%s", buffer);
 
-    format_uint32_with_spaces(ctx.children_count, buffer);
-    igText("%s", buffer);
+        // Vertices Count
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Vertices Count:");
+        igTableSetColumnIndex(1);
+        format_uint32_with_spaces(total_vertices, buffer);
+        igText("%s", buffer);
 
-    format_uint32_with_spaces(total_vertices, buffer);
-    igText("%s", buffer);
+        // Triangles Count
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Triangles Count:");
+        igTableSetColumnIndex(1);
+        format_uint32_with_spaces(total_indices / 3, buffer);
+        igText("%s", buffer);
 
-    format_uint32_with_spaces(total_indices / 3, buffer);
-    igText("%s", buffer);
+        // Draw Edges
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Draw Edges:");
+        igTableSetColumnIndex(1);
+        igCheckbox("##1", &draw_edges);
 
-    igCheckbox("##1", &draw_edges);
+        // FOV
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("FOV:");
+        igTableSetColumnIndex(1);
+        igDragFloat("##2", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
 
-    igDragFloat("##2", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
-    igDragFloat("##3", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
-    igDragFloat("##4", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
+        // Far Plane
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Far Plane:");
+        igTableSetColumnIndex(1);
+        igDragFloat("##3", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
 
-    // Вернуться к одной колонке
-    igColumns(1, NULL, false);
+        // Near Plane
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Near Plane:");
+        igTableSetColumnIndex(1);
+        igDragFloat("##4", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
 
-    igEnd();
+        // Закончить рисовать таблицу с параметрами
+        igEndTable();
+
+    }
+
+    igEnd();    // закончить рисовать окно с параметрами
 
     igRender();
     ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());
