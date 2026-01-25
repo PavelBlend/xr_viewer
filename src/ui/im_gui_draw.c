@@ -19,7 +19,7 @@ void update_fps(double* last_time, double* fps) {
 
 }
 
-void draw_ui(RenderContext ctx, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
+void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
 
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
@@ -47,7 +47,7 @@ void draw_ui(RenderContext ctx, char* buffer, double* fps, double* last_time, ui
         igTableSetColumnIndex(0);
         igText("Children Count:");
         igTableSetColumnIndex(1);
-        format_uint32_with_spaces(ctx.children_count, buffer);
+        format_uint32_with_spaces(ctx->children_count, buffer);
         igText("%s", buffer);
 
         // Vertices Count
@@ -72,6 +72,17 @@ void draw_ui(RenderContext ctx, char* buffer, double* fps, double* last_time, ui
         igText("Draw Edges:");
         igTableSetColumnIndex(1);
         igCheckbox("##1", &draw_edges);
+
+        // Clear Color
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Clear Color:");
+        igTableSetColumnIndex(1);
+        igColorEdit3(
+            "Clear Color",
+            ctx->clear_color,
+            ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+        );
 
         // FOV
         igTableNextRow(0, 0.0f);

@@ -50,6 +50,7 @@ void maximizeWindow() {
 
 void display() {
     // Очистка экрана
+    glClearColor(ctx.clear_color[0], ctx.clear_color[1], ctx.clear_color[2], 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(ctx.ShaderProgram);
@@ -206,7 +207,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     glPolygonMode(GL_FRONT, GL_FILL);
 
     // Установить цвет для очистки экрана
-    glClearColor(0.5, 0.5, 0.5, 1.0);
+    ctx.clear_color[0] = 0.5f;
+    ctx.clear_color[1] = 0.5f;
+    ctx.clear_color[2] = 0.5f;
+    glClearColor(ctx.clear_color[0], ctx.clear_color[1], ctx.clear_color[2], 1.0);
 
     // загрузить шейдеры
     ctx.ShaderProgram = compile_shaders(exe_dir);
@@ -334,7 +338,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
         display();
 
         // рендер интерфейса
-        draw_ui(ctx, buffer, &fps, &last_time, total_vertices, total_indices);
+        draw_ui(&ctx, buffer, &fps, &last_time, total_vertices, total_indices);
 
         // Меняем буферы
         glfwSwapBuffers(window);

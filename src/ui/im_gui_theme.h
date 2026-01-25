@@ -18,6 +18,8 @@ void cimgui_set_theme(void) {
     colors[ImGuiCol_FrameBgHovered]         = (ImVec4){1.0f, 0.80f, 0.80f, 0.80f};
     colors[ImGuiCol_FrameBgActive]          = (ImVec4){1.0f, 0.90f, 0.90f, 0.90f};
 
+    colors[ImGuiCol_PopupBg]                = (ImVec4){1.0f, 0.60f, 0.60f, 0.60f};
+
 }
 
 #endif    // IM_GUI_THEME_C
