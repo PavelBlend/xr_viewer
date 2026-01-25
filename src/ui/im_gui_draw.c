@@ -27,12 +27,19 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
 
     update_fps(last_time, fps);
 
+    igSetNextWindowSizeConstraints(
+        (ImVec2){300, 250},          // минимальный размер окна
+        (ImVec2){FLT_MAX, FLT_MAX},   // максимальный размер окна без ограничения
+        NULL,
+        NULL
+    );
+
     igBegin("Info", NULL, 0);    // начать рисовать окно с параметрами
 
     // Начать рисовать таблицу с параметрами
-    if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_None, (ImVec2){0,0}, 0)) {
+    if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
-        igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthFixed,   180.0f, 0);
+        igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
         igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
 
         // FPS
