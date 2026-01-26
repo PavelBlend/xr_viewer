@@ -7,14 +7,9 @@ const float gridSize = 5.0f;    // Половина размера сетки
 const int gridSteps = 10;        // Количество линий в каждую сторону
 bool draw_edges = false;
 
-// Сгенерировать геометрию координатной сетки
-void generate_grid(OverlayContext* overlay_ctx) {
-
-    // Настроить overlay контекст
-    overlay_ctx->vao = malloc(sizeof(GLuint) * 4);
-    overlay_ctx->vertex_buffers = malloc(sizeof(GLuint) * 4);
-    overlay_ctx->grid_steps = 10;
-    overlay_ctx->grid_size = 1.0f;
+// Сгенерировать основные линии координатной сетки, без линий в нулевых координатах
+// Линии в нулевых координатах генерировать не нужно, так как вместо них будут глобальные оси
+void generate_coord_lines(OverlayContext* overlay_ctx) {
 
     // Вычислить количество линий координатной сетки:
     // overlay_ctx->grid_steps - количество линий для половины сетки.
@@ -105,6 +100,19 @@ void generate_grid(OverlayContext* overlay_ctx) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, grid_indices_size, grid_indices, GL_STATIC_DRAW);
 
     overlay_ctx->indices_count[0] = grid_indices_count;
+
+}
+
+// Сгенерировать геометрию координатной сетки
+void generate_grid(OverlayContext* overlay_ctx) {
+
+    // Настроить overlay контекст
+    overlay_ctx->vao = malloc(sizeof(GLuint) * 4);
+    overlay_ctx->vertex_buffers = malloc(sizeof(GLuint) * 4);
+    overlay_ctx->grid_steps = 10;
+    overlay_ctx->grid_size = 1.0f;
+
+    generate_coord_lines(overlay_ctx);
 
 }
 
