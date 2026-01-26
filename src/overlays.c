@@ -3,9 +3,16 @@
 
 #include "render.h"
 
-const float gridSize = 5.0f;    // Половина размера сетки
-const int gridSteps = 10;        // Количество линий в каждую сторону
+const float GRID_SIZE = 1.0f;    // Половина размера сетки
+const int GRID_STEPS = 10;        // Количество линий в каждую сторону
 bool draw_edges = false;
+
+// Номера буферов вершин для координатной сетки
+uint32_t BUFFER_COORD_LINES = 0;
+uint32_t BUFFER_AXIS_X = 1;
+uint32_t BUFFER_AXIS_Y = 2;
+uint32_t BUFFER_AXIS_Z = 3;
+uint32_t BUFFER_COUNT = 4;
 
 // Сгенерировать основные линии координатной сетки, без линий в нулевых координатах
 // Линии в нулевых координатах генерировать не нужно, так как вместо них будут глобальные оси
@@ -67,11 +74,11 @@ void generate_coord_lines(OverlayContext* overlay_ctx) {
     }
 
     // Создать вершинный буфер для координатной сетки
-    glGenVertexArrays(1, &overlay_ctx->vao[0]);
-    glBindVertexArray(overlay_ctx->vao[0]);
+    glGenVertexArrays(1, &overlay_ctx->vao[BUFFER_COORD_LINES]);
+    glBindVertexArray(overlay_ctx->vao[BUFFER_COORD_LINES]);
 
-    glGenBuffers(1, &overlay_ctx->vertex_buffers[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, overlay_ctx->vertex_buffers[0]);
+    glGenBuffers(1, &overlay_ctx->vertex_buffers[BUFFER_COORD_LINES]);
+    glBindBuffer(GL_ARRAY_BUFFER, overlay_ctx->vertex_buffers[BUFFER_COORD_LINES]);
 
     glBufferData(GL_ARRAY_BUFFER, grid_verts_size, grid_vertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12, (void*) 0);
@@ -80,8 +87,8 @@ void generate_coord_lines(OverlayContext* overlay_ctx) {
     glEnableVertexAttribArray(0);
 
     // Создать индексный буфер для координатной сетки
-    overlay_ctx->index_buffers = malloc(sizeof(GLuint) * 4);
-    overlay_ctx->indices_count = malloc(sizeof(uint32_t) * 4);
+    overlay_ctx->index_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
+    overlay_ctx->indices_count = malloc(sizeof(uint32_t) * BUFFER_COUNT);
 
     uint32_t grid_indices_count = lines_count * 2;
     size_t grid_indices_size = sizeof(uint16_t) * (size_t)grid_indices_count;
@@ -95,11 +102,11 @@ void generate_coord_lines(OverlayContext* overlay_ctx) {
         current_index++;
     }
 
-    glGenBuffers(1, &overlay_ctx->index_buffers[0]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, overlay_ctx->index_buffers[0]);
+    glGenBuffers(1, &overlay_ctx->index_buffers[BUFFER_COORD_LINES]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, overlay_ctx->index_buffers[BUFFER_COORD_LINES]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, grid_indices_size, grid_indices, GL_STATIC_DRAW);
 
-    overlay_ctx->indices_count[0] = grid_indices_count;
+    overlay_ctx->indices_count[BUFFER_COORD_LINES] = grid_indices_count;
 
 }
 
@@ -107,16 +114,16 @@ void generate_coord_lines(OverlayContext* overlay_ctx) {
 void generate_grid(OverlayContext* overlay_ctx) {
 
     // Настроить overlay контекст
-    overlay_ctx->vao = malloc(sizeof(GLuint) * 4);
-    overlay_ctx->vertex_buffers = malloc(sizeof(GLuint) * 4);
-    overlay_ctx->grid_steps = 10;
-    overlay_ctx->grid_size = 1.0f;
+    overlay_ctx->vao = malloc(sizeof(GLuint) * BUFFER_COUNT);
+    overlay_ctx->vertex_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
+    overlay_ctx->grid_steps = GRID_STEPS;
+    overlay_ctx->grid_size = GRID_SIZE;
 
     generate_coord_lines(overlay_ctx);
 
 }
 
-void render_grid(RenderContext ctx) {
+/*void render_grid(RenderContext ctx) {
 
     glUniform3f(ctx.solidColorLoc, 0.25f, 0.25f, 0.25f);
 
@@ -144,9 +151,9 @@ void render_grid(RenderContext ctx) {
 
     glEnd();
 
-}
+}*/
 
-void render_axis(RenderContext ctx) {
+/*void render_axis(RenderContext ctx) {
 
     glLineWidth(1.5f);
 
@@ -180,9 +187,9 @@ void render_axis(RenderContext ctx) {
 
     glEnd();
 
-}
+}*/
 
-void render_overlays(RenderContext ctx) {
+/*void render_overlays(RenderContext ctx) {
 
     if (0) {
 
@@ -194,6 +201,6 @@ void render_overlays(RenderContext ctx) {
 
     }
 
-}
+}*/
 
 #endif    // OVERLAYS_C
