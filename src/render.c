@@ -176,7 +176,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
     // установка профиля OpenGL
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // включить использование мультисемплинга через glfw
     glfwWindowHint(GLFW_SAMPLES, 8);
