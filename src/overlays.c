@@ -8,10 +8,10 @@ const int GRID_STEPS = 10;        // Количество линий в кажд
 bool draw_edges = false;
 
 // Номера буферов вершин для координатной сетки
-uint32_t BUFFER_COORD_LINES = 0;
-uint32_t BUFFER_AXIS_X = 1;
-uint32_t BUFFER_AXIS_Y = 2;
-uint32_t BUFFER_AXIS_Z = 3;
+uint32_t BUFFER_AXIS_X = 0;
+uint32_t BUFFER_AXIS_Y = 1;
+uint32_t BUFFER_AXIS_Z = 2;
+uint32_t BUFFER_COORD_LINES = 3;
 uint32_t BUFFER_COUNT = 4;
 
 // Сгенерировать основные линии координатной сетки, без линий в нулевых координатах
@@ -87,8 +87,6 @@ void generate_coord_lines(OverlayContext* overlay_ctx) {
     glEnableVertexAttribArray(0);
 
     // Создать индексный буфер для координатной сетки
-    overlay_ctx->index_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
-    overlay_ctx->indices_count = malloc(sizeof(uint32_t) * BUFFER_COUNT);
 
     uint32_t grid_indices_count = lines_count * 2;
     size_t grid_indices_size = sizeof(uint16_t) * (size_t)grid_indices_count;
@@ -110,97 +108,76 @@ void generate_coord_lines(OverlayContext* overlay_ctx) {
 
 }
 
+// Сгенерировать линии осей для координатной сетки
+void generate_axis(OverlayContext* overlay_ctx, uint32_t axis) {
+
+    // Количество вершин для оси
+    uint32_t verts_count = 2;
+
+    // Размер одной вершины
+    size_t vert_size = sizeof(float) * 3;
+
+    // Размер всех вершин оси
+    size_t axis_verts_size = vert_size * (size_t)verts_count;
+
+    // Создать вершины
+    float* axis_vertices = malloc(axis_verts_size);;
+
+    // Обнулить все координаты
+    for (uint32_t i=0; i<6; i++) {
+        axis_vertices[i] = 0.0f;
+    }
+
+    // Указать координаты оси
+    axis_vertices[axis]     = -overlay_ctx->grid_size * overlay_ctx->grid_steps;
+    axis_vertices[axis + 3] = +overlay_ctx->grid_size * overlay_ctx->grid_steps;
+
+    // Создать вершинный буфер для двух вершин оси
+    glGenVertexArrays(1, &overlay_ctx->vao[axis]);
+    glBindVertexArray(overlay_ctx->vao[axis]);
+
+    glGenBuffers(1, &overlay_ctx->vertex_buffers[axis]);
+    glBindBuffer(GL_ARRAY_BUFFER, overlay_ctx->vertex_buffers[axis]);
+
+    glBufferData(GL_ARRAY_BUFFER, axis_verts_size, axis_vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12, (void*) 0);
+
+    // Сгенерировать индексы
+    size_t axis_indices_size = sizeof(uint16_t) * 2;
+    uint16_t* axis_indices = malloc(axis_indices_size);
+
+    axis_indices[0] = 0;
+    axis_indices[1] = 1;
+
+    // Настройка атрибута позиции
+    glEnableVertexAttribArray(0);
+
+    // Создать индексный буфер для оси
+    glGenBuffers(1, &overlay_ctx->index_buffers[axis]);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, overlay_ctx->index_buffers[axis]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, axis_indices_size, axis_indices, GL_STATIC_DRAW);
+
+    overlay_ctx->indices_count[axis] = 2;
+
+}
+
 // Сгенерировать геометрию координатной сетки
 void generate_grid(OverlayContext* overlay_ctx) {
 
     // Настроить overlay контекст
     overlay_ctx->vao = malloc(sizeof(GLuint) * BUFFER_COUNT);
     overlay_ctx->vertex_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
+    overlay_ctx->index_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
+    overlay_ctx->indices_count = malloc(sizeof(uint32_t) * BUFFER_COUNT);
     overlay_ctx->grid_steps = GRID_STEPS;
     overlay_ctx->grid_size = GRID_SIZE;
 
+    // Сгенерировать геометрию координатной сетки
     generate_coord_lines(overlay_ctx);
+    generate_axis(overlay_ctx, BUFFER_AXIS_X);
+    generate_axis(overlay_ctx, BUFFER_AXIS_Y);
+    generate_axis(overlay_ctx, BUFFER_AXIS_Z);
 
 }
-
-/*void render_grid(RenderContext ctx) {
-
-    glUniform3f(ctx.solidColorLoc, 0.25f, 0.25f, 0.25f);
-
-    glLineWidth(1.0f);
-
-    glBegin(GL_LINES);
-
-    // Оси X (параллельно Z)
-    for (int i = -gridSteps; i <= gridSteps; i++) {
-        float pos = i * (gridSize / gridSteps);
-        if (pos != 0.0f) {
-            glVertex3f(-gridSize, 0.0f, pos);
-            glVertex3f( gridSize, 0.0f, pos);
-        }
-    }
-
-    // Оси Z (параллельно X)
-    for (int i = -gridSteps; i <= gridSteps; i++) {
-        float pos = i * (gridSize / gridSteps);
-        if (pos != 0.0f) {
-            glVertex3f(pos, 0.0f, -gridSize);
-            glVertex3f(pos, 0.0f,  gridSize);
-        }
-    }
-
-    glEnd();
-
-}*/
-
-/*void render_axis(RenderContext ctx) {
-
-    glLineWidth(1.5f);
-
-    // Ось X
-    glUniform3f(ctx.solidColorLoc, 0.5f, 0.0f, 0.0f);
-
-    glBegin(GL_LINES);
-
-    glVertex3f(-gridSize, 0.0f, 0.0f);
-    glVertex3f(+gridSize, 0.0f, 0.0f);
-
-    glEnd();
-
-    // Ось Y
-    glUniform3f(ctx.solidColorLoc, 0.0f, 0.5f, 0.0f);
-
-    glBegin(GL_LINES);
-
-    glVertex3f(0.0f, -gridSize, 0.0f);
-    glVertex3f(0.0f, +gridSize, 0.0f);
-
-    glEnd();
-
-    // Ось Z
-    glUniform3f(ctx.solidColorLoc, 0.0f, 0.0f, 0.5f);
-
-    glBegin(GL_LINES);
-
-    glVertex3f(0.0f, 0.0f,-gridSize);
-    glVertex3f(0.0f, 0.0f,+gridSize);
-
-    glEnd();
-
-}*/
-
-/*void render_overlays(RenderContext ctx) {
-
-    if (0) {
-
-        glUniform1i(ctx.useTextureLoc, 0);  // Выключаем текстуру
-        glBindTexture(GL_TEXTURE_2D, 0);
-
-        render_grid(ctx);
-        render_axis(ctx);
-
-    }
-
-}*/
 
 #endif    // OVERLAYS_C

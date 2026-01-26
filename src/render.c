@@ -104,12 +104,25 @@ void display() {
     if (1) {
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glLineWidth(1.0f);
 
-        for (uint32_t i=0; i<1; i++) {
+        for (uint32_t i=0; i<4; i++) {
 
             glUniform1i(ctx.useTextureLoc, 0);
-            glUniform3f(ctx.solidColorLoc, 0.25f, 0.25f, 0.25f);
+
+            // Установить цвет и толщину для линий координатной сетки
+            if (i==0) {
+                glLineWidth(1.5f);
+                glUniform3f(ctx.solidColorLoc, 0.5f, 0.0f, 0.0f);
+            } else if (i==1) {
+                glLineWidth(1.5f);
+                glUniform3f(ctx.solidColorLoc, 0.0f, 0.5f, 0.0f);
+            } else if (i==2) {
+                glLineWidth(1.5f);
+                glUniform3f(ctx.solidColorLoc, 0.0f, 0.0f, 0.5f);
+            } else  if (i==3) {
+                glLineWidth(1.0f);
+                glUniform3f(ctx.solidColorLoc, 0.25f, 0.25f, 0.25f);
+            }
 
             glBindVertexArray(overlay_ctx.vao[i]);
             glDrawElements(GL_LINES, overlay_ctx.indices_count[i], GL_UNSIGNED_SHORT, 0);
@@ -119,8 +132,6 @@ void display() {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     }
-
-    // render_overlays(ctx);
 
 }
 
