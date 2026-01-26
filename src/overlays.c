@@ -32,7 +32,7 @@ void render_grid(RenderContext ctx) {
             glVertex3f(pos, 0.0f,  gridSize);
         }
     }
-    
+
     glEnd();
 
 }
@@ -75,11 +75,15 @@ void render_axis(RenderContext ctx) {
 
 void render_overlays(RenderContext ctx) {
 
-    glUniform1i(ctx.useTextureLoc, 0);  // Выключаем текстуру
-    glBindTexture(GL_TEXTURE_2D, 0);
+    if (0) {
 
-    render_grid(ctx);
-    render_axis(ctx);
+        glUniform1i(ctx.useTextureLoc, 0);  // Выключаем текстуру
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        render_grid(ctx);
+        render_axis(ctx);
+
+    }
 
 }
 
