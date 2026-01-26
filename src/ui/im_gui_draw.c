@@ -3,6 +3,7 @@
 
 #include "cimgui.h"
 #include "..\overlays.c"
+#include "..\render.h"
 
 void update_fps(double* last_time, double* fps) {
     // Получаем текущее время
@@ -28,7 +29,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     update_fps(last_time, fps);
 
     igSetNextWindowSizeConstraints(
-        (ImVec2){300, 250},          // минимальный размер окна
+        (ImVec2){300, 280},          // минимальный размер окна
         (ImVec2){FLT_MAX, FLT_MAX},   // максимальный размер окна без ограничения
         NULL,
         NULL
@@ -122,6 +123,13 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         igText("Near Plane:");
         igTableSetColumnIndex(1);
         igDragFloat("##4", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
+
+        // V-Sync
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("V-Sync:");
+        igTableSetColumnIndex(1);
+        igCheckbox("##5", &vsync);
 
         // Закончить рисовать таблицу с параметрами
         igEndTable();

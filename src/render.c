@@ -50,6 +50,14 @@ void maximizeWindow() {
 }
 
 void display() {
+
+    // включаем vsync
+    if (vsync) {
+        glfwSwapInterval(1);
+    } else {
+        glfwSwapInterval(0);
+    }
+
     // Очистка экрана
     glClearColor(ctx.clear_color[0], ctx.clear_color[1], ctx.clear_color[2], 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -190,7 +198,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     glfwMakeContextCurrent(window);
 
     // включаем vsync
-    glfwSwapInterval(1);
+    if (vsync) {
+        glfwSwapInterval(1);
+    } else {
+        glfwSwapInterval(0);
+    }
 
     // Настройка рендера
     glEnable(GL_DEPTH_TEST);

@@ -3,6 +3,8 @@
 
 #include "GL\glew.h"
 
+bool vsync = true;
+
 typedef struct RenderContext {
 
     // Цвет очистки окна
