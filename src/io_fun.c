@@ -98,7 +98,7 @@ void motion_fun(GLFWwindow* window, double xpos, double ypos) {
 
         // Сдвиг по вертикали (вверх/вниз по экрану)
         vec3 shift_up;
-        glm_vec3_scale(up, delta_y * sensitivity, shift_up);  // минус — потому что Y в окне вниз
+        glm_vec3_scale(up, delta_y * sensitivity, shift_up);
 
         // Общий сдвиг
         vec3 total_shift;

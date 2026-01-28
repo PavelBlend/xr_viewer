@@ -3,7 +3,7 @@
 
 #include "render.h"
 
-const float GRID_SIZE = 1.0f;    // Половина размера сетки
+const float GRID_SIZE = 1.0f;    // Размер сетки
 const int GRID_STEPS = 10;        // Количество линий в каждую сторону
 bool draw_edges = false;
 
