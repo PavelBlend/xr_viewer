@@ -31,6 +31,7 @@ RenderContext ctx;
 OverlayContext overlay_ctx;
 
 void maximizeWindow() {
+
     // Получаем handle окна
     HWND hwnd = FindWindow(NULL, window_title);
 
@@ -67,22 +68,29 @@ void display() {
     set_shader_matrices(window, ctx.ShaderProgram);
 
     // отрисовка треугольников
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    if (draw_faces) {
 
-    for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
+        glEnable(GL_CULL_FACE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-        if (ctx.textures[child_id]) {
-            glUniform1i(ctx.useTextureLoc, 1);  // Включаем текстуру
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);
-        } else {
-            glUniform1i(ctx.useTextureLoc, 0);
-            glUniform3f(ctx.solidColorLoc, 1.0f, 1.0f, 1.0f);
+        for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
+
+            if (ctx.textures[child_id]) {
+                glUniform1i(ctx.useTextureLoc, 1);  // Включаем текстуру
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);
+            } else {
+                glUniform1i(ctx.useTextureLoc, 0);
+                glUniform3f(ctx.solidColorLoc, 1.0f, 1.0f, 1.0f);
+            }
+
+            glBindVertexArray(ctx.vao[child_id]);
+            glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+
         }
 
-        glBindVertexArray(ctx.vao[child_id]);
-        glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
-
+    } else {
+        glDisable(GL_CULL_FACE);
     }
 
     // отрисовка рёбер

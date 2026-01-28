@@ -74,6 +74,13 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         format_uint32_with_spaces(total_indices / 3, buffer);
         igText("%s", buffer);
 
+        // Draw Faces
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Draw Faces:");
+        igTableSetColumnIndex(1);
+        igCheckbox("##draw_faces", &draw_faces);
+
         // Draw Edges
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);

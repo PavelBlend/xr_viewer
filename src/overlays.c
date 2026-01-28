@@ -5,6 +5,7 @@
 
 const float GRID_SIZE = 1.0f;    // Размер сетки
 const int GRID_STEPS = 10;        // Количество линий в каждую сторону
+bool draw_faces = true;
 bool draw_edges = false;
 bool draw_grid = true;
 
