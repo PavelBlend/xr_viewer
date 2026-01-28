@@ -109,7 +109,7 @@ void display() {
     }
 
     // отрисовка координатной сетки
-    if (1) {
+    if (draw_grid) {
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 

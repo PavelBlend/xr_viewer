@@ -6,6 +6,7 @@
 const float GRID_SIZE = 1.0f;    // Размер сетки
 const int GRID_STEPS = 10;        // Количество линий в каждую сторону
 bool draw_edges = false;
+bool draw_grid = true;
 
 // Номера буферов вершин для координатной сетки
 uint32_t BUFFER_AXIS_X = 0;

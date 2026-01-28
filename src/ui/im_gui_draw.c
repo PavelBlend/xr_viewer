@@ -29,7 +29,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     update_fps(last_time, fps);
 
     igSetNextWindowSizeConstraints(
-        (ImVec2){300, 280},          // минимальный размер окна
+        (ImVec2){300, 300},          // минимальный размер окна
         (ImVec2){FLT_MAX, FLT_MAX},   // максимальный размер окна без ограничения
         NULL,
         NULL
@@ -79,7 +79,14 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         igTableSetColumnIndex(0);
         igText("Draw Edges:");
         igTableSetColumnIndex(1);
-        igCheckbox("##1", &draw_edges);
+        igCheckbox("##draw_edges", &draw_edges);
+
+        // Draw Grid
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("Draw Grid:");
+        igTableSetColumnIndex(1);
+        igCheckbox("##draw_grid", &draw_grid);
 
         // Clear Color
         igTableNextRow(0, 0.0f);
@@ -108,28 +115,28 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         igTableSetColumnIndex(0);
         igText("FOV:");
         igTableSetColumnIndex(1);
-        igDragFloat("##2", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
+        igDragFloat("##fov", &fov, 0.5f, 10.0f, 120.0f, "%.1f", 0);
 
         // Far Plane
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);
         igText("Far Plane:");
         igTableSetColumnIndex(1);
-        igDragFloat("##3", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
+        igDragFloat("##far_plane", &far_plane, 0.5f, 1.0f, 100000.0f, "%.1f", 0);
 
         // Near Plane
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);
         igText("Near Plane:");
         igTableSetColumnIndex(1);
-        igDragFloat("##4", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
+        igDragFloat("##near_plane", &near_plane, 0.5f, 0.00001f, 1.0f, "%.4f", 0);
 
         // V-Sync
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);
         igText("V-Sync:");
         igTableSetColumnIndex(1);
-        igCheckbox("##5", &vsync);
+        igCheckbox("##vsync", &vsync);
 
         // Закончить рисовать таблицу с параметрами
         igEndTable();
