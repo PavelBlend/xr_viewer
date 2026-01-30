@@ -11,6 +11,7 @@ void cimgui_set_theme(void) {
     colors[ImGuiCol_Text]                   = (ImVec4){1.0f, 0.00f, 0.00f, 0.00f};
     colors[ImGuiCol_WindowBg]               = (ImVec4){1.0f, 0.60f, 0.60f, 0.60f};
 
+    // Заголовок окна
     colors[ImGuiCol_TitleBg]                = (ImVec4){1.0f, 0.75f, 0.75f, 0.75f};
     colors[ImGuiCol_TitleBgActive]          = (ImVec4){1.0f, 0.90f, 0.90f, 0.90f};
 
@@ -18,7 +19,11 @@ void cimgui_set_theme(void) {
     colors[ImGuiCol_FrameBgHovered]         = (ImVec4){1.0f, 0.80f, 0.80f, 0.80f};
     colors[ImGuiCol_FrameBgActive]          = (ImVec4){1.0f, 0.90f, 0.90f, 0.90f};
 
-    colors[ImGuiCol_PopupBg]                = (ImVec4){1.0f, 0.60f, 0.60f, 0.60f};
+    // Фон всплывающих окон
+    colors[ImGuiCol_PopupBg]                = (ImVec4){1.0f, 0.75f, 0.75f, 0.75f};
+
+    // Фон главного меню
+    colors[ImGuiCol_MenuBarBg]              = (ImVec4){1.0f, 0.75f, 0.75f, 0.75f};
 
 }
 

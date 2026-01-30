@@ -20,6 +20,35 @@ void update_fps(double* last_time, double* fps) {
 
 }
 
+void draw_main_menu(void) {
+
+    if (igBeginMainMenuBar()) {
+
+        // Меню File
+        if (igBeginMenu("File", true)) {
+
+            if (igMenuItemEx("Quit", "", "", false, true)) {}
+
+            igEndMenu();
+
+        }
+
+        // Меню Window
+        if (igBeginMenu("Window", true)) {
+
+            if (igMenuItemEx("Stats", "", "", false, true)) {}
+            if (igMenuItemEx("Viewport", "", "", false, true)) {}
+
+            igEndMenu();
+
+        }
+
+        igEndMainMenuBar();
+
+    }
+
+}
+
 void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
 
     ImGui_ImplGlfw_NewFrame();
@@ -27,6 +56,9 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     igNewFrame();
 
     update_fps(last_time, fps);
+
+    // Главное меню вверху
+    draw_main_menu();
 
     igSetNextWindowSizeConstraints(
         (ImVec2){300, 300},          // минимальный размер окна
