@@ -21,6 +21,7 @@ int main (int argc, char* argv[]) {
 
     OgfFile*    ogf_file    = NULL;
     FileData*   file_data   = NULL;
+    char*       file_path   = NULL;
     Chunks*     chunks      = NULL;
 
     // check cmd arguments
@@ -35,7 +36,7 @@ int main (int argc, char* argv[]) {
     } else {
 
         // get file path
-        char* file_path = argv[1];
+        file_path = argv[1];
 
         // read file
         file_data = read_file(file_path);
@@ -52,7 +53,7 @@ int main (int argc, char* argv[]) {
     }
 
     // render
-    render(ogf_file, argc, argv, exe_dir);
+    render(ogf_file, argc, argv, exe_dir, file_path);
 
     // free file memory
     free_file_data(file_data);

@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <math.h>
+#include <string.h>
 
 #include "cimgui.h"
 #include "cimgui_impl.h"
@@ -23,14 +24,14 @@
 
 #define IDI_ICON1 101
 
-char* window_title = "X-Ray Viewer";
+char* window_name = "X-Ray Viewer";
 GLFWwindow* window = NULL;
 
 // Создать контекст рендера
 RenderContext ctx;
 OverlayContext overlay_ctx;
 
-void maximizeWindow() {
+void maximizeWindow(char* window_title) {
 
     // Получаем handle окна
     HWND hwnd = FindWindow(NULL, window_title);
@@ -179,7 +180,7 @@ void reshape(GLFWwindow* window, int w, int h) {
     glViewport(0, 0, w, h);
 }
 
-void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
+void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_path) {
 
     // init FreeImage
     init_free_image();
@@ -196,6 +197,50 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
 
     // включить использование мультисемплинга через glfw
     glfwWindowHint(GLFW_SAMPLES, 8);
+
+    // Создать строку для заголовка окна
+
+    // длина имени программы
+    size_t win_name_size = strlen(window_name);
+
+    // длина пути к файлу
+    size_t file_path_size = strlen(file_path);
+
+    // разделители
+    char* separator_1 = " - [";
+    char* separator_2 = "]";
+
+    // длина разделителей
+    size_t separator_1_size = strlen(separator_1);
+    size_t separator_2_size = strlen(separator_2);
+
+    // длина имени программы + длина разделителя + длина пути к файлу + длина второго разделителя + 1 нулевой символ
+    size_t window_title_size = win_name_size + separator_1_size + file_path_size + separator_2_size + 1;
+
+    // выделить память для строки заголовка окна
+    char* window_title = malloc(window_title_size);
+
+    // текущая позиция записи для строки заголовка
+    char* pos = window_title;
+
+    // скопировать имя программы в итоговую строку
+    memcpy(pos, window_name, win_name_size);
+    pos += win_name_size;
+
+    // скопировать разделитель в итоговую строку
+    memcpy(pos, separator_1, separator_1_size);
+    pos += separator_1_size;
+
+    // скопировать путь к файлу в итоговую строку
+    memcpy(pos, file_path, file_path_size);
+    pos += file_path_size;
+
+    // скопировать второй разделитель в итоговую строку
+    memcpy(pos, separator_2, separator_2_size);
+    pos += separator_2_size;
+
+    // добавить нулевой символ
+    *pos = 0;
 
     // создание окна
     window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
@@ -227,7 +272,7 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
 
     if (maximize_window) {
         // открыть окно на весь экран
-        maximizeWindow();
+        maximizeWindow(window_title);
 
     } else {
 
