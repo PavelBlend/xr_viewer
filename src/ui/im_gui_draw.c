@@ -86,7 +86,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     // Рисовать таблицу с параметрами
     if (show_stats_window) {
 
-        igBegin("Stats", NULL, 0);    // начать рисовать окно со статистикой
+        igBegin("Stats", &show_stats_window, 0);    // начать рисовать окно со статистикой
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
@@ -135,7 +135,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     // Рисовать окно с параметрами вьюпорта
     if (show_viewport_window) {
 
-        igBegin("Viewport", NULL, 0);
+        igBegin("Viewport", &show_viewport_window, 0);
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
@@ -182,7 +182,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     // Рисовать окно с настройками наложений
     if (show_overlays_window) {
 
-        igBegin("Overlays", NULL, 0);
+        igBegin("Overlays", &show_overlays_window, 0);
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
