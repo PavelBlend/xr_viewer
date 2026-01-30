@@ -13,6 +13,9 @@ typedef struct RenderContext {
     // Цвет рёбер меша
     float edges_color[3];
 
+    // Цвет координатной сетки
+    float grid_color[3];
+
     GLuint*     vao;
     GLuint*     vertex_buffers;
     GLuint*     index_buffers;

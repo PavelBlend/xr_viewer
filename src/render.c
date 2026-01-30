@@ -137,7 +137,7 @@ void display() {
                 glUniform3f(ctx.solidColorLoc, 0.0f, 0.0f, 0.5f);
             } else  if (i==3) {
                 glLineWidth(1.0f);
-                glUniform3f(ctx.solidColorLoc, 0.25f, 0.25f, 0.25f);
+                glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
             }
 
             glBindVertexArray(overlay_ctx.vao[i]);
@@ -272,6 +272,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     ctx.edges_color[0] = 1.0f;
     ctx.edges_color[1] = 1.0f;
     ctx.edges_color[2] = 1.0f;
+
+    // Установить цвет координатной сетки
+    ctx.grid_color[0] = 0.25f;
+    ctx.grid_color[1] = 0.25f;
+    ctx.grid_color[2] = 0.25f;
 
     // загрузить шейдеры
     ctx.ShaderProgram = compile_shaders(exe_dir);
