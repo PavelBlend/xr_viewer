@@ -4,6 +4,7 @@
 #include "GL\glew.h"
 
 bool vsync = true;
+bool running = true;
 
 typedef struct RenderContext {
 

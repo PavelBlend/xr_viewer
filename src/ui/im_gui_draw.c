@@ -27,7 +27,9 @@ void draw_main_menu(void) {
         // Меню File
         if (igBeginMenu("File", true)) {
 
-            if (igMenuItemEx("Quit", "", "", false, true)) {}
+            if (igMenuItemEx("Quit", "", "", false, true)) {
+                running = false;
+            }
 
             igEndMenu();
 

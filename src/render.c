@@ -397,17 +397,23 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir) {
     // Главный цикл
     while (!glfwWindowShouldClose(window)) {
 
-        // Обработка событий
-        glfwPollEvents();
+        if (running) {
 
-        // рендер сцены
-        display();
+            // Обработка событий
+            glfwPollEvents();
 
-        // рендер интерфейса
-        draw_ui(&ctx, buffer, &fps, &last_time, total_vertices, total_indices);
+            // рендер сцены
+            display();
 
-        // Меняем буферы
-        glfwSwapBuffers(window);
+            // рендер интерфейса
+            draw_ui(&ctx, buffer, &fps, &last_time, total_vertices, total_indices);
+
+            // Меняем буферы
+            glfwSwapBuffers(window);
+
+        } else {
+            break;
+        }
 
     }
 
