@@ -74,6 +74,10 @@ void display() {
         glEnable(GL_CULL_FACE);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+        // сместить полигоны в буфере глубины, чтобы не было артефактов на wireframe
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(1.0f, 1.0f);
+
         for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
             if (ctx.textures[child_id]) {
@@ -90,6 +94,9 @@ void display() {
 
         }
 
+        // выключить смещение полигонов в Z буфере
+        glDisable(GL_POLYGON_OFFSET_FILL);
+
     } else {
         glDisable(GL_CULL_FACE);
     }
@@ -98,8 +105,6 @@ void display() {
     if (draw_edges) {
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glEnable(GL_POLYGON_OFFSET_LINE);
-        glPolygonOffset(-1.0f, -1.0f);
         glLineWidth(1.0f);
 
         for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
@@ -113,7 +118,6 @@ void display() {
         }
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        glDisable(GL_POLYGON_OFFSET_LINE);
 
     }
 
