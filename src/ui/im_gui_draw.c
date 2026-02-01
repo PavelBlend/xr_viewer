@@ -83,7 +83,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         NULL
     );*/
 
-    // Рисовать таблицу с параметрами
+    // Рисовать окно со статистикой
     if (show_stats_window) {
 
         igBegin("Stats", &show_stats_window, 0);    // начать рисовать окно со статистикой
@@ -189,6 +189,12 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
             igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
 
+            // Options
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Options:");
+            igDummy((ImVec2){0, 10});
+
             // Draw Faces
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
@@ -209,6 +215,15 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igText("Draw Grid:");
             igTableSetColumnIndex(1);
             igCheckbox("##draw_grid", &draw_grid);
+
+            // Разделитель
+            igDummy((ImVec2){0, 30});
+
+            // Colors
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Colors:");
+            igDummy((ImVec2){0, 10});
 
             // Clear Color
             igTableNextRow(0, 0.0f);
