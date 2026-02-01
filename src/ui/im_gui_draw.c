@@ -8,10 +8,10 @@
 #include "..\globals.c"
 #include "..\render.h"
 
-bool show_stats_window = false;
-bool show_viewport_window = false;
-bool show_overlays_window = false;
-bool show_navigation_window = false;
+bool show_stats_window = true;
+bool show_viewport_window = true;
+bool show_overlays_window = true;
+bool show_navigation_window = true;
 
 void update_fps(double* last_time, double* fps) {
 
