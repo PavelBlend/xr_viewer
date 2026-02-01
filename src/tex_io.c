@@ -32,11 +32,14 @@ GLuint load_dds_texture(char* filename) {
     BYTE* data = FreeImage_GetBits(bitmap);
 
     // Проверка формата
-    GLenum format;
+    GLenum internal_fmt;
+    GLenum external_fmt;
     if (bpp == 24) {
-        format = GL_BGR;
+        internal_fmt = GL_RGB8;
+        external_fmt = GL_BGR;
     } else if (bpp == 32) {
-        format = GL_BGRA;
+        internal_fmt = GL_RGBA8;
+        external_fmt = GL_BGRA;
     } else {
         printf("Unsupported image format\n");
         FreeImage_Unload(bitmap);
@@ -49,7 +52,7 @@ GLuint load_dds_texture(char* filename) {
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, internal_fmt, width, height, 0, external_fmt, GL_UNSIGNED_BYTE, data);
 
     // Генерация MipMaps
     glGenerateMipmap(GL_TEXTURE_2D);
