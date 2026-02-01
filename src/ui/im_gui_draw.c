@@ -1,6 +1,8 @@
 #ifndef IM_GUI_DRAW_C
 #define IM_GUI_DRAW_C
 
+#include <float.h>
+
 #include "cimgui.h"
 #include "..\overlays.c"
 #include "..\globals.c"
@@ -277,42 +279,42 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetColumnIndex(0);
             igText("Pan X:");
             igTableSetColumnIndex(1);
-            igText("%.4f", pan_x);
+            igDragFloat("##pan_x", &pan_x, 0.01f, -FLT_MAX, FLT_MAX, "%.4f", 0);
 
             // Pan Y
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Pan Y:");
             igTableSetColumnIndex(1);
-            igText("%.4f", pan_y);
+            igDragFloat("##pan_y", &pan_y, 0.01f, -FLT_MAX, FLT_MAX, "%.4f", 0);
 
             // Pan Z
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Pan Z:");
             igTableSetColumnIndex(1);
-            igText("%.4f", pan_z);
+            igDragFloat("##pan_z", &pan_z, 0.01f, -FLT_MAX, FLT_MAX, "%.4f", 0);
 
             // Angle X
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Angle X:");
             igTableSetColumnIndex(1);
-            igText("%.4f", camera_angle_x);
+            igDragFloat("##camera_angle_x", &camera_angle_x, 0.01f, -FLT_MAX, FLT_MAX, "%.4f", 0);
 
             // Angle Y
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Angle Y:");
             igTableSetColumnIndex(1);
-            igText("%.4f", camera_angle_y);
+            igDragFloat("##camera_angle_y", &camera_angle_y, 0.01f, -FLT_MAX, FLT_MAX, "%.4f", 0);
 
             // Zoom
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Zoom:");
             igTableSetColumnIndex(1);
-            igText("%.4f", zoom);
+            igDragFloat("##zoom", &zoom, 0.01f, -FLT_MAX, FLT_MAX, "%.4f", 0);
 
             // Закончить рисовать таблицу с параметрами
             igEndTable();
