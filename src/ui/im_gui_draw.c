@@ -3,11 +3,13 @@
 
 #include "cimgui.h"
 #include "..\overlays.c"
+#include "..\globals.c"
 #include "..\render.h"
 
 bool show_stats_window = false;
 bool show_viewport_window = false;
 bool show_overlays_window = false;
+bool show_navigation_window = false;
 
 void update_fps(double* last_time, double* fps) {
 
@@ -53,6 +55,10 @@ void draw_main_menu(void) {
 
             if (igMenuItem_Bool("Overlays", "", show_overlays_window, true)) {
                 show_overlays_window = !show_overlays_window;
+            }
+
+            if (igMenuItem_Bool("Navigation", "", show_navigation_window, true)) {
+                show_navigation_window = !show_navigation_window;
             }
 
             igEndMenu();
@@ -247,16 +253,66 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
-            // Grid Color
+            // Закончить рисовать таблицу с параметрами
+            igEndTable();
+
+        }
+
+        igEnd();
+
+    }
+
+    // Рисовать окно навигации
+    if (show_navigation_window) {
+
+        igBegin("Navigation", &show_navigation_window, 0);
+
+        if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
+
+            igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+            igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+
+            // Pan X
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
-            igText("Grid Color:");
+            igText("Pan X:");
             igTableSetColumnIndex(1);
-            igColorEdit3(
-                "Grid Color",
-                ctx->grid_color,
-                ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
-            );
+            igText("%.4f", pan_x);
+
+            // Pan Y
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Pan Y:");
+            igTableSetColumnIndex(1);
+            igText("%.4f", pan_y);
+
+            // Pan Z
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Pan Z:");
+            igTableSetColumnIndex(1);
+            igText("%.4f", pan_z);
+
+            // Angle X
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Angle X:");
+            igTableSetColumnIndex(1);
+            igText("%.4f", camera_angle_x);
+
+            // Angle Y
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Angle Y:");
+            igTableSetColumnIndex(1);
+            igText("%.4f", camera_angle_y);
+
+            // Zoom
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Zoom:");
+            igTableSetColumnIndex(1);
+            igText("%.4f", zoom);
 
             // Закончить рисовать таблицу с параметрами
             igEndTable();
