@@ -12,6 +12,7 @@ bool show_stats_window = true;
 bool show_viewport_window = true;
 bool show_overlays_window = true;
 bool show_navigation_window = true;
+bool show_theme_window = true;
 
 void update_fps(double* last_time, double* fps) {
 
@@ -57,6 +58,10 @@ void draw_main_menu(void) {
 
             if (igMenuItem_Bool("Overlays", "", show_overlays_window, true)) {
                 show_overlays_window = !show_overlays_window;
+            }
+
+            if (igMenuItem_Bool("Theme", "", show_theme_window, true)) {
+                show_theme_window = !show_theme_window;
             }
 
             if (igMenuItem_Bool("Navigation", "", show_navigation_window, true)) {
@@ -197,12 +202,6 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
             igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
 
-            // Options
-            igTableNextRow(0, 0.0f);
-            igTableSetColumnIndex(0);
-            igText("Options:");
-            igDummy((ImVec2){0, 10});
-
             // Draw Faces
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
@@ -224,14 +223,24 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetColumnIndex(1);
             igCheckbox("##draw_grid", &draw_grid);
 
-            // Разделитель
-            igDummy((ImVec2){0, 30});
+            // Закончить рисовать таблицу с параметрами
+            igEndTable();
 
-            // Colors
-            igTableNextRow(0, 0.0f);
-            igTableSetColumnIndex(0);
-            igText("Colors:");
-            igDummy((ImVec2){0, 10});
+        }
+
+        igEnd();
+
+    }
+
+    // Рисовать окно с цветами темы
+    if (show_theme_window) {
+
+        igBegin("Theme", &show_theme_window, 0);
+
+        if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
+
+            igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+            igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
 
             // Clear Color
             igTableNextRow(0, 0.0f);
