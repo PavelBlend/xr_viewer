@@ -8,6 +8,7 @@
 #include "..\globals.c"
 #include "..\render.h"
 
+bool show_main_window = true;
 bool show_stats_window = true;
 bool show_viewport_window = true;
 bool show_overlays_window = true;
@@ -96,10 +97,10 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         NULL
     );*/
 
-    // Рисовать окно со статистикой
-    if (show_stats_window) {
+    igBegin("Main", &show_main_window, 0);
 
-        igBegin("Stats", &show_stats_window, 0);    // начать рисовать окно со статистикой
+    // Рисовать окно со статистикой
+    if (igCollapsingHeader_BoolPtr("Stats", &show_stats_window, ImGuiTreeNodeFlags_DefaultOpen)) {
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
@@ -142,13 +143,10 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
 
         }
 
-        igEnd();    // закончить рисовать окно со статистикой
     }
 
     // Рисовать окно с параметрами вьюпорта
-    if (show_viewport_window) {
-
-        igBegin("Viewport", &show_viewport_window, 0);
+    if (igCollapsingHeader_BoolPtr("Viewport", &show_viewport_window, ImGuiTreeNodeFlags_DefaultOpen)) {
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
@@ -187,15 +185,10 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igEndTable();
 
         }
-
-        igEnd();
-
     }
 
     // Рисовать окно с настройками наложений
-    if (show_overlays_window) {
-
-        igBegin("Overlays", &show_overlays_window, 0);
+    if (igCollapsingHeader_BoolPtr("Overlays", &show_overlays_window, ImGuiTreeNodeFlags_DefaultOpen)) {
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
@@ -227,15 +220,10 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igEndTable();
 
         }
-
-        igEnd();
-
     }
 
     // Рисовать окно с цветами темы
-    if (show_theme_window) {
-
-        igBegin("Theme", &show_theme_window, 0);
+    if (igCollapsingHeader_BoolPtr("Theme", &show_theme_window, ImGuiTreeNodeFlags_DefaultOpen)) {
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
@@ -268,15 +256,10 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igEndTable();
 
         }
-
-        igEnd();
-
     }
 
     // Рисовать окно навигации
-    if (show_navigation_window) {
-
-        igBegin("Navigation", &show_navigation_window, 0);
+    if (igCollapsingHeader_BoolPtr("Navigation", &show_navigation_window, ImGuiTreeNodeFlags_DefaultOpen)) {
 
         if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
@@ -329,10 +312,9 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igEndTable();
 
         }
-
-        igEnd();
-
     }
+
+    igEnd();
 
     igRender();
     ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());
