@@ -97,7 +97,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         NULL
     );*/
 
-    igBegin("Main", &show_main_window, 0);
+    igBegin("Side Bar", &show_main_window, 0);
 
     // Рисовать окно со статистикой
     if (igCollapsingHeader_BoolPtr("Stats", &show_stats_window, ImGuiTreeNodeFlags_DefaultOpen)) {
