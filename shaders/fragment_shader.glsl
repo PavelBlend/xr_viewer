@@ -14,7 +14,7 @@ void main() {
     vec3 n = normalize(Normal0);
     float ndotl = max(dot(n, lightDir), 0.0);
 
-    float ambient = 0.05;
+    float ambient = 0.2;
     float brightness = ambient + (1.0 - ambient) * ndotl;
 
     /* use texture */
