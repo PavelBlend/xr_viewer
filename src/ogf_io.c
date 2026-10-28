@@ -58,6 +58,25 @@ void read_ogf_children(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, i
 
 }
 
+void read_ogf_header(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, int chunk_index) {
+    uint32_t offset = chunks->chunks[chunk_index].offset;
+
+    memcpy(&ogf_file->format_version, file_data->bytes + offset, sizeof(uint8_t));
+    offset += sizeof(uint8_t);
+
+    offset += sizeof(uint8_t);   // model_type
+    offset += sizeof(uint16_t);  // shader_id
+
+    memcpy(&ogf_file->bbox_min[0], file_data->bytes + offset, sizeof(float)); offset += sizeof(float);
+    memcpy(&ogf_file->bbox_min[1], file_data->bytes + offset, sizeof(float)); offset += sizeof(float);
+    memcpy(&ogf_file->bbox_min[2], file_data->bytes + offset, sizeof(float)); offset += sizeof(float);
+
+    memcpy(&ogf_file->bbox_max[0], file_data->bytes + offset, sizeof(float)); offset += sizeof(float);
+    memcpy(&ogf_file->bbox_max[1], file_data->bytes + offset, sizeof(float)); offset += sizeof(float);
+    memcpy(&ogf_file->bbox_max[2], file_data->bytes + offset, sizeof(float)); offset += sizeof(float);
+
+}
+
 void free_ogf_file(OgfFile* ogf_file) {
     if (ogf_file != NULL) {
         free(ogf_file->children);
@@ -70,9 +89,14 @@ OgfFile* read_ogf(FileData* file_data, Chunks* chunks) {
 
     for (int i=0; i<chunks->count; i++) {
         // printf("id=%d size=%d\n", *chunks->chunks[i].id, *chunks->chunks[i].size);
-        if (*chunks->chunks[i].id == (uint32_t)CHILDREN) {
+
+        if (*chunks->chunks[i].id == (uint32_t)HEADER) {
+            read_ogf_header(ogf_file, file_data, chunks, i);
+
+        } else if (*chunks->chunks[i].id == (uint32_t)CHILDREN) {
             read_ogf_children(ogf_file, file_data, chunks, i);
         }
+
     }
 
     return ogf_file;

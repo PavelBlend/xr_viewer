@@ -163,6 +163,9 @@ typedef struct OgfChild {
 } OgfChild;
 
 typedef struct OgfFile {
+    uint8_t format_version;
+    float bbox_min[3];
+    float bbox_max[3];
     uint32_t children_count;
     OgfChild* children;
 } OgfFile;

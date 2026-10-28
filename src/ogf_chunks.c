@@ -2,6 +2,7 @@
 #define OGF_CHUNKS_C
 
 enum OGF_Chunks {
+    HEADER              =  1,
     TEXTURE             =  2,
     VERTICES            =  3,
     INDICES             =  4,
