@@ -3,8 +3,8 @@
 
 #include "render.h"
 
-const float GRID_SIZE   = 1.0f;     // Размер сетки
-int         grid_steps  = 10;       // Количество линий в каждую сторону
+float   grid_size   = 1.0f;     // Размер сетки
+int     grid_steps  = 10;       // Количество линий в каждую сторону
 
 bool draw_faces = true;
 bool draw_edges = false;
@@ -190,7 +190,7 @@ void generate_grid(OverlayContext* overlay_ctx) {
     overlay_ctx->indices_count = malloc(sizeof(uint32_t) * BUFFER_COUNT);
 
     overlay_ctx->grid_steps     = grid_steps;
-    overlay_ctx->grid_size      = GRID_SIZE;
+    overlay_ctx->grid_size      = grid_size;
 
     // Сгенерировать геометрию координатной сетки
     generate_coord_lines(overlay_ctx);

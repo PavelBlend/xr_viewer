@@ -268,6 +268,15 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
                 generate_grid(&overlay_ctx);
             }
 
+            // Grid Size
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Grid Size:");
+            igTableSetColumnIndex(1);
+            if (igDragFloat("##grid_size", &grid_size, 1.0f, 0.1f, 100.0f, "%.2f", 0)) {
+                generate_grid(&overlay_ctx);
+            }
+
             // Закончить рисовать таблицу с параметрами
             igEndTable();
 
