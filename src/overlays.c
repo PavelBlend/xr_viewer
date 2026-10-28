@@ -6,9 +6,12 @@
 float   grid_size   = 1.0f;     // Размер сетки
 int     grid_steps  = 10;       // Количество линий в каждую сторону
 
-bool draw_faces = true;
-bool draw_edges = false;
-bool draw_grid  = true;
+bool draw_faces     = true;
+bool draw_edges     = false;
+bool draw_grid      = true;
+bool draw_axis_x    = true;
+bool draw_axis_y    = true;
+bool draw_axis_z    = true;
 
 // Номера буферов вершин для координатной сетки
 uint32_t BUFFER_AXIS_X      = 0;

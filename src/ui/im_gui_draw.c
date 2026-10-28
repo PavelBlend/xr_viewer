@@ -252,6 +252,27 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetColumnIndex(1);
             igCheckbox("##draw_edges", &draw_edges);
 
+            // Draw X-Axis
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Draw X-Axis:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##draw_x_axis", &draw_axis_x);
+
+            // Draw Y-Axis
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Draw Y-Axis:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##draw_y_axis", &draw_axis_y);
+
+            // Draw Z-Axis
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Draw Z-Axis:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##draw_z_axis", &draw_axis_z);
+
             // Draw Grid
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
