@@ -212,11 +212,26 @@ void clear_gl_data(void) {
     }
 
     // Освобождение выделенной памяти
-    free(ctx.vao);
-    free(ctx.vertex_buffers);
-    free(ctx.index_buffers);
-    free(ctx.indices_count);
-    free(ctx.textures);
+
+    if (ctx.vao != NULL) {
+        free(ctx.vao);
+    }
+
+    if (ctx.vertex_buffers != NULL) {
+        free(ctx.vertex_buffers);
+    }
+
+    if (ctx.index_buffers != NULL) {
+        free(ctx.index_buffers);
+    }
+
+    if (ctx.indices_count != NULL) {
+        free(ctx.indices_count);
+    }
+
+    if (ctx.textures != NULL) {
+        free(ctx.textures);
+    }
 
     // Удаление шейдерной программы
     glDeleteProgram(ctx.ShaderProgram);
@@ -468,6 +483,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
         }
 
     } else {
+        ctx.vao             = NULL;
+        ctx.vertex_buffers  = NULL;
+        ctx.index_buffers   = NULL;
+        ctx.indices_count   = NULL;
+        ctx.textures        = NULL;
         ctx.children_count = 0;
     }
 
