@@ -53,6 +53,11 @@ void maximizeWindow(char* window_title) {
     }
 }
 
+// направление источника света
+float lx = 0.5f;
+float ly = 0.5f;
+float lz = 0.0f;
+
 // seed для генератора цвета
 static uint32_t g_color_seed = 0;
 
@@ -92,6 +97,7 @@ void display() {
     glUseProgram(ctx.ShaderProgram);
 
     set_shader_matrices(window, ctx.ShaderProgram);
+    glUniform3f(ctx.lightDirLoc, lx, ly, lz);
 
     float r, g, b;
 
@@ -104,6 +110,8 @@ void display() {
         // сместить полигоны в буфере глубины, чтобы не было артефактов на wireframe
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(1.0f, 1.0f);
+
+        glUniform1i(ctx.useShadelessLoc, 0);
 
         for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
@@ -138,6 +146,7 @@ void display() {
         for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
             glUniform1i(ctx.useTextureLoc, 0);
+            glUniform1i(ctx.useShadelessLoc, 1);
             glUniform3f(ctx.solidColorLoc, ctx.edges_color[0], ctx.edges_color[1], ctx.edges_color[2]);
 
             glBindVertexArray(ctx.vao[child_id]);
@@ -157,6 +166,7 @@ void display() {
         for (uint32_t i=0; i<4; i++) {
 
             glUniform1i(ctx.useTextureLoc, 0);
+            glUniform1i(ctx.useShadelessLoc, 1);
 
             // Установить цвет и толщину для линий координатной сетки
             if (i==0) {
@@ -361,8 +371,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
     // загрузить шейдеры
     ctx.ShaderProgram = compile_shaders(exe_dir);
 
-    ctx.useTextureLoc = glGetUniformLocation(ctx.ShaderProgram, "useTexture");
-    ctx.solidColorLoc = glGetUniformLocation(ctx.ShaderProgram, "solidColor");
+    ctx.useShadelessLoc = glGetUniformLocation(ctx.ShaderProgram, "useShadeless");
+    ctx.useTextureLoc   = glGetUniformLocation(ctx.ShaderProgram, "useTexture");
+    ctx.solidColorLoc   = glGetUniformLocation(ctx.ShaderProgram, "solidColor");
+    ctx.lightDirLoc     = glGetUniformLocation(ctx.ShaderProgram, "lightDir");
 
     // статистика
     uint32_t total_vertices = 0;
@@ -396,41 +408,46 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
             if (ogf_child->verts->format == FVF_1L_SOC || ogf_child->verts->format == FVF_1L_CSCOP) {
                 verts_size = ogf_child->verts->count * 60;
                 glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_1_link, GL_STATIC_DRAW);
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);
-                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 60, (void*) 48);    // uv attribute
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);     // position
+                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 60, (void*) 12);    // normal
+                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 60, (void*) 48);    // uv attribute
 
             } else if (ogf_child->verts->format == FVF_2L_SOC || ogf_child->verts->format == FVF_2L_CSCOP) {
                 verts_size = ogf_child->verts->count * 64;
                 glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_2_link, GL_STATIC_DRAW);
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 64, (void*) 4);
-                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 64, (void*) 56);    // uv attribute
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 64, (void*) 4);     // position
+                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 64, (void*) 16);    // normal
+                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 64, (void*) 56);    // uv attribute
 
             } else if (ogf_child->verts->format == FVF_3L_CSCOP) {
                 verts_size = ogf_child->verts->count * 70;
                 glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_3_link, GL_STATIC_DRAW);
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 70, (void*) 6);
-                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 70, (void*) 62);    // uv attribute
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 70, (void*) 6);     // position
+                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 70, (void*) 18);    // normal
+                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 70, (void*) 62);    // uv attribute
 
             } else if (ogf_child->verts->format == FVF_4L_CSCOP) {
                 verts_size = ogf_child->verts->count * 76;
                 glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_4_link, GL_STATIC_DRAW);
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 76, (void*) 8);
-                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 76, (void*) 68);    // uv attribute
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 76, (void*) 8);     // position
+                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 76, (void*) 20);    // normal
+                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 76, (void*) 68);    // uv attribute
 
             } else if (ogf_child->verts->format == FVF_OGF) {
                 verts_size = ogf_child->verts->count * 32;
                 glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_static, GL_STATIC_DRAW);
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, (void*) 0);
-                glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 32, (void*) 24);    // uv attribute
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, (void*) 0);     // position
+                glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, (void*) 12);    // normal
+                glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, (void*) 24);    // uv attribute
 
             } else {
                 printf("unsupported rendering for vertex format: 0x%x\n", ogf_child->verts->format);
                 exit(EXIT_FAILURE);
             }
 
-            // Настройка атрибута позиции
             glEnableVertexAttribArray(0);
             glEnableVertexAttribArray(1);
+            glEnableVertexAttribArray(2);
 
             // Создать буфер индексов
             glGenBuffers(1, &ctx.index_buffers[child_id]);
