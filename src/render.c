@@ -262,47 +262,55 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
 
     // Создать строку для заголовка окна
 
-    // длина имени программы
-    size_t win_name_size = strlen(window_name);
+    char* window_title = NULL;
 
-    // длина пути к файлу
-    size_t file_path_size = strlen(file_path);
+    if (file_path != NULL) {
 
-    // разделители
-    char* separator_1 = " - [";
-    char* separator_2 = "]";
+        // длина имени программы
+        size_t win_name_size = strlen(window_name);
 
-    // длина разделителей
-    size_t separator_1_size = strlen(separator_1);
-    size_t separator_2_size = strlen(separator_2);
+        // длина пути к файлу
+        size_t file_path_size = strlen(file_path);
 
-    // длина имени программы + длина разделителя + длина пути к файлу + длина второго разделителя + 1 нулевой символ
-    size_t window_title_size = win_name_size + separator_1_size + file_path_size + separator_2_size + 1;
+        // разделители
+        char* separator_1 = " - [";
+        char* separator_2 = "]";
 
-    // выделить память для строки заголовка окна
-    char* window_title = malloc(window_title_size);
+        // длина разделителей
+        size_t separator_1_size = strlen(separator_1);
+        size_t separator_2_size = strlen(separator_2);
 
-    // текущая позиция записи для строки заголовка
-    char* pos = window_title;
+        // длина имени программы + длина разделителя + длина пути к файлу + длина второго разделителя + 1 нулевой символ
+        size_t window_title_size = win_name_size + separator_1_size + file_path_size + separator_2_size + 1;
 
-    // скопировать имя программы в итоговую строку
-    memcpy(pos, window_name, win_name_size);
-    pos += win_name_size;
+        // выделить память для строки заголовка окна
+        window_title = malloc(window_title_size);
 
-    // скопировать разделитель в итоговую строку
-    memcpy(pos, separator_1, separator_1_size);
-    pos += separator_1_size;
+        // текущая позиция записи для строки заголовка
+        char* pos = window_title;
 
-    // скопировать путь к файлу в итоговую строку
-    memcpy(pos, file_path, file_path_size);
-    pos += file_path_size;
+        // скопировать имя программы в итоговую строку
+        memcpy(pos, window_name, win_name_size);
+        pos += win_name_size;
 
-    // скопировать второй разделитель в итоговую строку
-    memcpy(pos, separator_2, separator_2_size);
-    pos += separator_2_size;
+        // скопировать разделитель в итоговую строку
+        memcpy(pos, separator_1, separator_1_size);
+        pos += separator_1_size;
 
-    // добавить нулевой символ
-    *pos = 0;
+        // скопировать путь к файлу в итоговую строку
+        memcpy(pos, file_path, file_path_size);
+        pos += file_path_size;
+
+        // скопировать второй разделитель в итоговую строку
+        memcpy(pos, separator_2, separator_2_size);
+        pos += separator_2_size;
+
+        // добавить нулевой символ
+        *pos = 0;
+
+    } else {
+        window_title = window_name;
+    }
 
     // сгенерировать seed для генератора цвета
     init_color_seed();
