@@ -97,6 +97,8 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         NULL
     );*/
 
+    igSetNextWindowSize((ImVec2){350.0f, 600.0f}, ImGuiCond_FirstUseEver);
+
     igBegin("Side Bar", &show_main_window, 0);
 
     // Рисовать окно со статистикой
