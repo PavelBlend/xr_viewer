@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <math.h>
 #include <string.h>
+#include <inttypes.h>
+#include <time.h>
 
 #include "cimgui.h"
 #include "cimgui_impl.h"
@@ -51,6 +53,29 @@ void maximizeWindow(char* window_title) {
     }
 }
 
+// seed для генератора цвета
+static uint32_t g_color_seed = 0;
+
+void init_color_seed(void) {
+    g_color_seed = (uint32_t)time(NULL);
+}
+
+// хеш-функция для генерации псевдослучайного цвета по id
+static void random_color_from_id(uint32_t id, float* r, float* g, float* b) {
+    // Перемешиваем биты, чтобы соседние id давали разные цвета
+    uint32_t h = (id + 1) * 2654435761u + g_color_seed; // множитель Кнута
+    h ^= h >> 16;
+    h *= 0x85ebca6bu;
+    h ^= h >> 13;
+    h *= 0xc2b2ae35u;
+    h ^= h >> 16;
+
+    // Извлекаем три байта и нормируем в [0, 1]
+    *r = ((h >>  0) & 0xFF) / 255.0f;
+    *g = ((h >>  8) & 0xFF) / 255.0f;
+    *b = ((h >> 16) & 0xFF) / 255.0f;
+}
+
 void display() {
 
     // включаем vsync
@@ -67,6 +92,8 @@ void display() {
     glUseProgram(ctx.ShaderProgram);
 
     set_shader_matrices(window, ctx.ShaderProgram);
+
+    float r, g, b;
 
     // отрисовка треугольников
     if (draw_faces) {
@@ -86,7 +113,8 @@ void display() {
                 glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);
             } else {
                 glUniform1i(ctx.useTextureLoc, 0);
-                glUniform3f(ctx.solidColorLoc, 1.0f, 1.0f, 1.0f);
+                random_color_from_id(child_id, &r, &g, &b);
+                glUniform3f(ctx.solidColorLoc, r, g, b);
             }
 
             glBindVertexArray(ctx.vao[child_id]);
@@ -245,6 +273,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
 
     // добавить нулевой символ
     *pos = 0;
+
+    // сгенерировать seed для генератора цвета
+    init_color_seed();
 
     // создание окна
     window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
