@@ -15,6 +15,8 @@ bool show_overlays_window = true;
 bool show_navigation_window = true;
 bool show_theme_window = true;
 
+float menu_bar_height = 0.0f;
+
 void update_fps(double* last_time, double* fps) {
 
     // Получаем текущее время
@@ -34,6 +36,9 @@ void update_fps(double* last_time, double* fps) {
 void draw_main_menu(void) {
 
     if (igBeginMainMenuBar()) {
+
+        ImVec2 menu_size = igGetWindowSize();
+        menu_bar_height = menu_size.y;
 
         // Меню File
         if (igBeginMenu("File", true)) {
@@ -97,6 +102,8 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         NULL
     );*/
 
+    ImVec2 pivot = {0.0f, 0.0f};
+    igSetNextWindowPos((ImVec2){0.0f, menu_bar_height}, ImGuiCond_Always, pivot);
     igSetNextWindowSize((ImVec2){350.0f, 600.0f}, ImGuiCond_FirstUseEver);
 
     igBegin("Side Bar", &show_main_window, 0);
