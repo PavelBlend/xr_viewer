@@ -411,6 +411,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
     uint32_t total_vertices = 0;
     uint32_t total_indices = 0;
 
+    // центр модели
+    ctx.model_center[0] = 0.0f;
+    ctx.model_center[1] = 0.0f;
+    ctx.model_center[2] = 0.0f;
+
     if (ogf_file != NULL) {
         ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
@@ -418,6 +423,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
         ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
         ctx.textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.children_count  = ogf_file->children_count;
+
+        // Вычислить центр модели
+        ctx.model_center[0] = ogf_file->bbox_min[0] + (ogf_file->bbox_max[0] - ogf_file->bbox_min[0]) / 2;
+        ctx.model_center[1] = ogf_file->bbox_min[1] + (ogf_file->bbox_max[1] - ogf_file->bbox_min[1]) / 2;
+        ctx.model_center[2] = ogf_file->bbox_min[2] + (ogf_file->bbox_max[2] - ogf_file->bbox_min[2]) / 2;
 
         for (uint32_t child_id=0; child_id<ogf_file->children_count; child_id++) {
 
@@ -526,6 +536,11 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
 
     // общая строка символов для меток в интерфейсе
     char buffer[15];
+
+    // установить начальную позицию камеры
+    pan_x = ctx.model_center[0];
+    pan_y = ctx.model_center[1];
+    pan_z = -ctx.model_center[2];
 
     // Главный цикл
     while (!glfwWindowShouldClose(window)) {

@@ -1,8 +1,8 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-float camera_angle_x = 0.0f;
-float camera_angle_y = 0.0f;
+float camera_angle_x = 45.0f;
+float camera_angle_y = -45.0f;
 
 int is_rotating = 0;
 int is_panning = 0;

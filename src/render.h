@@ -17,6 +17,9 @@ typedef struct RenderContext {
     // Цвет координатной сетки
     float grid_color[3];
 
+    // Центр модели
+    float model_center[3];
+
     GLuint*     vao;
     GLuint*     vertex_buffers;
     GLuint*     index_buffers;
