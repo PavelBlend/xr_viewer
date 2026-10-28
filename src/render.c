@@ -14,6 +14,7 @@
 #include "FreeImage.h"
 
 #include "render.h"
+#include "shading.h"
 #include "io_fun.c"
 #include "globals.c"
 #include "tex_io.c"
@@ -111,7 +112,11 @@ void display() {
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(1.0f, 1.0f);
 
-        glUniform1i(ctx.useShadelessLoc, 0);
+        if (shadeless) {
+            glUniform1i(ctx.useShadelessLoc, 1);
+        } else {
+            glUniform1i(ctx.useShadelessLoc, 0);
+        }
 
         for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 

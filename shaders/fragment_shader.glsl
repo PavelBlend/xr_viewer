@@ -17,11 +17,21 @@ void main() {
     float ambient = 0.05;
     float brightness = ambient + (1.0 - ambient) * ndotl;
 
-    if (useShadeless) {
-        FragColor = vec4(solidColor, 1.0);
-    } else if (useTexture) {
-        FragColor = vec4(texture(gSampler, TexCoord0).rgb * brightness, 1.0);
+    /* use texture */
+    if (useTexture) {
+        if (useShadeless) {
+            FragColor = texture(gSampler, TexCoord0);
+        } else {
+            FragColor = vec4(texture(gSampler, TexCoord0).rgb * brightness, 1.0);
+        }
+
+    /* use solid color */
     } else {
-        FragColor = vec4(solidColor * brightness, 1.0);
+        if (useShadeless) {
+            FragColor = vec4(solidColor, 1.0);
+        } else {
+            FragColor = vec4(solidColor * brightness, 1.0);
+        }
     }
+
 }

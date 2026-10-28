@@ -2,18 +2,22 @@
 #define IM_GUI_DRAW_C
 
 #include <float.h>
+#include <stdbool.h>
 
 #include "cimgui.h"
 #include "..\overlays.c"
 #include "..\globals.c"
 #include "..\render.h"
+#include "..\shading.h"
 
 bool show_main_window = true;
 bool show_stats_window = true;
+bool show_shading_window = true;
 bool show_viewport_window = true;
 bool show_overlays_window = true;
 bool show_navigation_window = true;
 bool show_theme_window = true;
+
 
 float menu_bar_height = 0.0f;
 
@@ -188,6 +192,27 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igText("V-Sync:");
             igTableSetColumnIndex(1);
             igCheckbox("##vsync", &vsync);
+
+            // Закончить рисовать таблицу с параметрами
+            igEndTable();
+
+        }
+    }
+
+    // Рисовать окно с параметрами для шейдинга
+    if (igCollapsingHeader_BoolPtr("Shading", &show_shading_window, ImGuiTreeNodeFlags_DefaultOpen)) {
+
+        if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
+
+            igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+            igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+
+            // Shadeless
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Shadeless:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##shadeless", &shadeless);
 
             // Закончить рисовать таблицу с параметрами
             igEndTable();
