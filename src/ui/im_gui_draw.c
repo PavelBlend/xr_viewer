@@ -65,6 +65,10 @@ void draw_main_menu(void) {
                 show_viewport_window = !show_viewport_window;
             }
 
+            if (igMenuItem_Bool("Shading", "", show_shading_window, true)) {
+                show_shading_window = !show_shading_window;
+            }
+
             if (igMenuItem_Bool("Overlays", "", show_overlays_window, true)) {
                 show_overlays_window = !show_overlays_window;
             }
