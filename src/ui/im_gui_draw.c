@@ -95,16 +95,15 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     // Главное меню вверху
     draw_main_menu();
 
-    /*igSetNextWindowSizeConstraints(
-        (ImVec2){300, 300},          // минимальный размер окна
-        (ImVec2){FLT_MAX, FLT_MAX},   // максимальный размер окна без ограничения
-        NULL,
-        NULL
-    );*/
+    // Получаем указатель на главный вьюпорт
+    ImGuiViewport* viewport = igGetMainViewport();
 
+    // Установить позицию окна
     ImVec2 pivot = {0.0f, 0.0f};
-    igSetNextWindowPos((ImVec2){0.0f, menu_bar_height}, ImGuiCond_Always, pivot);
-    igSetNextWindowSize((ImVec2){350.0f, 600.0f}, ImGuiCond_FirstUseEver);
+    igSetNextWindowPos ((ImVec2){0.0f,   menu_bar_height},      ImGuiCond_Always, pivot);
+
+    // Установить размер окна
+    igSetNextWindowSize((ImVec2){350.0f, viewport->WorkSize.y}, ImGuiCond_Always);
 
     igBegin("Side Bar", &show_main_window, 0);
 
