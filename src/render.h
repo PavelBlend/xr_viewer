@@ -17,6 +17,11 @@ typedef struct RenderContext {
     // Цвет координатной сетки
     float grid_color[3];
 
+    // Цвет осей
+    float x_axis_color[3];
+    float y_axis_color[3];
+    float z_axis_color[3];
+
     // Центр модели
     float model_center[3];
 

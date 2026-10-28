@@ -324,6 +324,39 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
+            // X-Axis Color
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("X-Axis Color:");
+            igTableSetColumnIndex(1);
+            igColorEdit3(
+                "X-Axis Color",
+                ctx->x_axis_color,
+                ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+            );
+
+            // Y-Axis Color
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Y-Axis Color:");
+            igTableSetColumnIndex(1);
+            igColorEdit3(
+                "Y-Axis Color",
+                ctx->y_axis_color,
+                ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+            );
+
+            // Z-Axis Color
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Z-Axis Color:");
+            igTableSetColumnIndex(1);
+            igColorEdit3(
+                "Z-Axis Color",
+                ctx->z_axis_color,
+                ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+            );
+
             // Закончить рисовать таблицу с параметрами
             igEndTable();
 

@@ -175,13 +175,13 @@ void display() {
             // Установить цвет и толщину для линий координатной сетки
             if (i==0) {
                 glLineWidth(1.5f);
-                glUniform3f(ctx.solidColorLoc, 0.5f, 0.0f, 0.0f);
+                glUniform3f(ctx.solidColorLoc, ctx.x_axis_color[0], ctx.x_axis_color[1], ctx.x_axis_color[2]);
             } else if (i==1) {
                 glLineWidth(1.5f);
-                glUniform3f(ctx.solidColorLoc, 0.0f, 0.5f, 0.0f);
+                glUniform3f(ctx.solidColorLoc, ctx.y_axis_color[0], ctx.y_axis_color[1], ctx.y_axis_color[2]);
             } else if (i==2) {
                 glLineWidth(1.5f);
-                glUniform3f(ctx.solidColorLoc, 0.0f, 0.0f, 0.5f);
+                glUniform3f(ctx.solidColorLoc, ctx.z_axis_color[0], ctx.z_axis_color[1], ctx.z_axis_color[2]);
             } else  if (i==3) {
                 glLineWidth(1.0f);
                 glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
@@ -398,6 +398,21 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
     ctx.grid_color[0] = 0.25f;
     ctx.grid_color[1] = 0.25f;
     ctx.grid_color[2] = 0.25f;
+
+    // Установить цвет оси X
+    ctx.x_axis_color[0] = 0.5f;
+    ctx.x_axis_color[1] = 0.0f;
+    ctx.x_axis_color[2] = 0.0f;
+
+    // Установить цвет оси Y
+    ctx.y_axis_color[0] = 0.0f;
+    ctx.y_axis_color[1] = 0.5f;
+    ctx.y_axis_color[2] = 0.0f;
+
+    // Установить цвет оси Z
+    ctx.z_axis_color[0] = 0.0f;
+    ctx.z_axis_color[1] = 0.0f;
+    ctx.z_axis_color[2] = 0.5f;
 
     // загрузить шейдеры
     ctx.ShaderProgram = compile_shaders(exe_dir);
