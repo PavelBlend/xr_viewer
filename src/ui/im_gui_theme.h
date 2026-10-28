@@ -25,6 +25,10 @@ void cimgui_set_theme(void) {
     // Фон главного меню
     colors[ImGuiCol_MenuBarBg]              = (ImVec4){1.0f, 0.75f, 0.75f, 0.75f};
 
+    colors[ImGuiCol_Header]                 = (ImVec4){1.0f, 0.45f, 0.45f, 0.45f};
+    colors[ImGuiCol_HeaderHovered]          = (ImVec4){1.0f, 0.50f, 0.50f, 0.50f};
+    colors[ImGuiCol_HeaderActive]           = (ImVec4){1.0f, 0.70f, 0.70f, 0.70f};
+
 }
 
 #endif    // IM_GUI_THEME_C
