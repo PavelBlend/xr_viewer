@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+bool textures = true;
 bool shadeless = false;
 
 #endif

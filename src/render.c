@@ -120,7 +120,7 @@ void display() {
 
         for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
 
-            if (ctx.textures[child_id]) {
+            if (ctx.textures[child_id] && textures) {
                 glUniform1i(ctx.useTextureLoc, 1);  // Включаем текстуру
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);

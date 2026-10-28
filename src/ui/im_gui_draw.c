@@ -18,7 +18,6 @@ bool show_overlays_window = true;
 bool show_navigation_window = true;
 bool show_theme_window = true;
 
-
 float menu_bar_height = 0.0f;
 
 void update_fps(double* last_time, double* fps) {
@@ -206,6 +205,13 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
 
             igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
             igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+
+            // Textures
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Textures:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##textures", &textures);
 
             // Shadeless
             igTableNextRow(0, 0.0f);
