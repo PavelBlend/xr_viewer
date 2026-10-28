@@ -105,7 +105,7 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
     // Установить размер окна
     igSetNextWindowSize((ImVec2){350.0f, viewport->WorkSize.y}, ImGuiCond_Always);
 
-    igBegin("Side Bar", &show_main_window, 0);
+    igBegin("Side Bar", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 
     // Рисовать окно со статистикой
     if (igCollapsingHeader_BoolPtr("Stats", &show_stats_window, ImGuiTreeNodeFlags_DefaultOpen)) {
