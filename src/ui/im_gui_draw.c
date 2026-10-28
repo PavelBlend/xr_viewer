@@ -304,6 +304,17 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
+            // Grid Color
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Grid Color:");
+            igTableSetColumnIndex(1);
+            igColorEdit3(
+                "Grid Color",
+                ctx->grid_color,
+                ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+            );
+
             // Закончить рисовать таблицу с параметрами
             igEndTable();
 
