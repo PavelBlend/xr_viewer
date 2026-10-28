@@ -3,18 +3,18 @@
 
 #include "render.h"
 
-const float GRID_SIZE = 1.0f;    // Размер сетки
-const int GRID_STEPS = 10;        // Количество линий в каждую сторону
+const float GRID_SIZE   = 1.0f;    // Размер сетки
+const int   GRID_STEPS  = 10;        // Количество линий в каждую сторону
 bool draw_faces = true;
 bool draw_edges = false;
-bool draw_grid = true;
+bool draw_grid  = true;
 
 // Номера буферов вершин для координатной сетки
-uint32_t BUFFER_AXIS_X = 0;
-uint32_t BUFFER_AXIS_Y = 1;
-uint32_t BUFFER_AXIS_Z = 2;
+uint32_t BUFFER_AXIS_X      = 0;
+uint32_t BUFFER_AXIS_Y      = 1;
+uint32_t BUFFER_AXIS_Z      = 2;
 uint32_t BUFFER_COORD_LINES = 3;
-uint32_t BUFFER_COUNT = 4;
+uint32_t BUFFER_COUNT       = 4;
 
 // Сгенерировать основные линии координатной сетки, без линий в нулевых координатах
 // Линии в нулевых координатах генерировать не нужно, так как вместо них будут глобальные оси
@@ -167,15 +167,17 @@ void generate_axis(OverlayContext* overlay_ctx, uint32_t axis) {
 void generate_grid(OverlayContext* overlay_ctx) {
 
     // Настроить overlay контекст
-    overlay_ctx->vao = malloc(sizeof(GLuint) * BUFFER_COUNT);
+    overlay_ctx->vao            = malloc(sizeof(GLuint) * BUFFER_COUNT);
     overlay_ctx->vertex_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
-    overlay_ctx->index_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
-    overlay_ctx->indices_count = malloc(sizeof(uint32_t) * BUFFER_COUNT);
-    overlay_ctx->grid_steps = GRID_STEPS;
-    overlay_ctx->grid_size = GRID_SIZE;
+    overlay_ctx->index_buffers  = malloc(sizeof(GLuint) * BUFFER_COUNT);
+    overlay_ctx->indices_count  = malloc(sizeof(uint32_t) * BUFFER_COUNT);
+    overlay_ctx->grid_steps     = GRID_STEPS;
+    overlay_ctx->grid_size      = GRID_SIZE;
 
     // Сгенерировать геометрию координатной сетки
     generate_coord_lines(overlay_ctx);
+
+    // Сгенерировать геометрию координатных осей
     generate_axis(overlay_ctx, BUFFER_AXIS_X);
     generate_axis(overlay_ctx, BUFFER_AXIS_Y);
     generate_axis(overlay_ctx, BUFFER_AXIS_Z);
