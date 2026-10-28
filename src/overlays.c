@@ -3,8 +3,9 @@
 
 #include "render.h"
 
-const float GRID_SIZE   = 1.0f;    // Размер сетки
-const int   GRID_STEPS  = 10;        // Количество линий в каждую сторону
+const float GRID_SIZE   = 1.0f;     // Размер сетки
+int         grid_steps  = 10;       // Количество линий в каждую сторону
+
 bool draw_faces = true;
 bool draw_edges = false;
 bool draw_grid  = true;
@@ -167,11 +168,28 @@ void generate_axis(OverlayContext* overlay_ctx, uint32_t axis) {
 void generate_grid(OverlayContext* overlay_ctx) {
 
     // Настроить overlay контекст
-    overlay_ctx->vao            = malloc(sizeof(GLuint) * BUFFER_COUNT);
+
+    if (overlay_ctx->vao != NULL) {
+        free(overlay_ctx->vao);
+    }
+    overlay_ctx->vao = malloc(sizeof(GLuint) * BUFFER_COUNT);
+
+    if (overlay_ctx->vertex_buffers != NULL) {
+        free(overlay_ctx->vertex_buffers);
+    }
     overlay_ctx->vertex_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
-    overlay_ctx->index_buffers  = malloc(sizeof(GLuint) * BUFFER_COUNT);
-    overlay_ctx->indices_count  = malloc(sizeof(uint32_t) * BUFFER_COUNT);
-    overlay_ctx->grid_steps     = GRID_STEPS;
+
+    if (overlay_ctx->index_buffers != NULL) {
+        free(overlay_ctx->index_buffers);
+    }
+    overlay_ctx->index_buffers = malloc(sizeof(GLuint) * BUFFER_COUNT);
+
+    if (overlay_ctx->indices_count != NULL) {
+        free(overlay_ctx->indices_count);
+    }
+    overlay_ctx->indices_count = malloc(sizeof(uint32_t) * BUFFER_COUNT);
+
+    overlay_ctx->grid_steps     = grid_steps;
     overlay_ctx->grid_size      = GRID_SIZE;
 
     // Сгенерировать геометрию координатной сетки

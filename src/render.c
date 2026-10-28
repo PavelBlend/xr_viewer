@@ -32,7 +32,6 @@ GLFWwindow* window = NULL;
 
 // Создать контекст рендера
 RenderContext ctx;
-OverlayContext overlay_ctx;
 
 void maximizeWindow(char* window_title) {
 
@@ -378,6 +377,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
     glPolygonMode(GL_FRONT, GL_FILL);
 
     // Генерация координатной сетки
+    overlay_ctx.vao             = NULL;
+    overlay_ctx.vertex_buffers  = NULL;
+    overlay_ctx.index_buffers   = NULL;
+    overlay_ctx.indices_count   = NULL;
     generate_grid(&overlay_ctx);
 
     // Установить цвет для очистки экрана

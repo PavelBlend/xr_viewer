@@ -259,6 +259,15 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetColumnIndex(1);
             igCheckbox("##draw_grid", &draw_grid);
 
+            // Grid Steps
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Grid Steps:");
+            igTableSetColumnIndex(1);
+            if (igDragInt("##grid_steps", &grid_steps, 1.0f, 1, 1000, "%d", 0)) {
+                generate_grid(&overlay_ctx);
+            }
+
             // Закончить рисовать таблицу с параметрами
             igEndTable();
 

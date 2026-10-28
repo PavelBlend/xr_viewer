@@ -42,4 +42,6 @@ typedef struct OverlayContext {
 
 } OverlayContext;
 
+OverlayContext overlay_ctx;
+
 #endif    // RENDER_H
