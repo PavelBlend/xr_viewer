@@ -408,14 +408,14 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
     glClearColor(ctx.clear_color[0], ctx.clear_color[1], ctx.clear_color[2], 1.0);
 
     // Установить цвет рёбер меша
-    ctx.edges_color[0] = 1.0f;
-    ctx.edges_color[1] = 1.0f;
-    ctx.edges_color[2] = 1.0f;
+    ctx.edges_color[0] = 0.0f;
+    ctx.edges_color[1] = 0.0f;
+    ctx.edges_color[2] = 0.0f;
 
     // Установить цвет координатной сетки
-    ctx.grid_color[0] = 0.25f;
-    ctx.grid_color[1] = 0.25f;
-    ctx.grid_color[2] = 0.25f;
+    ctx.grid_color[0] = 0.45f;
+    ctx.grid_color[1] = 0.45f;
+    ctx.grid_color[2] = 0.45f;
 
     // Установить цвет оси X
     ctx.x_axis_color[0] = 0.5f;
