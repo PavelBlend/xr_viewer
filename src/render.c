@@ -98,7 +98,6 @@ void display() {
 
     int w, h;
     glfwGetWindowSize(window, &w, &h);
-    float aspect = (h == 0) ? 1.0f : (float)w / (float)h;
 
     float rad_x = glm_rad(camera_angle_x);
     float rad_y = glm_rad(-camera_angle_y);

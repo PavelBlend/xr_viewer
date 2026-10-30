@@ -9,6 +9,7 @@
 #include "..\globals.c"
 #include "..\render.h"
 #include "..\shading.h"
+#include "..\version.h"
 
 bool show_main_window = true;
 bool show_stats_window = true;
@@ -114,13 +115,48 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
 
     igBegin("Side Bar", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 
+    if (igBeginTable("ParamsTable1", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0, 0}, 0)) {
+
+        igTableSetupColumn("Parameter1", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+        igTableSetupColumn("Value1",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+
+        // версия
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("version:");
+        igTableSetColumnIndex(1);
+        igText("%d.%d.%d-%s", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_SUFFIX);
+
+        // дата
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("date:");
+        igTableSetColumnIndex(1);
+        igText("%d-%d-%d", YEAR, MONTH, DAY);
+
+        // автор
+        igTableNextRow(0, 0.0f);
+        igTableSetColumnIndex(0);
+        igText("author:");
+        igTableSetColumnIndex(1);
+        igText("%s", AUTHOR);
+
+        igEndTable();
+
+    }
+
+    // URL
+    igTextLinkOpenURL(URL, URL);
+
+    igDummy((ImVec2){0, 10});
+
     // Рисовать окно со статистикой
     if (igCollapsingHeader_BoolPtr("Stats", &show_stats_window, ImGuiTreeNodeFlags_DefaultOpen)) {
 
-        if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
+        if (igBeginTable("ParamsTable2", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
 
-            igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
-            igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+            igTableSetupColumn("Parameter2", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+            igTableSetupColumn("Value2",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
 
             // FPS
             igTableNextRow(0, 0.0f);

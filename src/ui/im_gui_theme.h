@@ -29,6 +29,9 @@ void cimgui_set_theme(void) {
     colors[ImGuiCol_HeaderHovered]          = (ImVec4){1.0f, 0.50f, 0.50f, 0.50f};
     colors[ImGuiCol_HeaderActive]           = (ImVec4){1.0f, 0.70f, 0.70f, 0.70f};
 
+    // URL
+    colors[ImGuiCol_TextLink]               = (ImVec4){1.0f, 0.00f, 0.10f, 0.70f};
+
 }
 
 #endif    // IM_GUI_THEME_C
