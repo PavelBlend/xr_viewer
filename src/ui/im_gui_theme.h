@@ -29,6 +29,12 @@ void cimgui_set_theme(void) {
     colors[ImGuiCol_HeaderHovered]          = (ImVec4){1.0f, 0.50f, 0.50f, 0.50f};
     colors[ImGuiCol_HeaderActive]           = (ImVec4){1.0f, 0.70f, 0.70f, 0.70f};
 
+    // Скролл
+    colors[ImGuiCol_ScrollbarBg]            = (ImVec4){1.0f, 0.40f, 0.40f, 0.40f};
+    colors[ImGuiCol_ScrollbarGrab]          = (ImVec4){1.0f, 0.55f, 0.55f, 0.55f};
+    colors[ImGuiCol_ScrollbarGrabHovered]   = (ImVec4){1.0f, 0.65f, 0.65f, 0.65f};
+    colors[ImGuiCol_ScrollbarGrabActive]    = (ImVec4){1.0f, 0.70f, 0.70f, 0.70f};
+
     // URL
     colors[ImGuiCol_TextLink]               = (ImVec4){1.0f, 0.00f, 0.10f, 0.70f};
 
