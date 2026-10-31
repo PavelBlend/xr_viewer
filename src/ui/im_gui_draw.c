@@ -123,21 +123,21 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
         // версия
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);
-        igText("version:");
+        igText("Version:");
         igTableSetColumnIndex(1);
         igText("%d.%d.%d-%s", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_SUFFIX);
 
         // дата
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);
-        igText("date:");
+        igText("Date:");
         igTableSetColumnIndex(1);
         igText("%d-%d-%d", YEAR, MONTH, DAY);
 
         // автор
         igTableNextRow(0, 0.0f);
         igTableSetColumnIndex(0);
-        igText("author:");
+        igText("Author:");
         igTableSetColumnIndex(1);
         igText("%s", AUTHOR);
 

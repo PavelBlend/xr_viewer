@@ -9,7 +9,7 @@
 #define MONTH           10
 #define DAY             30
 
-const char* VERSION_SUFFIX  = "alpha";
+const char* VERSION_SUFFIX  = "Alpha";
 const char* AUTHOR          = "Pavel_Blend";
 const char* URL             = "https://github.com/PavelBlend/xr_viewer";
 
