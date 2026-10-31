@@ -1,6 +1,8 @@
 #ifndef RENDER_H
 #define RENDER_H
 
+#include <stdbool.h>
+
 #include "GL\glew.h"
 
 bool vsync = true;
@@ -24,6 +26,12 @@ typedef struct RenderContext {
 
     // Центр модели
     float model_center[3];
+
+    // Отсекать задние грани
+    bool cull_face;
+
+    // Отсекать задние рёбра
+    bool cull_edge;
 
     GLuint*     vao;
     GLuint*     vertex_buffers;
@@ -50,6 +58,10 @@ typedef struct OverlayContext {
 
 } OverlayContext;
 
+// Создать контекст рендера
+RenderContext ctx;
+
+// Создать контекст наложений
 OverlayContext overlay_ctx;
 
 #endif    // RENDER_H

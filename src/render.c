@@ -30,9 +30,6 @@
 char* window_name = "X-Ray Viewer";
 GLFWwindow* window = NULL;
 
-// Создать контекст рендера
-RenderContext ctx;
-
 void maximizeWindow(char* window_title) {
 
     // Получаем handle окна
@@ -145,7 +142,12 @@ void display() {
     // отрисовка треугольников
     if (draw_faces) {
 
-        glEnable(GL_CULL_FACE);
+        if (ctx.cull_face) {
+            glEnable(GL_CULL_FACE);
+        } else {
+            glDisable(GL_CULL_FACE);
+        }
+
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         // сместить полигоны в буфере глубины, чтобы не было артефактов на wireframe
@@ -177,13 +179,16 @@ void display() {
 
         // выключить смещение полигонов в Z буфере
         glDisable(GL_POLYGON_OFFSET_FILL);
-
-    } else {
-        glDisable(GL_CULL_FACE);
     }
 
     // отрисовка рёбер
     if (draw_edges) {
+
+        if (ctx.cull_edge) {
+            glEnable(GL_CULL_FACE);
+        } else {
+            glDisable(GL_CULL_FACE);
+        }
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glLineWidth(1.0f);
@@ -206,6 +211,7 @@ void display() {
     // отрисовка координатной сетки
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glDisable(GL_CULL_FACE);
 
     for (uint32_t i=0; i<4; i++) {
 
@@ -441,6 +447,10 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
     overlay_ctx.index_buffers   = NULL;
     overlay_ctx.indices_count   = NULL;
     generate_grid(&overlay_ctx);
+
+    // Установить параметры отсечения
+    ctx.cull_face = true;
+    ctx.cull_edge = false;
 
     // Установить цвет для очистки экрана
     ctx.clear_color[0] = 0.5f;

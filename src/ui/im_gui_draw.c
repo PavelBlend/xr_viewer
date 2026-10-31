@@ -232,6 +232,20 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetColumnIndex(1);
             igCheckbox("##vsync", &vsync);
 
+            // Cull Face
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Cull Face:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##cull_face", &ctx->cull_face);
+
+            // Cull Edge
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Cull Edge:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##cull_edge", &ctx->cull_edge);
+
             // Закончить рисовать таблицу с параметрами
             igEndTable();
 
