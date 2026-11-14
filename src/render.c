@@ -37,7 +37,6 @@
 
 #define IDI_ICON1 101
 
-char* window_name = "X-Ray Viewer";
 GLFWwindow* window = NULL;
 
 void maximizeWindow(char* window_title) {
@@ -343,6 +342,7 @@ void render(Application * app) {
     // Создать строку для заголовка окна
 
     char* window_title = NULL;
+    char* window_name = "X-Ray Viewer";
 
     if (app->file_path != NULL) {
 
