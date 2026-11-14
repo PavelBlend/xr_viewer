@@ -4,12 +4,14 @@
 #include <stdio.h>
 
 #include "application.h"
-#include "path_utils.c"
-#include "ogf_io.c"
 #include "file_formats.h"
 
+#include "path_utils.c"
+#include "cmd_utils.c"
+#include "ogf_io.c"
+
 // Инициализировать основную структуру программы
-void init_app(Application * app) {
+void init_app(Application * app, int argc, char* argv[]) {
 
     // Вычислить абсолютный путь к exe файлу программы
     get_exe_dir(app);
@@ -19,6 +21,9 @@ void init_app(Application * app) {
     app->file        = NULL;
     app->file_path   = NULL;
     app->file_data   = NULL;
+
+    // Обработать аргументы командной строки
+    handle_arguments(app, argc, argv);
 
 }
 

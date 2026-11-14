@@ -1,6 +1,5 @@
 #include "render.c"
 #include "application.c"
-#include "cmd_utils.c"
 
 int main (int argc, char* argv[]) {
 
@@ -8,10 +7,7 @@ int main (int argc, char* argv[]) {
     Application app;
 
     // Инициализировать основную структуру программы
-    init_app(&app);
-
-    // Обработать аргументы командной строки
-    handle_arguments(&app, argc, argv);
+    init_app(&app, argc, argv);
 
     // Рендер
     render(&app);
