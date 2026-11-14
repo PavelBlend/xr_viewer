@@ -10,9 +10,12 @@
 
 #include "ogf_chunks.c"
 
+// Освободить память чанков
 void free_chunks(Chunks* chunked_file) {
     if (chunked_file != NULL) {
-        free(chunked_file->chunks);
+        if (chunked_file->chunks != NULL) {
+            free(chunked_file->chunks);
+        }
         free(chunked_file);
     }
 }
@@ -74,6 +77,7 @@ uint32_t get_chunks_count(
     return chunks_count;
 }
 
+// Прочитать чанки
 Chunks* read_chunks(FileData* file_data, uint32_t start, uint32_t end) {
 
     // текущее смещение в данных файла
