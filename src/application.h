@@ -25,7 +25,7 @@ typedef struct Application {
 
 } Application;
 
-void init_app(Application *app, int argc, char* argv[]);
-void free_mem(Application * app);
+Application     create_app  (int argc, char* argv[]);
+void            free_mem    (Application * app);
 
 #endif

@@ -4,10 +4,7 @@
 int main (int argc, char* argv[]) {
 
     // Создать основную структуру программы
-    Application app;
-
-    // Инициализировать основную структуру программы
-    init_app(&app, argc, argv);
+    Application app = create_app(argc, argv);
 
     // Рендер
     render(&app);

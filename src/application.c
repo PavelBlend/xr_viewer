@@ -11,19 +11,23 @@
 #include "ogf_io.c"
 
 // Инициализировать основную структуру программы
-void init_app(Application * app, int argc, char* argv[]) {
+Application create_app(int argc, char* argv[]) {
+
+    Application app;
 
     // Вычислить абсолютный путь к exe файлу программы
-    get_exe_dir(app);
+    get_exe_dir(&app);
 
     // Установить открытый файл по-умолчанию (пустой файл)
-    app->file_type   = FILE_NONE;
-    app->file        = NULL;
-    app->file_path   = NULL;
-    app->file_data   = NULL;
+    app.file_type   = FILE_NONE;
+    app.file        = NULL;
+    app.file_path   = NULL;
+    app.file_data   = NULL;
 
     // Обработать аргументы командной строки
-    handle_arguments(app, argc, argv);
+    handle_arguments(&app, argc, argv);
+
+    return app;
 
 }
 
