@@ -24,30 +24,8 @@ int main (int argc, char* argv[]) {
     // check cmd arguments
     if (argc < 2) {
         print_usage(argc, argv);
-
     } else {
-
-        // Путь к файлу
-        app.file_path = argv[1];
-
-        // Прочитать данные файла
-        app.file_data = read_file(app.file_path);
-
-        // Создать структуру для чанков ogf файла
-        Chunks* chunks = NULL;
-
-        // Прочитать чанки
-        chunks = read_chunks(app.file_data, 0, (uint32_t)app.file_data->size);
-
-        // Прочитать данные ogf файла
-        app.file = read_ogf(app.file_data, chunks);
-
-        // Освободить память чанков
-        free_chunks(chunks);
-
-        // Установить тип файла в ogf
-        app.file_type = FILE_OGF;
-
+        read_ogf_file(&app, argv);
     }
 
     // render

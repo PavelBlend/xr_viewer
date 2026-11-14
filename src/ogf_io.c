@@ -9,7 +9,10 @@
 #include "ogf_indices.c"
 #include "ogf_swis.c"
 #include "chunk_io.c"
+#include "file_io.c"
 #include "types.h"
+#include "file_formats.h"
+#include "application.h"
 
 void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, int chunk_index) {
     Chunks* chunks_child = read_chunks(
@@ -100,6 +103,31 @@ OgfFile* read_ogf(FileData* file_data, Chunks* chunks) {
     }
 
     return ogf_file;
+}
+
+void read_ogf_file(Application * app, char* argv[]) {
+
+    // Путь к файлу
+    app->file_path = argv[1];
+
+    // Прочитать данные файла
+    app->file_data = read_file(app->file_path);
+
+    // Создать структуру для чанков ogf файла
+    Chunks* chunks = NULL;
+
+    // Прочитать чанки
+    chunks = read_chunks(app->file_data, 0, (uint32_t)app->file_data->size);
+
+    // Прочитать данные ogf файла
+    app->file = read_ogf(app->file_data, chunks);
+
+    // Освободить память чанков
+    free_chunks(chunks);
+
+    // Установить тип файла в ogf
+    app->file_type = FILE_OGF;
+
 }
 
 #endif    // OGF_IO_C
