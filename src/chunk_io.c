@@ -3,6 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
+
+#include "file_io.h"
 
 #include "ogf_chunks.c"
 

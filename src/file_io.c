@@ -3,13 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
+#include <inttypes.h>
 
-// структура данных файла
-typedef struct FileData {
-    uint8_t* bytes;
-    size_t size;
-} FileData;
+#include "file_io.h"
 
 // открыть файл
 FILE* open_bin_file(char* file_path) {
