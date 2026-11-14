@@ -30,6 +30,7 @@ typedef struct RenderContext {
     // Отсекать задние рёбра
     bool cull_edge;
 
+    // Вертикальная синхронизация
     bool vsync;
 
     // режим без освещения

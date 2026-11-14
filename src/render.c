@@ -244,6 +244,24 @@ void add_light(GLFWwindow* window, RenderContext * render_ctx) {
 
 }
 
+void set_vsync(RenderContext * render_ctx) {
+    if (render_ctx->vsync) {
+        glfwSwapInterval(1);
+    } else {
+        glfwSwapInterval(0);
+    }
+}
+
+void clear_display(RenderContext * render_ctx) {
+
+    // Установить цвет очистки экрана
+    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
+
+    // Очистка экрана
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+}
+
 void display(GLFWwindow* window, Application* app) {
 
     // Контекст рендера
@@ -252,19 +270,16 @@ void display(GLFWwindow* window, Application* app) {
     // Контекст наложений
     OverlayContext * overlay_ctx = &app->overlay_ctx;
 
-    // включаем vsync
-    if (render_ctx->vsync) {
-        glfwSwapInterval(1);
-    } else {
-        glfwSwapInterval(0);
-    }
+    // установить вертикальную синхронизацию
+    set_vsync(render_ctx);
 
-    // Очистка экрана
-    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Очистить экран
+    clear_display(render_ctx);
 
+    // Использовать шейдерную программу
     glUseProgram(render_ctx->ShaderProgram);
 
+    // Установить матрицы для шейдера
     set_shader_matrices(window, render_ctx->ShaderProgram);
 
     // Добавить источник света
@@ -477,6 +492,7 @@ void render(Application * app) {
     // Генерация координатной сетки
     generate_grid(overlay_ctx);
 
+    // Включить вертикальную синхронизацию
     render_ctx->vsync = true;
 
     // параметры шейдинга
