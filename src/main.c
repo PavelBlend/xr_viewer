@@ -53,13 +53,8 @@ int main (int argc, char* argv[]) {
     // render
     render(app, argc, argv, app.exe_dir, app.file_path);
 
-    // Освободить память данных файла
-    free_file_data(app.file_data);
-    app.file_data = NULL;
-
-    // free ogf memory
-    free_ogf_file(app.file);
-    app.file = NULL;
+    // Освободить память программы
+    free_mem(&app);
 
     return 0;
 }
