@@ -138,6 +138,31 @@ void draw_edges(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
 }
 
+void draw_bbox(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
+
+    // цвет линий bbox
+    float r = 0.0f;
+    float g = 0.0f;
+    float b = 0.0f;
+
+    // отрисовка bbox
+    if (overlay_ctx->draw_bbox) {
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glDisable(GL_CULL_FACE);
+
+        for (uint32_t child_id=0; child_id<overlay_ctx->bbox_children_count; child_id++) {
+
+            glUniform1i(render_ctx->useTextureLoc, 0);
+            glUniform3f(render_ctx->solidColorLoc, r, g, b);
+
+            glBindVertexArray(overlay_ctx->bbox_vao[child_id]);
+            glDrawElements(GL_LINES, overlay_ctx->bbox_indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+
+        }
+    }
+}
+
 void draw_grid(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -291,6 +316,9 @@ void display(GLFWwindow* window, Application* app) {
     // отрисовка рёбер
     draw_edges(render_ctx, overlay_ctx);
 
+    // отрисовка bbox
+    draw_bbox(render_ctx, overlay_ctx);
+
     // отрисовка координатной сетки
     draw_grid(render_ctx, overlay_ctx);
 
@@ -434,6 +462,7 @@ void render(Application * app) {
 
     overlay_ctx->draw_faces     = true;
     overlay_ctx->draw_edges     = false;
+    overlay_ctx->draw_bbox      = false;
     overlay_ctx->draw_grid      = true;
     overlay_ctx->draw_axis_x    = true;
     overlay_ctx->draw_axis_y    = true;
@@ -510,6 +539,15 @@ void render(Application * app) {
         render_ctx->indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
         render_ctx->textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
         render_ctx->children_count  = ogf_file->children_count;
+
+        overlay_ctx->bbox_vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        overlay_ctx->bbox_vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        overlay_ctx->bbox_index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        overlay_ctx->bbox_indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
+        overlay_ctx->bbox_children_count  = ogf_file->children_count;
+
+        // Сгенерировать bbox геометрию
+        generate_bbox(app, overlay_ctx);
 
         // Вычислить центр модели
         render_ctx->model_center[0] = ogf_file->bbox_min[0] + (ogf_file->bbox_max[0] - ogf_file->bbox_min[0]) / 2;

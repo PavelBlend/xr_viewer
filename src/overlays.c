@@ -157,6 +157,132 @@ void generate_axis(OverlayContext* overlay_ctx, uint32_t axis) {
 
 }
 
+void generate_bbox(Application * app, OverlayContext* overlay_ctx) {
+
+    // размер вершин bbox (8 вершин параллелепипеда)
+    size_t bbox_verts_size = sizeof(float) * 3 * 8;
+
+    for (uint32_t i=0; i<overlay_ctx->bbox_children_count; i++) {
+
+        // Выделяем память для вершин bbox
+        float* bbox_vertices = malloc(bbox_verts_size);
+    
+        // Генерация координат вершин bbox
+
+        OgfFile* ogf_file = (OgfFile*) app->file;
+
+        // Нижняя часть коробки
+
+        // Левые вершины
+
+        bbox_vertices[ 0] = ogf_file->children[i].bbox_min[0];
+        bbox_vertices[ 1] = ogf_file->children[i].bbox_min[1];
+        bbox_vertices[ 2] = ogf_file->children[i].bbox_min[2];
+
+        bbox_vertices[ 3] = ogf_file->children[i].bbox_min[0];
+        bbox_vertices[ 4] = ogf_file->children[i].bbox_min[1];
+        bbox_vertices[ 5] = ogf_file->children[i].bbox_max[2];
+
+        // Правые вершины
+
+        bbox_vertices[ 6] = ogf_file->children[i].bbox_max[0];
+        bbox_vertices[ 7] = ogf_file->children[i].bbox_min[1];
+        bbox_vertices[ 8] = ogf_file->children[i].bbox_min[2];
+
+        bbox_vertices[ 9] = ogf_file->children[i].bbox_max[0];
+        bbox_vertices[10] = ogf_file->children[i].bbox_min[1];
+        bbox_vertices[11] = ogf_file->children[i].bbox_max[2];
+
+        // Верхняя часть корogf_file
+
+        bbox_vertices[12] = ogf_file->children[i].bbox_min[0];
+        bbox_vertices[13] = ogf_file->children[i].bbox_max[1];
+        bbox_vertices[14] = ogf_file->children[i].bbox_min[2];
+
+        bbox_vertices[15] = ogf_file->children[i].bbox_min[0];
+        bbox_vertices[16] = ogf_file->children[i].bbox_max[1];
+        bbox_vertices[17] = ogf_file->children[i].bbox_max[2];
+
+        bbox_vertices[18] = ogf_file->children[i].bbox_max[0];
+        bbox_vertices[19] = ogf_file->children[i].bbox_max[1];
+        bbox_vertices[20] = ogf_file->children[i].bbox_min[2];
+
+        bbox_vertices[21] = ogf_file->children[i].bbox_max[0];
+        bbox_vertices[22] = ogf_file->children[i].bbox_max[1];
+        bbox_vertices[23] = ogf_file->children[i].bbox_max[2];
+
+        // Создать вершинный буфер для bbox
+        glGenVertexArrays(1, &overlay_ctx->bbox_vao[i]);
+        glBindVertexArray(overlay_ctx->bbox_vao[i]);
+
+        glGenBuffers(1, &overlay_ctx->bbox_vertex_buffers[i]);
+        glBindBuffer(GL_ARRAY_BUFFER, overlay_ctx->bbox_vertex_buffers[i]);
+
+        glBufferData(GL_ARRAY_BUFFER, bbox_verts_size, bbox_vertices, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12, (void*) 0);
+
+        // Настройка атрибута позиции
+        glEnableVertexAttribArray(0);
+
+        // Создать индексный буфер для bbox
+
+        // 12 рёбер куба
+        uint32_t bbox_indices_count = 12 * 2;
+        size_t bbox_indices_size = sizeof(uint16_t) * (size_t)bbox_indices_count;
+
+        uint16_t* bbox_indices = malloc(bbox_indices_size);
+
+        // генерировать индексы рёбер bbox
+
+        // нижние рёбра
+        bbox_indices[ 0] = 0;
+        bbox_indices[ 1] = 1;
+
+        bbox_indices[ 2] = 2;
+        bbox_indices[ 3] = 3;
+
+        bbox_indices[ 4] = 0;
+        bbox_indices[ 5] = 2;
+
+        bbox_indices[ 6] = 1;
+        bbox_indices[ 7] = 3;
+
+        // верхние рёбра
+        bbox_indices[ 8] = 4;
+        bbox_indices[ 9] = 5;
+
+        bbox_indices[10] = 6;
+        bbox_indices[11] = 7;
+
+        bbox_indices[12] = 4;
+        bbox_indices[13] = 6;
+
+        bbox_indices[14] = 5;
+        bbox_indices[15] = 7;
+
+        // боковые рёбра
+        bbox_indices[16] = 0;
+        bbox_indices[17] = 4;
+
+        bbox_indices[18] = 1;
+        bbox_indices[19] = 5;
+
+        bbox_indices[20] = 2;
+        bbox_indices[21] = 6;
+
+        bbox_indices[22] = 3;
+        bbox_indices[23] = 7;
+
+        glGenBuffers(1, &overlay_ctx->bbox_index_buffers[i]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, overlay_ctx->bbox_index_buffers[i]);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, bbox_indices_size, bbox_indices, GL_STATIC_DRAW);
+
+        overlay_ctx->bbox_indices_count[i] = bbox_indices_count;
+
+    }
+
+}
+
 // Сгенерировать геометрию координатной сетки
 void generate_grid(OverlayContext* overlay_ctx) {
 

@@ -157,8 +157,11 @@ typedef struct OgfSwis {
 } OgfSwis;
 
 typedef struct OgfChild {
+    uint8_t format_version;
     char*           texture;
     char*           texture_path;
+    float bbox_min[3];
+    float bbox_max[3];
     OgfVerts*       verts;
     OgfIndices*     indices;
     OgfSwis*        swis;

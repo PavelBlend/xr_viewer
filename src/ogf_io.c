@@ -14,6 +14,37 @@
 #include "file_formats.h"
 #include "application.h"
 
+void read_child_header(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
+    uint32_t offset = chunk->offset;
+
+    memcpy(&ogf_child->format_version, file_data->bytes + offset, sizeof(uint8_t));
+    offset += sizeof(uint8_t);
+
+    offset += sizeof(uint8_t);   // model_type
+    offset += sizeof(uint16_t);  // shader_id
+
+    // bbox min
+    memcpy(&ogf_child->bbox_min[0], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_child->bbox_min[1], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_child->bbox_min[2], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    // bbox max
+    memcpy(&ogf_child->bbox_max[0], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_child->bbox_max[1], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_child->bbox_max[2], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+}
+
 void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, int chunk_index) {
 
     Chunks* chunks_child = read_chunks(
@@ -24,7 +55,10 @@ void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, in
 
     for (int i=0; i<chunks_child->count; i++) {
 
-        if (*chunks_child->chunks[i].id == TEXTURE) {
+        if (*chunks_child->chunks[i].id == HEADER) {
+            read_child_header(ogf_child, file_data, &chunks_child->chunks[i]);
+
+        } else if (*chunks_child->chunks[i].id == TEXTURE) {
             read_texture(ogf_child, file_data, &chunks_child->chunks[i]);
 
         } else if (*chunks_child->chunks[i].id == VERTICES) {

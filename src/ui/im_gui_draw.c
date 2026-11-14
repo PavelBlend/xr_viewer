@@ -309,6 +309,13 @@ void draw_ui(Application* app, double* fps, double* last_time, uint32_t total_ve
             igTableSetColumnIndex(1);
             igCheckbox("##draw_edges", &overlay_ctx->draw_edges);
 
+            // Draw B-Box
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Draw B-Box:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##draw_bbox", &overlay_ctx->draw_bbox);
+
             // Draw X-Axis
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
