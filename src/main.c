@@ -21,10 +21,8 @@ int main (int argc, char* argv[]) {
     // Инициализировать основную структуру программы
     init_app(&app);
 
-    // Создать структуры ogf файла
-    OgfFile*    ogf_file    = NULL;
+    // Данные файла
     FileData*   file_data   = NULL;
-    Chunks*     chunks      = NULL;
 
     // check cmd arguments
     if (argc < 2) {
@@ -37,36 +35,38 @@ int main (int argc, char* argv[]) {
 
     } else {
 
-        // get file path
+        // Путь к файлу
         app.file_path = argv[1];
 
-        // read file
+        // Прочитать данные файла
         file_data = read_file(app.file_path);
 
-        // read chunks
+        // Создать структуру для чанков ogf файла
+        Chunks* chunks = NULL;
+
+        // Прочитать чанки
         chunks = read_chunks(file_data, 0, (uint32_t)file_data->size);
 
-        // read ogf data
-        ogf_file = read_ogf(file_data, chunks);
+        // Прочитать данные ogf файла
+        app.file = read_ogf(file_data, chunks);
 
-        // free chunks memory
+        // Освободить память чанков
         free_chunks(chunks);
 
         // Установить тип файла в ogf
-        app.file_type   = FILE_OGF;
-        app.file        = ogf_file;
+        app.file_type = FILE_OGF;
 
     }
 
     // render
     render(app, argc, argv, app.exe_dir, app.file_path);
 
-    // free file memory
+    // Освободить память данных файла
     free_file_data(file_data);
 
     // free ogf memory
+    free_ogf_file(app.file);
     app.file = NULL;
-    free_ogf_file(ogf_file);
 
     return 0;
 }
