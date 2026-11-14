@@ -3,5 +3,6 @@
 *.dll
 *.ico
 *.o
-*.blend*
+*.blend
+!icon.blend
 build
