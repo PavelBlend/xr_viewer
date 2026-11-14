@@ -193,10 +193,7 @@ void draw_grid(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
 }
 
-void display(GLFWwindow* window) {
-
-    // Извлечь указатель на основную структуру программы
-    Application* app = (Application*)glfwGetWindowUserPointer(window);
+void display(GLFWwindow* window, Application* app) {
 
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
@@ -671,7 +668,7 @@ void render(Application * app) {
             glfwPollEvents();
 
             // рендер сцены
-            display(window);
+            display(window, app);
 
             // рендер интерфейса
             draw_ui(app, buffer, &fps, &last_time, total_vertices, total_indices);
