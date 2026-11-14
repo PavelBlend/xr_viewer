@@ -6,8 +6,10 @@
 
 #include "cimgui.h"
 #include "..\overlays.c"
+#include "..\overlays.h"
 #include "..\globals.c"
 #include "..\render.h"
+#include "..\application.h"
 #include "..\shading.h"
 #include "..\version.h"
 
@@ -92,11 +94,13 @@ void draw_main_menu(void) {
 
 }
 
-void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
+void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
 
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
     igNewFrame();
+
+    OverlayContext * overlay_ctx = &app->overlay_ctx;
 
     update_fps(last_time, fps);
 
@@ -293,50 +297,50 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetColumnIndex(0);
             igText("Draw Faces:");
             igTableSetColumnIndex(1);
-            igCheckbox("##draw_faces", &draw_faces);
+            igCheckbox("##draw_faces", &overlay_ctx->draw_faces);
 
             // Draw Edges
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Draw Edges:");
             igTableSetColumnIndex(1);
-            igCheckbox("##draw_edges", &draw_edges);
+            igCheckbox("##draw_edges", &overlay_ctx->draw_edges);
 
             // Draw X-Axis
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Draw X-Axis:");
             igTableSetColumnIndex(1);
-            igCheckbox("##draw_x_axis", &draw_axis_x);
+            igCheckbox("##draw_x_axis", &overlay_ctx->draw_axis_x);
 
             // Draw Y-Axis
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Draw Y-Axis:");
             igTableSetColumnIndex(1);
-            igCheckbox("##draw_y_axis", &draw_axis_y);
+            igCheckbox("##draw_y_axis", &overlay_ctx->draw_axis_y);
 
             // Draw Z-Axis
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Draw Z-Axis:");
             igTableSetColumnIndex(1);
-            igCheckbox("##draw_z_axis", &draw_axis_z);
+            igCheckbox("##draw_z_axis", &overlay_ctx->draw_axis_z);
 
             // Draw Grid
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Draw Grid:");
             igTableSetColumnIndex(1);
-            igCheckbox("##draw_grid", &draw_grid);
+            igCheckbox("##draw_grid", &overlay_ctx->draw_grid);
 
             // Grid Steps
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Grid Steps:");
             igTableSetColumnIndex(1);
-            if (igDragInt("##grid_steps", &grid_steps, 1.0f, 1, 1000, "%d", 0)) {
-                generate_grid(&overlay_ctx);
+            if (igDragInt("##grid_steps", &overlay_ctx->grid_steps, 1.0f, 1, 1000, "%d", 0)) {
+                generate_grid(overlay_ctx);
             }
 
             // Grid Size
@@ -344,8 +348,8 @@ void draw_ui(RenderContext* ctx, char* buffer, double* fps, double* last_time, u
             igTableSetColumnIndex(0);
             igText("Grid Size:");
             igTableSetColumnIndex(1);
-            if (igDragFloat("##grid_size", &grid_size, 1.0f, 0.1f, 100.0f, "%.2f", 0)) {
-                generate_grid(&overlay_ctx);
+            if (igDragFloat("##grid_size", &overlay_ctx->grid_size, 1.0f, 0.1f, 100.0f, "%.2f", 0)) {
+                generate_grid(overlay_ctx);
             }
 
             // Закончить рисовать таблицу с параметрами

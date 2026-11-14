@@ -83,7 +83,13 @@ static void random_color_from_id(uint32_t id, float* r, float* g, float* b) {
     *b = ((h >> 16) & 0xFF) / 255.0f;
 }
 
-void display() {
+void display(GLFWwindow* window) {
+
+    // Извлечь указатель на основную структуру программы
+    Application* app = (Application*)glfwGetWindowUserPointer(window);
+
+    // Контекст наложений
+    OverlayContext * overlay_ctx = &app->overlay_ctx;
 
     // включаем vsync
     if (vsync) {
@@ -150,7 +156,7 @@ void display() {
     float r, g, b;
 
     // отрисовка треугольников
-    if (draw_faces) {
+    if (overlay_ctx->draw_faces) {
 
         if (ctx.cull_face) {
             glEnable(GL_CULL_FACE);
@@ -192,7 +198,7 @@ void display() {
     }
 
     // отрисовка рёбер
-    if (draw_edges) {
+    if (overlay_ctx->draw_edges) {
 
         if (ctx.cull_edge) {
             glEnable(GL_CULL_FACE);
@@ -229,42 +235,42 @@ void display() {
         glUniform1i(ctx.useShadelessLoc, 1);
 
         if (i==0) {
-            if (draw_axis_x) {    // цвет оси X
+            if (overlay_ctx->draw_axis_x) {    // цвет оси X
                 glLineWidth(1.5f);
                 glUniform3f(ctx.solidColorLoc, ctx.x_axis_color[0], ctx.x_axis_color[1], ctx.x_axis_color[2]);
-                glBindVertexArray(overlay_ctx.vao[i]);
-                glDrawElements(GL_LINES, overlay_ctx.indices_count[i], GL_UNSIGNED_SHORT, 0);
-            } else if (draw_grid) {    // цвет сетки
+                glBindVertexArray(overlay_ctx->vao[i]);
+                glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
+            } else if (overlay_ctx->draw_grid) {    // цвет сетки
                 glLineWidth(1.0f);
                 glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
-                glBindVertexArray(overlay_ctx.vao[i]);
-                glDrawElements(GL_LINES, overlay_ctx.indices_count[i], GL_UNSIGNED_SHORT, 0);
+                glBindVertexArray(overlay_ctx->vao[i]);
+                glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
             }
 
-        } else if (i==1 && draw_axis_y) {
+        } else if (i==1 && overlay_ctx->draw_axis_y) {
             glLineWidth(1.5f);
             glUniform3f(ctx.solidColorLoc, ctx.y_axis_color[0], ctx.y_axis_color[1], ctx.y_axis_color[2]);
-            glBindVertexArray(overlay_ctx.vao[i]);
-            glDrawElements(GL_LINES, overlay_ctx.indices_count[i], GL_UNSIGNED_SHORT, 0);
+            glBindVertexArray(overlay_ctx->vao[i]);
+            glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
 
         } else if (i==2) {
-            if (draw_axis_z) {    // цвет оси Z
+            if (overlay_ctx->draw_axis_z) {    // цвет оси Z
                 glLineWidth(1.5f);
                 glUniform3f(ctx.solidColorLoc, ctx.z_axis_color[0], ctx.z_axis_color[1], ctx.z_axis_color[2]);
-                glBindVertexArray(overlay_ctx.vao[i]);
-                glDrawElements(GL_LINES, overlay_ctx.indices_count[i], GL_UNSIGNED_SHORT, 0);
-            } else if (draw_grid) {    // цвет сетки
+                glBindVertexArray(overlay_ctx->vao[i]);
+                glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
+            } else if (overlay_ctx->draw_grid) {    // цвет сетки
                 glLineWidth(1.0f);
                 glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
-                glBindVertexArray(overlay_ctx.vao[i]);
-                glDrawElements(GL_LINES, overlay_ctx.indices_count[i], GL_UNSIGNED_SHORT, 0);
+                glBindVertexArray(overlay_ctx->vao[i]);
+                glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
             }
 
-        } else  if (i==3 && draw_grid) {
+        } else  if (i==3 && overlay_ctx->draw_grid) {
             glLineWidth(1.0f);
             glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
-            glBindVertexArray(overlay_ctx.vao[i]);
-            glDrawElements(GL_LINES, overlay_ctx.indices_count[i], GL_UNSIGNED_SHORT, 0);
+            glBindVertexArray(overlay_ctx->vao[i]);
+            glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
         }
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -452,11 +458,24 @@ void render(Application * app) {
     glPolygonMode(GL_FRONT, GL_FILL);
 
     // Генерация координатной сетки
-    overlay_ctx.vao             = NULL;
-    overlay_ctx.vertex_buffers  = NULL;
-    overlay_ctx.index_buffers   = NULL;
-    overlay_ctx.indices_count   = NULL;
-    generate_grid(&overlay_ctx);
+    OverlayContext * overlay_ctx = &app->overlay_ctx;
+
+    overlay_ctx->vao            = NULL;
+    overlay_ctx->vertex_buffers = NULL;
+    overlay_ctx->index_buffers  = NULL;
+    overlay_ctx->indices_count  = NULL;
+
+    overlay_ctx->grid_steps     = 10;
+    overlay_ctx->grid_size      = 1.0f;
+
+    overlay_ctx->draw_faces     = true;
+    overlay_ctx->draw_edges     = false;
+    overlay_ctx->draw_grid      = true;
+    overlay_ctx->draw_axis_x    = true;
+    overlay_ctx->draw_axis_y    = true;
+    overlay_ctx->draw_axis_z    = true;
+
+    generate_grid(overlay_ctx);
 
     // Установить параметры отсечения
     ctx.cull_face = true;
@@ -608,6 +627,9 @@ void render(Application * app) {
         ctx.children_count = 0;
     }
 
+    // Привязать структуру программы к окну GLFW
+    glfwSetWindowUserPointer(window, app);
+
     // обработка изменения размера окна
     glfwSetFramebufferSizeCallback(window, reshape);
 
@@ -647,10 +669,10 @@ void render(Application * app) {
             glfwPollEvents();
 
             // рендер сцены
-            display();
+            display(window);
 
             // рендер интерфейса
-            draw_ui(&ctx, buffer, &fps, &last_time, total_vertices, total_indices);
+            draw_ui(app, &ctx, buffer, &fps, &last_time, total_vertices, total_indices);
 
             // Меняем буферы
             glfwSwapBuffers(window);

@@ -4,7 +4,9 @@
 #include <windows.h>
 
 #include "file_io.c"
+
 #include "file_formats.h"
+#include "overlays.h"
 
 typedef struct Application {
 
@@ -22,6 +24,9 @@ typedef struct Application {
 
     // Структура, которая хранит данные текущего открытого файла
     void * file;
+
+    // Контекст наложений
+    OverlayContext overlay_ctx;
 
 } Application;
 

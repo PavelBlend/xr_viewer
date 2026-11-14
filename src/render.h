@@ -47,21 +47,7 @@ typedef struct RenderContext {
 
 } RenderContext;
 
-typedef struct OverlayContext {
-
-    uint32_t    grid_steps;    // Количество линий в каждую сторону
-    float       grid_size;    // Половина размера сетки
-    GLuint*     vao;
-    GLuint*     vertex_buffers;
-    GLuint*     index_buffers;
-    uint32_t*   indices_count;
-
-} OverlayContext;
-
 // Создать контекст рендера
 RenderContext ctx;
-
-// Создать контекст наложений
-OverlayContext overlay_ctx;
 
 #endif    // RENDER_H
