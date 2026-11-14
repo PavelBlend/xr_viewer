@@ -27,7 +27,6 @@
 
 #include "render.h"
 #include "types.h"
-#include "shading.h"
 #include "application.h"
 #include "ogf_verts.h"
 
@@ -80,6 +79,55 @@ static void random_color_from_id(uint32_t id, float* r, float* g, float* b) {
     *r = ((h >>  0) & 0xFF) / 255.0f;
     *g = ((h >>  8) & 0xFF) / 255.0f;
     *b = ((h >> 16) & 0xFF) / 255.0f;
+}
+
+void draw_faces(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
+
+    // рандомный цвет меша
+    float r, g, b;
+
+    // отрисовка треугольников
+    if (overlay_ctx->draw_faces) {
+
+        if (render_ctx->cull_face) {
+            glEnable(GL_CULL_FACE);
+        } else {
+            glDisable(GL_CULL_FACE);
+        }
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+        // сместить полигоны в буфере глубины, чтобы не было артефактов на wireframe
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(1.0f, 1.0f);
+
+        if (render_ctx->shadeless) {
+            glUniform1i(render_ctx->useShadelessLoc, 1);
+        } else {
+            glUniform1i(render_ctx->useShadelessLoc, 0);
+        }
+
+        for (uint32_t child_id=0; child_id<render_ctx->children_count; child_id++) {
+
+            if (render_ctx->textures[child_id] && render_ctx->use_textures) {
+                glUniform1i(render_ctx->useTextureLoc, 1);  // Включаем текстуру
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, render_ctx->textures[child_id]);
+            } else {
+                glUniform1i(render_ctx->useTextureLoc, 0);
+                random_color_from_id(child_id, &r, &g, &b);
+                glUniform3f(render_ctx->solidColorLoc, r, g, b);
+            }
+
+            glBindVertexArray(render_ctx->vao[child_id]);
+            glDrawElements(GL_TRIANGLES, render_ctx->indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+
+        }
+
+        // выключить смещение полигонов в Z буфере
+        glDisable(GL_POLYGON_OFFSET_FILL);
+    }
+
 }
 
 void display(GLFWwindow* window) {
@@ -155,49 +203,8 @@ void display(GLFWwindow* window) {
 
     glUniform3f(render_ctx->lightDirLoc, light_world[0], light_world[1], light_world[2]);
 
-    float r, g, b;
-
     // отрисовка треугольников
-    if (overlay_ctx->draw_faces) {
-
-        if (render_ctx->cull_face) {
-            glEnable(GL_CULL_FACE);
-        } else {
-            glDisable(GL_CULL_FACE);
-        }
-
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-        // сместить полигоны в буфере глубины, чтобы не было артефактов на wireframe
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        glPolygonOffset(1.0f, 1.0f);
-
-        if (shadeless) {
-            glUniform1i(render_ctx->useShadelessLoc, 1);
-        } else {
-            glUniform1i(render_ctx->useShadelessLoc, 0);
-        }
-
-        for (uint32_t child_id=0; child_id<render_ctx->children_count; child_id++) {
-
-            if (render_ctx->textures[child_id] && textures) {
-                glUniform1i(render_ctx->useTextureLoc, 1);  // Включаем текстуру
-                glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, render_ctx->textures[child_id]);
-            } else {
-                glUniform1i(render_ctx->useTextureLoc, 0);
-                random_color_from_id(child_id, &r, &g, &b);
-                glUniform3f(render_ctx->solidColorLoc, r, g, b);
-            }
-
-            glBindVertexArray(render_ctx->vao[child_id]);
-            glDrawElements(GL_TRIANGLES, render_ctx->indices_count[child_id], GL_UNSIGNED_SHORT, 0);
-
-        }
-
-        // выключить смещение полигонов в Z буфере
-        glDisable(GL_POLYGON_OFFSET_FILL);
-    }
+    draw_faces(render_ctx, overlay_ctx);
 
     // отрисовка рёбер
     if (overlay_ctx->draw_edges) {
@@ -478,6 +485,10 @@ void render(Application * app) {
     generate_grid(overlay_ctx);
 
     render_ctx->vsync = true;
+
+    // параметры шейдинга
+    render_ctx->shadeless       = false;
+    render_ctx->use_textures    = true;
 
     // Установить параметры отсечения
     render_ctx->cull_face = true;

@@ -15,6 +15,7 @@ Application create_app(int argc, char* argv[]) {
 
     Application app;
 
+    // Программа запущена
     app.running = true;
 
     // Вычислить абсолютный путь к exe файлу программы

@@ -32,6 +32,12 @@ typedef struct RenderContext {
 
     bool vsync;
 
+    // режим без освещения
+    bool shadeless;
+
+    // отображать текстуры
+    bool use_textures;
+
     GLuint*     vao;
     GLuint*     vertex_buffers;
     GLuint*     index_buffers;

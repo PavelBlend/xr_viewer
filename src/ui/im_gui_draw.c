@@ -10,7 +10,6 @@
 #include "..\globals.c"
 #include "..\render.h"
 #include "..\application.h"
-#include "..\shading.h"
 #include "..\version.h"
 
 bool show_main_window = true;
@@ -270,14 +269,14 @@ void draw_ui(Application* app, char* buffer, double* fps, double* last_time, uin
             igTableSetColumnIndex(0);
             igText("Textures:");
             igTableSetColumnIndex(1);
-            igCheckbox("##textures", &textures);
+            igCheckbox("##textures", &render_ctx->use_textures);
 
             // Shadeless
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Shadeless:");
             igTableSetColumnIndex(1);
-            igCheckbox("##shadeless", &shadeless);
+            igCheckbox("##shadeless", &render_ctx->shadeless);
 
             // Закончить рисовать таблицу с параметрами
             igEndTable();
