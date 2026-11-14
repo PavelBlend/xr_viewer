@@ -6,6 +6,7 @@
 #include "file_io.c"
 
 #include "file_formats.h"
+#include "render.h"
 #include "overlays.h"
 
 typedef struct Application {
@@ -27,6 +28,9 @@ typedef struct Application {
 
     // Структура, которая хранит данные текущего открытого файла
     void * file;
+
+    // Контекст рендера
+    RenderContext render_ctx;
 
     // Контекст наложений
     OverlayContext overlay_ctx;

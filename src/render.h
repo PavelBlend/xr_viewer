@@ -46,7 +46,4 @@ typedef struct RenderContext {
 
 } RenderContext;
 
-// Создать контекст рендера
-RenderContext ctx;
-
 #endif    // RENDER_H

@@ -94,13 +94,14 @@ void draw_main_menu(Application* app) {
 
 }
 
-void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
+void draw_ui(Application* app, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
 
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
     igNewFrame();
 
-    OverlayContext * overlay_ctx = &app->overlay_ctx;
+    RenderContext *  render_ctx  = &app->render_ctx  ;
+    OverlayContext * overlay_ctx = &app->overlay_ctx ;
 
     update_fps(last_time, fps);
 
@@ -174,7 +175,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(0);
             igText("Children Count:");
             igTableSetColumnIndex(1);
-            format_uint32_with_spaces(ctx->children_count, buffer);
+            format_uint32_with_spaces(render_ctx->children_count, buffer);
             igText("%s", buffer);
 
             // Vertices Count
@@ -241,14 +242,14 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(0);
             igText("Cull Face:");
             igTableSetColumnIndex(1);
-            igCheckbox("##cull_face", &ctx->cull_face);
+            igCheckbox("##cull_face", &render_ctx->cull_face);
 
             // Cull Edge
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
             igText("Cull Edge:");
             igTableSetColumnIndex(1);
-            igCheckbox("##cull_edge", &ctx->cull_edge);
+            igCheckbox("##cull_edge", &render_ctx->cull_edge);
 
             // Закончить рисовать таблицу с параметрами
             igEndTable();
@@ -373,7 +374,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(1);
             igColorEdit3(
                 "Clear Color",
-                ctx->clear_color,
+                render_ctx->clear_color,
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
@@ -384,7 +385,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(1);
             igColorEdit3(
                 "Edges Color",
-                ctx->edges_color,
+                render_ctx->edges_color,
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
@@ -395,7 +396,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(1);
             igColorEdit3(
                 "Grid Color",
-                ctx->grid_color,
+                render_ctx->grid_color,
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
@@ -406,7 +407,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(1);
             igColorEdit3(
                 "X-Axis Color",
-                ctx->x_axis_color,
+                render_ctx->x_axis_color,
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
@@ -417,7 +418,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(1);
             igColorEdit3(
                 "Y-Axis Color",
-                ctx->y_axis_color,
+                render_ctx->y_axis_color,
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
@@ -428,7 +429,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
             igTableSetColumnIndex(1);
             igColorEdit3(
                 "Z-Axis Color",
-                ctx->z_axis_color,
+                render_ctx->z_axis_color,
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 

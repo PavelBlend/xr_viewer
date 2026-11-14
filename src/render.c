@@ -87,6 +87,9 @@ void display(GLFWwindow* window) {
     // Извлечь указатель на основную структуру программы
     Application* app = (Application*)glfwGetWindowUserPointer(window);
 
+    // Контекст рендера
+    RenderContext * render_ctx = &app->render_ctx;
+
     // Контекст наложений
     OverlayContext * overlay_ctx = &app->overlay_ctx;
 
@@ -98,12 +101,12 @@ void display(GLFWwindow* window) {
     }
 
     // Очистка экрана
-    glClearColor(ctx.clear_color[0], ctx.clear_color[1], ctx.clear_color[2], 1.0);
+    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram(ctx.ShaderProgram);
+    glUseProgram(render_ctx->ShaderProgram);
 
-    set_shader_matrices(window, ctx.ShaderProgram);
+    set_shader_matrices(window, render_ctx->ShaderProgram);
 
     // направление света в пространстве вида (следует за камерой),
     // переведённое обратно в мир через инверсию view
@@ -150,14 +153,14 @@ void display(GLFWwindow* window) {
     glm_mat3_transpose_to(view3, view3t);
     glm_mat3_mulv(view3t, light_view, light_world);
 
-    glUniform3f(ctx.lightDirLoc, light_world[0], light_world[1], light_world[2]);
+    glUniform3f(render_ctx->lightDirLoc, light_world[0], light_world[1], light_world[2]);
 
     float r, g, b;
 
     // отрисовка треугольников
     if (overlay_ctx->draw_faces) {
 
-        if (ctx.cull_face) {
+        if (render_ctx->cull_face) {
             glEnable(GL_CULL_FACE);
         } else {
             glDisable(GL_CULL_FACE);
@@ -170,25 +173,25 @@ void display(GLFWwindow* window) {
         glPolygonOffset(1.0f, 1.0f);
 
         if (shadeless) {
-            glUniform1i(ctx.useShadelessLoc, 1);
+            glUniform1i(render_ctx->useShadelessLoc, 1);
         } else {
-            glUniform1i(ctx.useShadelessLoc, 0);
+            glUniform1i(render_ctx->useShadelessLoc, 0);
         }
 
-        for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
+        for (uint32_t child_id=0; child_id<render_ctx->children_count; child_id++) {
 
-            if (ctx.textures[child_id] && textures) {
-                glUniform1i(ctx.useTextureLoc, 1);  // Включаем текстуру
+            if (render_ctx->textures[child_id] && textures) {
+                glUniform1i(render_ctx->useTextureLoc, 1);  // Включаем текстуру
                 glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, ctx.textures[child_id]);
+                glBindTexture(GL_TEXTURE_2D, render_ctx->textures[child_id]);
             } else {
-                glUniform1i(ctx.useTextureLoc, 0);
+                glUniform1i(render_ctx->useTextureLoc, 0);
                 random_color_from_id(child_id, &r, &g, &b);
-                glUniform3f(ctx.solidColorLoc, r, g, b);
+                glUniform3f(render_ctx->solidColorLoc, r, g, b);
             }
 
-            glBindVertexArray(ctx.vao[child_id]);
-            glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+            glBindVertexArray(render_ctx->vao[child_id]);
+            glDrawElements(GL_TRIANGLES, render_ctx->indices_count[child_id], GL_UNSIGNED_SHORT, 0);
 
         }
 
@@ -199,7 +202,7 @@ void display(GLFWwindow* window) {
     // отрисовка рёбер
     if (overlay_ctx->draw_edges) {
 
-        if (ctx.cull_edge) {
+        if (render_ctx->cull_edge) {
             glEnable(GL_CULL_FACE);
         } else {
             glDisable(GL_CULL_FACE);
@@ -208,14 +211,14 @@ void display(GLFWwindow* window) {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         glLineWidth(1.0f);
 
-        for (uint32_t child_id=0; child_id<ctx.children_count; child_id++) {
+        for (uint32_t child_id=0; child_id<render_ctx->children_count; child_id++) {
 
-            glUniform1i(ctx.useTextureLoc, 0);
-            glUniform1i(ctx.useShadelessLoc, 1);
-            glUniform3f(ctx.solidColorLoc, ctx.edges_color[0], ctx.edges_color[1], ctx.edges_color[2]);
+            glUniform1i(render_ctx->useTextureLoc, 0);
+            glUniform1i(render_ctx->useShadelessLoc, 1);
+            glUniform3f(render_ctx->solidColorLoc, render_ctx->edges_color[0], render_ctx->edges_color[1], render_ctx->edges_color[2]);
 
-            glBindVertexArray(ctx.vao[child_id]);
-            glDrawElements(GL_TRIANGLES, ctx.indices_count[child_id], GL_UNSIGNED_SHORT, 0);
+            glBindVertexArray(render_ctx->vao[child_id]);
+            glDrawElements(GL_TRIANGLES, render_ctx->indices_count[child_id], GL_UNSIGNED_SHORT, 0);
 
         }
 
@@ -230,44 +233,44 @@ void display(GLFWwindow* window) {
 
     for (uint32_t i=0; i<4; i++) {
 
-        glUniform1i(ctx.useTextureLoc, 0);
-        glUniform1i(ctx.useShadelessLoc, 1);
+        glUniform1i(render_ctx->useTextureLoc, 0);
+        glUniform1i(render_ctx->useShadelessLoc, 1);
 
         if (i==0) {
             if (overlay_ctx->draw_axis_x) {    // цвет оси X
                 glLineWidth(1.5f);
-                glUniform3f(ctx.solidColorLoc, ctx.x_axis_color[0], ctx.x_axis_color[1], ctx.x_axis_color[2]);
+                glUniform3f(render_ctx->solidColorLoc, render_ctx->x_axis_color[0], render_ctx->x_axis_color[1], render_ctx->x_axis_color[2]);
                 glBindVertexArray(overlay_ctx->vao[i]);
                 glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
             } else if (overlay_ctx->draw_grid) {    // цвет сетки
                 glLineWidth(1.0f);
-                glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
+                glUniform3f(render_ctx->solidColorLoc, render_ctx->grid_color[0], render_ctx->grid_color[1], render_ctx->grid_color[2]);
                 glBindVertexArray(overlay_ctx->vao[i]);
                 glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
             }
 
         } else if (i==1 && overlay_ctx->draw_axis_y) {
             glLineWidth(1.5f);
-            glUniform3f(ctx.solidColorLoc, ctx.y_axis_color[0], ctx.y_axis_color[1], ctx.y_axis_color[2]);
+            glUniform3f(render_ctx->solidColorLoc, render_ctx->y_axis_color[0], render_ctx->y_axis_color[1], render_ctx->y_axis_color[2]);
             glBindVertexArray(overlay_ctx->vao[i]);
             glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
 
         } else if (i==2) {
             if (overlay_ctx->draw_axis_z) {    // цвет оси Z
                 glLineWidth(1.5f);
-                glUniform3f(ctx.solidColorLoc, ctx.z_axis_color[0], ctx.z_axis_color[1], ctx.z_axis_color[2]);
+                glUniform3f(render_ctx->solidColorLoc, render_ctx->z_axis_color[0], render_ctx->z_axis_color[1], render_ctx->z_axis_color[2]);
                 glBindVertexArray(overlay_ctx->vao[i]);
                 glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
             } else if (overlay_ctx->draw_grid) {    // цвет сетки
                 glLineWidth(1.0f);
-                glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
+                glUniform3f(render_ctx->solidColorLoc, render_ctx->grid_color[0], render_ctx->grid_color[1], render_ctx->grid_color[2]);
                 glBindVertexArray(overlay_ctx->vao[i]);
                 glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
             }
 
         } else  if (i==3 && overlay_ctx->draw_grid) {
             glLineWidth(1.0f);
-            glUniform3f(ctx.solidColorLoc, ctx.grid_color[0], ctx.grid_color[1], ctx.grid_color[2]);
+            glUniform3f(render_ctx->solidColorLoc, render_ctx->grid_color[0], render_ctx->grid_color[1], render_ctx->grid_color[2]);
             glBindVertexArray(overlay_ctx->vao[i]);
             glDrawElements(GL_LINES, overlay_ctx->indices_count[i], GL_UNSIGNED_SHORT, 0);
         }
@@ -278,42 +281,42 @@ void display(GLFWwindow* window) {
 
 }
 
-void clear_gl_data(void) {
+void clear_gl_data(RenderContext * render_ctx) {
 
     // Очистка ресурсов OpenGL
-    for (uint32_t i = 0; i < ctx.children_count; i++) {
-        glDeleteVertexArrays(1, &ctx.vao[i]);
-        glDeleteBuffers(1, &ctx.vertex_buffers[i]);
-        glDeleteBuffers(1, &ctx.index_buffers[i]);
-        if (ctx.textures[i]) {
-            glDeleteTextures(1, &ctx.textures[i]);
+    for (uint32_t i = 0; i < render_ctx->children_count; i++) {
+        glDeleteVertexArrays(1, &render_ctx->vao[i]);
+        glDeleteBuffers(1, &render_ctx->vertex_buffers[i]);
+        glDeleteBuffers(1, &render_ctx->index_buffers[i]);
+        if (render_ctx->textures[i]) {
+            glDeleteTextures(1, &render_ctx->textures[i]);
         }
     }
 
     // Освобождение выделенной памяти
 
-    if (ctx.vao != NULL) {
-        free(ctx.vao);
+    if (render_ctx->vao != NULL) {
+        free(render_ctx->vao);
     }
 
-    if (ctx.vertex_buffers != NULL) {
-        free(ctx.vertex_buffers);
+    if (render_ctx->vertex_buffers != NULL) {
+        free(render_ctx->vertex_buffers);
     }
 
-    if (ctx.index_buffers != NULL) {
-        free(ctx.index_buffers);
+    if (render_ctx->index_buffers != NULL) {
+        free(render_ctx->index_buffers);
     }
 
-    if (ctx.indices_count != NULL) {
-        free(ctx.indices_count);
+    if (render_ctx->indices_count != NULL) {
+        free(render_ctx->indices_count);
     }
 
-    if (ctx.textures != NULL) {
-        free(ctx.textures);
+    if (render_ctx->textures != NULL) {
+        free(render_ctx->textures);
     }
 
     // Удаление шейдерной программы
-    glDeleteProgram(ctx.ShaderProgram);
+    glDeleteProgram(render_ctx->ShaderProgram);
 
 }
 
@@ -457,7 +460,10 @@ void render(Application * app) {
     // Режим заливки полигонов
     glPolygonMode(GL_FRONT, GL_FILL);
 
-    // Генерация координатной сетки
+    // Контекст рендера
+    RenderContext * render_ctx = &app->render_ctx;
+
+    // Контекст наложений
     OverlayContext * overlay_ctx = &app->overlay_ctx;
 
     overlay_ctx->vao            = NULL;
@@ -475,84 +481,85 @@ void render(Application * app) {
     overlay_ctx->draw_axis_y    = true;
     overlay_ctx->draw_axis_z    = true;
 
+    // Генерация координатной сетки
     generate_grid(overlay_ctx);
 
     // Установить параметры отсечения
-    ctx.cull_face = true;
-    ctx.cull_edge = false;
+    render_ctx->cull_face = true;
+    render_ctx->cull_edge = false;
 
     // Установить цвет для очистки экрана
-    ctx.clear_color[0] = 0.5f;
-    ctx.clear_color[1] = 0.5f;
-    ctx.clear_color[2] = 0.5f;
-    glClearColor(ctx.clear_color[0], ctx.clear_color[1], ctx.clear_color[2], 1.0);
+    render_ctx->clear_color[0] = 0.5f;
+    render_ctx->clear_color[1] = 0.5f;
+    render_ctx->clear_color[2] = 0.5f;
+    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
 
     // Установить цвет рёбер меша
-    ctx.edges_color[0] = 0.0f;
-    ctx.edges_color[1] = 0.0f;
-    ctx.edges_color[2] = 0.0f;
+    render_ctx->edges_color[0] = 0.0f;
+    render_ctx->edges_color[1] = 0.0f;
+    render_ctx->edges_color[2] = 0.0f;
 
     // Установить цвет координатной сетки
-    ctx.grid_color[0] = 0.45f;
-    ctx.grid_color[1] = 0.45f;
-    ctx.grid_color[2] = 0.45f;
+    render_ctx->grid_color[0] = 0.45f;
+    render_ctx->grid_color[1] = 0.45f;
+    render_ctx->grid_color[2] = 0.45f;
 
     // Установить цвет оси X
-    ctx.x_axis_color[0] = 0.5f;
-    ctx.x_axis_color[1] = 0.0f;
-    ctx.x_axis_color[2] = 0.0f;
+    render_ctx->x_axis_color[0] = 0.5f;
+    render_ctx->x_axis_color[1] = 0.0f;
+    render_ctx->x_axis_color[2] = 0.0f;
 
     // Установить цвет оси Y
-    ctx.y_axis_color[0] = 0.0f;
-    ctx.y_axis_color[1] = 0.5f;
-    ctx.y_axis_color[2] = 0.0f;
+    render_ctx->y_axis_color[0] = 0.0f;
+    render_ctx->y_axis_color[1] = 0.5f;
+    render_ctx->y_axis_color[2] = 0.0f;
 
     // Установить цвет оси Z
-    ctx.z_axis_color[0] = 0.0f;
-    ctx.z_axis_color[1] = 0.0f;
-    ctx.z_axis_color[2] = 0.5f;
+    render_ctx->z_axis_color[0] = 0.0f;
+    render_ctx->z_axis_color[1] = 0.0f;
+    render_ctx->z_axis_color[2] = 0.5f;
 
     // загрузить шейдеры
-    ctx.ShaderProgram = compile_shaders(app->exe_dir);
+    render_ctx->ShaderProgram = compile_shaders(app->exe_dir);
 
-    ctx.useShadelessLoc = glGetUniformLocation(ctx.ShaderProgram, "useShadeless");
-    ctx.useTextureLoc   = glGetUniformLocation(ctx.ShaderProgram, "useTexture");
-    ctx.solidColorLoc   = glGetUniformLocation(ctx.ShaderProgram, "solidColor");
-    ctx.lightDirLoc     = glGetUniformLocation(ctx.ShaderProgram, "lightDir");
+    render_ctx->useShadelessLoc = glGetUniformLocation(render_ctx->ShaderProgram, "useShadeless");
+    render_ctx->useTextureLoc   = glGetUniformLocation(render_ctx->ShaderProgram, "useTexture");
+    render_ctx->solidColorLoc   = glGetUniformLocation(render_ctx->ShaderProgram, "solidColor");
+    render_ctx->lightDirLoc     = glGetUniformLocation(render_ctx->ShaderProgram, "lightDir");
 
     // статистика
     uint32_t total_vertices = 0;
     uint32_t total_indices = 0;
 
     // центр модели
-    ctx.model_center[0] = 0.0f;
-    ctx.model_center[1] = 0.0f;
-    ctx.model_center[2] = 0.0f;
+    render_ctx->model_center[0] = 0.0f;
+    render_ctx->model_center[1] = 0.0f;
+    render_ctx->model_center[2] = 0.0f;
 
     if (app->file != NULL) {
         OgfFile* ogf_file = (OgfFile*) app->file;
 
-        ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
-        ctx.vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
-        ctx.index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
-        ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
-        ctx.textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
-        ctx.children_count  = ogf_file->children_count;
+        render_ctx->vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        render_ctx->vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        render_ctx->index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        render_ctx->indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
+        render_ctx->textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
+        render_ctx->children_count  = ogf_file->children_count;
 
         // Вычислить центр модели
-        ctx.model_center[0] = ogf_file->bbox_min[0] + (ogf_file->bbox_max[0] - ogf_file->bbox_min[0]) / 2;
-        ctx.model_center[1] = ogf_file->bbox_min[1] + (ogf_file->bbox_max[1] - ogf_file->bbox_min[1]) / 2;
-        ctx.model_center[2] = ogf_file->bbox_min[2] + (ogf_file->bbox_max[2] - ogf_file->bbox_min[2]) / 2;
+        render_ctx->model_center[0] = ogf_file->bbox_min[0] + (ogf_file->bbox_max[0] - ogf_file->bbox_min[0]) / 2;
+        render_ctx->model_center[1] = ogf_file->bbox_min[1] + (ogf_file->bbox_max[1] - ogf_file->bbox_min[1]) / 2;
+        render_ctx->model_center[2] = ogf_file->bbox_min[2] + (ogf_file->bbox_max[2] - ogf_file->bbox_min[2]) / 2;
 
         for (uint32_t child_id=0; child_id<ogf_file->children_count; child_id++) {
 
             // Создать VAO
-            glGenVertexArrays(1, &ctx.vao[child_id]);
-            glBindVertexArray(ctx.vao[child_id]);
+            glGenVertexArrays(1, &render_ctx->vao[child_id]);
+            glBindVertexArray(render_ctx->vao[child_id]);
 
             // Создать вершинный буфер
-            glGenBuffers(1, &ctx.vertex_buffers[child_id]);
-            glBindBuffer(GL_ARRAY_BUFFER, ctx.vertex_buffers[child_id]);
+            glGenBuffers(1, &render_ctx->vertex_buffers[child_id]);
+            glBindBuffer(GL_ARRAY_BUFFER, render_ctx->vertex_buffers[child_id]);
 
             size_t verts_size;
 
@@ -606,25 +613,25 @@ void render(Application * app) {
             glEnableVertexAttribArray(2);
 
             // Создать буфер индексов
-            glGenBuffers(1, &ctx.index_buffers[child_id]);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ctx.index_buffers[child_id]);
+            glGenBuffers(1, &render_ctx->index_buffers[child_id]);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, render_ctx->index_buffers[child_id]);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
 
-            ctx.indices_count[child_id] = ogf_child->indices->count;
+            render_ctx->indices_count[child_id] = ogf_child->indices->count;
 
             // Загрузить текстуру
-            ctx.textures[child_id] = load_dds_texture(ogf_child->texture_path);
+            render_ctx->textures[child_id] = load_dds_texture(ogf_child->texture_path);
             // printf("Load Texture: \"%s\"\n", ogf_child->texture_path);
 
         }
 
     } else {
-        ctx.vao             = NULL;
-        ctx.vertex_buffers  = NULL;
-        ctx.index_buffers   = NULL;
-        ctx.indices_count   = NULL;
-        ctx.textures        = NULL;
-        ctx.children_count = 0;
+        render_ctx->vao             = NULL;
+        render_ctx->vertex_buffers  = NULL;
+        render_ctx->index_buffers   = NULL;
+        render_ctx->indices_count   = NULL;
+        render_ctx->textures        = NULL;
+        render_ctx->children_count = 0;
     }
 
     // Привязать структуру программы к окну GLFW
@@ -656,9 +663,9 @@ void render(Application * app) {
     char buffer[15];
 
     // установить начальную позицию камеры
-    pan_x = ctx.model_center[0];
-    pan_y = ctx.model_center[1];
-    pan_z = -ctx.model_center[2];
+    pan_x = render_ctx->model_center[0];
+    pan_y = render_ctx->model_center[1];
+    pan_z = -render_ctx->model_center[2];
 
     // Главный цикл
     while (!glfwWindowShouldClose(window)) {
@@ -672,7 +679,7 @@ void render(Application * app) {
             display(window);
 
             // рендер интерфейса
-            draw_ui(app, &ctx, buffer, &fps, &last_time, total_vertices, total_indices);
+            draw_ui(app, buffer, &fps, &last_time, total_vertices, total_indices);
 
             // Меняем буферы
             glfwSwapBuffers(window);
@@ -684,7 +691,7 @@ void render(Application * app) {
     }
 
     // очистка OpenGL данных
-    clear_gl_data();
+    clear_gl_data(render_ctx);
 
     // деинициализировать cimgui
     c_im_gui_deinit();
