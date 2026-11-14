@@ -663,7 +663,7 @@ void render(Application * app) {
     // Главный цикл
     while (!glfwWindowShouldClose(window)) {
 
-        if (running) {
+        if (app->running) {
 
             // Обработка событий
             glfwPollEvents();

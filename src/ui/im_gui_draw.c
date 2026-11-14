@@ -39,7 +39,7 @@ void update_fps(double* last_time, double* fps) {
 
 }
 
-void draw_main_menu(void) {
+void draw_main_menu(Application* app) {
 
     if (igBeginMainMenuBar()) {
 
@@ -50,7 +50,7 @@ void draw_main_menu(void) {
         if (igBeginMenu("File", true)) {
 
             if (igMenuItemEx("Quit", "", "", false, true)) {
-                running = false;
+                app->running = false;
             }
 
             igEndMenu();
@@ -105,7 +105,7 @@ void draw_ui(Application* app, RenderContext* ctx, char* buffer, double* fps, do
     update_fps(last_time, fps);
 
     // Главное меню вверху
-    draw_main_menu();
+    draw_main_menu(app);
 
     // Получаем указатель на главный вьюпорт
     ImGuiViewport* viewport = igGetMainViewport();

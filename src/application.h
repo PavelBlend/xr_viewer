@@ -10,6 +10,9 @@
 
 typedef struct Application {
 
+    // Работает ли программа или нет
+    bool running;
+
     // Абсолютный путь к exe файлу программы
     char exe_dir[MAX_PATH];
 

@@ -1,6 +1,8 @@
 #ifndef APPLICATION_C
 #define APPLICATION_C
 
+#include <stdbool.h>
+
 #include "application.h"
 #include "file_formats.h"
 
@@ -12,6 +14,8 @@
 Application create_app(int argc, char* argv[]) {
 
     Application app;
+
+    app.running = true;
 
     // Вычислить абсолютный путь к exe файлу программы
     get_exe_dir(&app);
