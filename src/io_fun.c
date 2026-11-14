@@ -4,6 +4,7 @@
 #include "GLFW\glfw3.h"
 
 #include "globals.c"
+#include "overlays.c"
 
 static void get_camera_right_and_up(vec3 right, vec3 up) {
     float rad_x = glm_rad(camera_angle_x);
@@ -122,10 +123,26 @@ void mouse_wheel(GLFWwindow* window, double xoffset, double yoffset) {
     }
 }
 
+// Обработка клавиатуры
 void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mods) {
+
+    // Escape
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+
+    // W - рисовать рёбра
+    } else if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+        draw_edges = !draw_edges;
+
+    // F - рисовать полигоны
+    } else if (key == GLFW_KEY_F && action == GLFW_PRESS) {
+        draw_faces = !draw_faces;
+
+    // G - рисовать координатную сетку
+    } else if (key == GLFW_KEY_G && action == GLFW_PRESS) {
+        draw_grid = !draw_grid;
     }
+
 }
 
 #endif    // IO_FUN_C

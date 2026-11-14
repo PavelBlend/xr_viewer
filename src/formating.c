@@ -3,6 +3,7 @@
 
 #include <inttypes.h>
 
+// перевести число uint32_t в строку, у которой между разрядами будут пробелы
 void format_uint32_with_spaces(uint32_t value, char* out) {
 
     // переводим число в строку символов
