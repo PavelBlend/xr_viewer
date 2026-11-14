@@ -6,8 +6,8 @@
 #define VERSION_PATCH   0
 
 #define YEAR            2026
-#define MONTH           10
-#define DAY             30
+#define MONTH           11
+#define DAY             14
 
 const char* VERSION_SUFFIX  = "Alpha";
 const char* AUTHOR          = "Pavel_Blend";
