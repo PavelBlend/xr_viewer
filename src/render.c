@@ -624,9 +624,6 @@ void render(Application * app) {
     static double last_time = 0.0;
     static double fps = 0.0;
 
-    // общая строка символов для меток в интерфейсе
-    char buffer[15];
-
     // установить начальную позицию камеры
     pan_x = render_ctx->model_center[0];
     pan_y = render_ctx->model_center[1];
@@ -644,7 +641,7 @@ void render(Application * app) {
             display(window, app);
 
             // рендер интерфейса
-            draw_ui(app, buffer, &fps, &last_time, total_vertices, total_indices);
+            draw_ui(app, &fps, &last_time, total_vertices, total_indices);
 
             // Меняем буферы
             glfwSwapBuffers(window);

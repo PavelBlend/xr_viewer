@@ -93,7 +93,7 @@ void draw_main_menu(Application* app) {
 
 }
 
-void draw_ui(Application* app, char* buffer, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
+void draw_ui(Application* app, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
 
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
@@ -153,6 +153,9 @@ void draw_ui(Application* app, char* buffer, double* fps, double* last_time, uin
     igTextLinkOpenURL(URL, URL);
 
     igDummy((ImVec2){0, 10});
+
+    // общая строка символов для меток в интерфейсе
+    char buffer[15];
 
     // Рисовать окно со статистикой
     if (igCollapsingHeader_BoolPtr("Stats", &show_stats_window, ImGuiTreeNodeFlags_DefaultOpen)) {
