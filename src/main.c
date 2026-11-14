@@ -12,7 +12,6 @@
 #include "types.h"
 #include "file_formats.h"
 
-
 int main (int argc, char* argv[]) {
 
     // Создать основную структуру программы
@@ -20,9 +19,6 @@ int main (int argc, char* argv[]) {
 
     // Инициализировать основную структуру программы
     init_app(&app);
-
-    // Данные файла
-    FileData*   file_data   = NULL;
 
     // check cmd arguments
     if (argc < 2) {
@@ -39,16 +35,16 @@ int main (int argc, char* argv[]) {
         app.file_path = argv[1];
 
         // Прочитать данные файла
-        file_data = read_file(app.file_path);
+        app.file_data = read_file(app.file_path);
 
         // Создать структуру для чанков ogf файла
         Chunks* chunks = NULL;
 
         // Прочитать чанки
-        chunks = read_chunks(file_data, 0, (uint32_t)file_data->size);
+        chunks = read_chunks(app.file_data, 0, (uint32_t)app.file_data->size);
 
         // Прочитать данные ogf файла
-        app.file = read_ogf(file_data, chunks);
+        app.file = read_ogf(app.file_data, chunks);
 
         // Освободить память чанков
         free_chunks(chunks);
@@ -62,7 +58,8 @@ int main (int argc, char* argv[]) {
     render(app, argc, argv, app.exe_dir, app.file_path);
 
     // Освободить память данных файла
-    free_file_data(file_data);
+    free_file_data(app.file_data);
+    app.file_data = NULL;
 
     // free ogf memory
     free_ogf_file(app.file);

@@ -17,6 +17,7 @@ void init_app(Application *app) {
     app->file_type   = FILE_NONE;
     app->file        = NULL;
     app->file_path   = NULL;
+    app->file_data   = NULL;
 
 }
 

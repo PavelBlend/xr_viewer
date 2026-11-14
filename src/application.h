@@ -3,6 +3,7 @@
 
 #include <windows.h>
 
+#include "file_io.c"
 #include "file_formats.h"
 
 typedef struct Application {
@@ -12,6 +13,9 @@ typedef struct Application {
 
     // Путь к открытому файлу
     char * file_path;
+
+    // Данные файла
+    FileData * file_data;
 
     // Тип файла, который открыт в программе
     FileFormat file_type;
