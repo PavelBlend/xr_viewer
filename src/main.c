@@ -8,6 +8,7 @@
 #include "render.c"
 #include "path_utils.c"
 #include "application.c"
+#include "help.c"
 
 #include "types.h"
 #include "file_formats.h"
@@ -22,12 +23,7 @@ int main (int argc, char* argv[]) {
 
     // check cmd arguments
     if (argc < 2) {
-        printf("\nfile not specified, current command:\n    ");
-        for (int i=0; i<argc; i++) {
-            printf("%s ", argv[i]);
-        }
-        printf("\n\n");
-        printf("\nusage:\n    %s file_name.ogf\n\n", argv[0]);
+        print_usage(argc, argv);
 
     } else {
 
