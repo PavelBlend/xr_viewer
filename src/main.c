@@ -7,17 +7,18 @@
 #include "ogf_io.c"
 #include "render.c"
 #include "types.h"
+#include "path_utils.c"
 
 int main (int argc, char* argv[]) {
 
-    // Вычислить абсолютный путь к папке,
-    // в которой хранится exe файл программы
+    // Абсолютный путь к exe файлу программы
     char exe_dir[MAX_PATH];
-    GetModuleFileNameA(NULL, exe_dir, MAX_PATH);
-    char *last = strrchr(exe_dir, '\\');
-    if (last) {
-        *(last + 1) = '\0';
-    };
+    int exe_dir_code = get_exe_dir(exe_dir, MAX_PATH);
+
+    if (exe_dir_code != 0) {
+        printf("get_exe_dir error: %d\n", exe_dir_code);
+        return 1;
+    }
 
     OgfFile*    ogf_file    = NULL;
     FileData*   file_data   = NULL;
