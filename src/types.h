@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <inttypes.h>
+
 #pragma pack(push, 1)
 
 typedef struct OgfVert1Link{

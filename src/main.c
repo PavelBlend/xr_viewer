@@ -1,4 +1,3 @@
-#include "chunk_io.c"
 #include "ogf_io.c"
 #include "render.c"
 #include "application.c"

@@ -5,6 +5,8 @@
 #include "string.c"
 #include "textures.c"
 
+#include "chunk_io.h"
+
 void read_texture(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->texture = read_string_zero(file_data, &chunk->offset);
 

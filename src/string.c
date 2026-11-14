@@ -1,4 +1,10 @@
+#ifndef STRING_C
+#define STRING_C
+
 #include <stdio.h>
+#include <inttypes.h>
+
+#include "file_io.h"
 
 uint32_t get_string_length(char* string) {
     uint32_t length = 0;
@@ -33,3 +39,5 @@ char* read_string_zero(FileData* file_data, uint32_t* offset) {
     return string;
 
 }
+
+#endif

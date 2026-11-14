@@ -5,6 +5,8 @@
 
 #include "types.h"
 
+#include "chunk_io.h"
+
 #define FVF_1L_SOC 0x12071980
 #define FVF_2L_SOC 0x12071980 * 2
 

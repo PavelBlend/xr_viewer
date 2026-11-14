@@ -6,19 +6,9 @@
 #include <inttypes.h>
 
 #include "file_io.h"
+#include "chunk_io.h"
 
 #include "ogf_chunks.c"
-
-typedef struct Chunk {
-    uint32_t* id;
-    uint32_t* size;
-    uint32_t offset;
-} Chunk;
-
-typedef struct Chunks {
-    uint32_t count;
-    Chunk* chunks;
-} Chunks;
 
 void free_chunks(Chunks* chunked_file) {
     if (chunked_file != NULL) {
