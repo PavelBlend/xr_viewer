@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "ogf_chunks.c"
+#include "ogf_chunks.h"
 #include "ogf_tex.c"
 #include "ogf_verts.c"
 #include "ogf_indices.c"
