@@ -51,7 +51,7 @@ int main (int argc, char* argv[]) {
     }
 
     // render
-    render(app, argc, argv, app.exe_dir, app.file_path);
+    render(&app);
 
     // Освободить память программы
     free_mem(&app);

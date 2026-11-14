@@ -308,7 +308,7 @@ void reshape(GLFWwindow* window, int w, int h) {
     glViewport(0, 0, w, h);
 }
 
-void render(Application app, int argc, char** argv, char* exe_dir, char* file_path) {
+void render(Application * app) {
 
     // init FreeImage
     init_free_image();
@@ -330,13 +330,13 @@ void render(Application app, int argc, char** argv, char* exe_dir, char* file_pa
 
     char* window_title = NULL;
 
-    if (file_path != NULL) {
+    if (app->file_path != NULL) {
 
         // длина имени программы
         size_t win_name_size = strlen(window_name);
 
         // длина пути к файлу
-        size_t file_path_size = strlen(file_path);
+        size_t file_path_size = strlen(app->file_path);
 
         // разделители
         char* separator_1 = " - [";
@@ -364,7 +364,7 @@ void render(Application app, int argc, char** argv, char* exe_dir, char* file_pa
         pos += separator_1_size;
 
         // скопировать путь к файлу в итоговую строку
-        memcpy(pos, file_path, file_path_size);
+        memcpy(pos, app->file_path, file_path_size);
         pos += file_path_size;
 
         // скопировать второй разделитель в итоговую строку
@@ -486,7 +486,7 @@ void render(Application app, int argc, char** argv, char* exe_dir, char* file_pa
     ctx.z_axis_color[2] = 0.5f;
 
     // загрузить шейдеры
-    ctx.ShaderProgram = compile_shaders(exe_dir);
+    ctx.ShaderProgram = compile_shaders(app->exe_dir);
 
     ctx.useShadelessLoc = glGetUniformLocation(ctx.ShaderProgram, "useShadeless");
     ctx.useTextureLoc   = glGetUniformLocation(ctx.ShaderProgram, "useTexture");
@@ -502,8 +502,8 @@ void render(Application app, int argc, char** argv, char* exe_dir, char* file_pa
     ctx.model_center[1] = 0.0f;
     ctx.model_center[2] = 0.0f;
 
-    if (app.file != NULL) {
-        OgfFile* ogf_file = (OgfFile*) app.file;
+    if (app->file != NULL) {
+        OgfFile* ogf_file = (OgfFile*) app->file;
 
         ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
@@ -616,7 +616,7 @@ void render(Application app, int argc, char** argv, char* exe_dir, char* file_pa
     reshape(window, width, height);
 
     // Инициализация CImGUI
-    c_im_gui_init(window, exe_dir);
+    c_im_gui_init(window, app->exe_dir);
 
     // Переменные для подсчёта FPS
     static double last_time = 0.0;
