@@ -1,3 +1,6 @@
+#ifndef RENDER_C
+#define RENDER_C
+
 #define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
 
 #include <windows.h>
@@ -6,6 +9,8 @@
 #include <inttypes.h>
 #include <time.h>
 
+#include "ogf_io.c"
+
 #include "cimgui.h"
 #include "cimgui_impl.h"
 #include "GL\glew.h"
@@ -13,15 +18,18 @@
 #include "cglm\cglm.h"
 #include "FreeImage.h"
 
-#include "render.h"
-#include "shading.h"
 #include "io_fun.c"
 #include "globals.c"
 #include "tex_io.c"
 #include "shaders.c"
 #include "overlays.c"
 #include "formating.c"
+
+#include "render.h"
+#include "types.h"
+#include "shading.h"
 #include "application.h"
+#include "ogf_verts.h"
 
 #include "ui\im_gui_init.c"
 #include "ui\im_gui_deinit.c"
@@ -666,3 +674,5 @@ void render(Application * app) {
     deinit_free_image();
 
 }
+
+#endif    // RENDER_C

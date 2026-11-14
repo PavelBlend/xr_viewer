@@ -4,7 +4,7 @@
 #include "cimgui.h"
 
 #include "im_gui_utils.c"
-#include "im_gui_theme.h"
+#include "im_gui_theme.c"
 
 // Инициализация CImGUI
 void c_im_gui_init(GLFWwindow* window, char* exe_dir) {
