@@ -8,7 +8,7 @@
 #include "render.c"
 #include "path_utils.c"
 #include "application.c"
-#include "help.c"
+#include "cmd_utils.c"
 
 #include "types.h"
 #include "file_formats.h"
@@ -21,12 +21,8 @@ int main (int argc, char* argv[]) {
     // Инициализировать основную структуру программы
     init_app(&app);
 
-    // check cmd arguments
-    if (argc < 2) {
-        print_usage(argc, argv);
-    } else {
-        read_ogf_file(&app, argv);
-    }
+    // Обработать аргументы командной строки
+    handle_arguments(&app, argc, argv);
 
     // render
     render(&app);
