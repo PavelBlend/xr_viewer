@@ -5,8 +5,6 @@
 
 #include "GL\glew.h"
 
-bool vsync = true;
-
 typedef struct RenderContext {
 
     // Цвет очистки окна
@@ -31,6 +29,8 @@ typedef struct RenderContext {
 
     // Отсекать задние рёбра
     bool cull_edge;
+
+    bool vsync;
 
     GLuint*     vao;
     GLuint*     vertex_buffers;

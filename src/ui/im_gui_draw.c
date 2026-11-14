@@ -235,7 +235,7 @@ void draw_ui(Application* app, char* buffer, double* fps, double* last_time, uin
             igTableSetColumnIndex(0);
             igText("V-Sync:");
             igTableSetColumnIndex(1);
-            igCheckbox("##vsync", &vsync);
+            igCheckbox("##vsync", &render_ctx->vsync);
 
             // Cull Face
             igTableNextRow(0, 0.0f);

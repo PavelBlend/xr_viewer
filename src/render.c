@@ -94,7 +94,7 @@ void display(GLFWwindow* window) {
     OverlayContext * overlay_ctx = &app->overlay_ctx;
 
     // включаем vsync
-    if (vsync) {
+    if (render_ctx->vsync) {
         glfwSwapInterval(1);
     } else {
         glfwSwapInterval(0);
@@ -406,13 +406,6 @@ void render(Application * app) {
     }
     glfwMakeContextCurrent(window);
 
-    // включаем vsync
-    if (vsync) {
-        glfwSwapInterval(1);
-    } else {
-        glfwSwapInterval(0);
-    }
-
     // Настройка рендера
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -483,6 +476,8 @@ void render(Application * app) {
 
     // Генерация координатной сетки
     generate_grid(overlay_ctx);
+
+    render_ctx->vsync = true;
 
     // Установить параметры отсечения
     render_ctx->cull_face = true;
