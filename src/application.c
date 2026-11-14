@@ -1,8 +1,6 @@
 #ifndef APPLICATION_C
 #define APPLICATION_C
 
-#include <stdio.h>
-
 #include "application.h"
 #include "file_formats.h"
 
@@ -10,7 +8,7 @@
 #include "cmd_utils.c"
 #include "ogf_io.c"
 
-// Инициализировать основную структуру программы
+// Создать основную структуру программы
 Application create_app(int argc, char* argv[]) {
 
     Application app;
