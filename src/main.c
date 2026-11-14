@@ -18,13 +18,8 @@ int main (int argc, char* argv[]) {
     // Создать основную структуру программы
     Application app;
 
-    // Вычислить абсолютный путь к exe файлу программы
-    get_exe_dir(app);
-
-    // Установить открытый файл по-умолчанию (пустой файл)
-    app.file_type   = FILE_NONE;
-    app.file        = NULL;
-    app.file_path   = NULL;
+    // Инициализировать основную структуру программы
+    init_app(&app);
 
     // Создать структуры ogf файла
     OgfFile*    ogf_file    = NULL;
@@ -64,7 +59,7 @@ int main (int argc, char* argv[]) {
     }
 
     // render
-    render(app.file, argc, argv, app.exe_dir, app.file_path);
+    render(app, argc, argv, app.exe_dir, app.file_path);
 
     // free file memory
     free_file_data(file_data);

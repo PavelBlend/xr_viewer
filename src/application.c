@@ -1,24 +1,23 @@
 #ifndef APPLICATION_C
 #define APPLICATION_C
 
-#include <windows.h>
+#include <stdio.h>
 
+#include "application.h"
+#include "path_utils.c"
 #include "file_formats.h"
 
-typedef struct Application {
+// Инициализировать основную структуру программы
+void init_app(Application *app) {
 
-    // Абсолютный путь к exe файлу программы
-    char exe_dir[MAX_PATH];
+    // Вычислить абсолютный путь к exe файлу программы
+    get_exe_dir(app);
 
-    // Путь к открытому файлу
-    char * file_path;
+    // Установить открытый файл по-умолчанию (пустой файл)
+    app->file_type   = FILE_NONE;
+    app->file        = NULL;
+    app->file_path   = NULL;
 
-    // Тип файла, который открыт в программе
-    FileFormat file_type;
-
-    // Структура, которая хранит данные текущего открытого файла
-    void * file;
-
-} Application;
+}
 
 #endif

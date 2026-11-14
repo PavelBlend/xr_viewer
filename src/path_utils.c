@@ -5,7 +5,7 @@
 #include <string.h>
 #include <windows.h>
 
-#include "application.c"
+#include "application.h"
 
 // Напечатать ошибку функции get_exe_dir и закрыть программу
 void exe_dir_error(int exe_dir_code) {
@@ -14,9 +14,9 @@ void exe_dir_error(int exe_dir_code) {
 }
 
 // Вычислить абсолютный путь к папке, в которой хранится exe файл программы
-void get_exe_dir(Application app) {
+void get_exe_dir(Application *app) {
 
-    DWORD len = GetModuleFileNameA(NULL, app.exe_dir, MAX_PATH);
+    DWORD len = GetModuleFileNameA(NULL, app->exe_dir, MAX_PATH);
 
     if (len == 0)
         exe_dir_error(1);    // ошибка
@@ -25,7 +25,7 @@ void get_exe_dir(Application app) {
         exe_dir_error(2);    // буфер мал
 
     // Найти последний слеш в пути
-    char *last = strrchr(app.exe_dir, '\\');
+    char *last = strrchr(app->exe_dir, '\\');
     if (!last)
         exe_dir_error(3);    // не получилось найти слеш в пути
 

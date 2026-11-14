@@ -21,6 +21,8 @@
 #include "shaders.c"
 #include "overlays.c"
 #include "formating.c"
+#include "application.h"
+
 #include "ui\im_gui_init.c"
 #include "ui\im_gui_deinit.c"
 #include "ui\im_gui_draw.c"
@@ -306,7 +308,7 @@ void reshape(GLFWwindow* window, int w, int h) {
     glViewport(0, 0, w, h);
 }
 
-void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_path) {
+void render(Application app, int argc, char** argv, char* exe_dir, char* file_path) {
 
     // init FreeImage
     init_free_image();
@@ -500,7 +502,9 @@ void render(OgfFile* ogf_file, int argc, char** argv, char* exe_dir, char* file_
     ctx.model_center[1] = 0.0f;
     ctx.model_center[2] = 0.0f;
 
-    if (ogf_file != NULL) {
+    if (app.file != NULL) {
+        OgfFile* ogf_file = (OgfFile*) app.file;
+
         ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
         ctx.index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
