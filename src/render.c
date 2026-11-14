@@ -193,28 +193,7 @@ void draw_grid(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
 }
 
-void display(GLFWwindow* window, Application* app) {
-
-    // Контекст рендера
-    RenderContext * render_ctx = &app->render_ctx;
-
-    // Контекст наложений
-    OverlayContext * overlay_ctx = &app->overlay_ctx;
-
-    // включаем vsync
-    if (render_ctx->vsync) {
-        glfwSwapInterval(1);
-    } else {
-        glfwSwapInterval(0);
-    }
-
-    // Очистка экрана
-    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glUseProgram(render_ctx->ShaderProgram);
-
-    set_shader_matrices(window, render_ctx->ShaderProgram);
+void add_light(GLFWwindow* window, RenderContext * render_ctx) {
 
     // направление света в пространстве вида (следует за камерой),
     // переведённое обратно в мир через инверсию view
@@ -249,7 +228,7 @@ void display(GLFWwindow* window, Application* app) {
     float lz = +0.346939f;
 
     // направление света в пространстве вида (константа)
-    vec3 light_view = { lx, ly, lz };
+    vec3 light_view = {lx, ly, lz};
     glm_vec3_normalize(light_view);
 
     // перевод в мир: world = transpose(view3) * view
@@ -262,6 +241,34 @@ void display(GLFWwindow* window, Application* app) {
     glm_mat3_mulv(view3t, light_view, light_world);
 
     glUniform3f(render_ctx->lightDirLoc, light_world[0], light_world[1], light_world[2]);
+
+}
+
+void display(GLFWwindow* window, Application* app) {
+
+    // Контекст рендера
+    RenderContext * render_ctx = &app->render_ctx;
+
+    // Контекст наложений
+    OverlayContext * overlay_ctx = &app->overlay_ctx;
+
+    // включаем vsync
+    if (render_ctx->vsync) {
+        glfwSwapInterval(1);
+    } else {
+        glfwSwapInterval(0);
+    }
+
+    // Очистка экрана
+    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glUseProgram(render_ctx->ShaderProgram);
+
+    set_shader_matrices(window, render_ctx->ShaderProgram);
+
+    // Добавить источник света
+    add_light(window, render_ctx);
 
     // отрисовка треугольников
     draw_faces(render_ctx, overlay_ctx);
