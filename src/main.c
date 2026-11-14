@@ -6,19 +6,19 @@
 #include "chunk_io.c"
 #include "ogf_io.c"
 #include "render.c"
-#include "types.h"
 #include "path_utils.c"
+#include "application.c"
+
+#include "types.h"
+
 
 int main (int argc, char* argv[]) {
 
-    // Абсолютный путь к exe файлу программы
-    char exe_dir[MAX_PATH];
-    int exe_dir_code = get_exe_dir(exe_dir, MAX_PATH);
+    // Создать основную структуру программы
+    Application app;
 
-    if (exe_dir_code != 0) {
-        printf("get_exe_dir error: %d\n", exe_dir_code);
-        return 1;
-    }
+    // Вычислить абсолютный путь к exe файлу программы
+    get_exe_dir(app);
 
     OgfFile*    ogf_file    = NULL;
     FileData*   file_data   = NULL;
@@ -54,7 +54,7 @@ int main (int argc, char* argv[]) {
     }
 
     // render
-    render(ogf_file, argc, argv, exe_dir, file_path);
+    render(ogf_file, argc, argv, app.exe_dir, file_path);
 
     // free file memory
     free_file_data(file_data);
