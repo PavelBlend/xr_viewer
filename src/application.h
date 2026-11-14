@@ -26,5 +26,6 @@ typedef struct Application {
 } Application;
 
 void init_app(Application *app);
+void free_mem(Application * app);
 
 #endif
