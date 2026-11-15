@@ -37,8 +37,6 @@
 
 #define IDI_ICON1 101
 
-GLFWwindow* window = NULL;
-
 void maximizeWindow(char* window_title) {
 
     // Получаем handle окна
@@ -387,19 +385,19 @@ void render(Application * app) {
     // включить использование мультисемплинга через glfw
     glfwWindowHint(GLFW_SAMPLES, 8);
 
-    // Создать строку для заголовка окна
-    char * window_title = create_window_title_string(app);
-
     // сгенерировать seed для генератора цвета
     init_color_seed();
 
+    // Создать строку для заголовка окна
+    char * window_title = create_window_title_string(app);
+
     // создание окна
-    window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
-    if (!window) {
+    app->window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
+    if (!app->window) {
         glfwTerminate();
         return;
     }
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(app->window);
 
     // Настройка рендера
     glEnable(GL_DEPTH_TEST);
@@ -430,12 +428,12 @@ void render(Application * app) {
         int win_size_y = screen_height * 0.8;
 
         // Устанавливаем размер окна
-        glfwSetWindowSize(window, win_size_x, win_size_y);
+        glfwSetWindowSize(app->window, win_size_x, win_size_y);
 
         // центрируем окно
         int pos_x = (screen_width - win_size_x) / 2;
         int pos_y = (screen_height - win_size_y) / 2;
-        glfwSetWindowPos(window, pos_x, pos_y);
+        glfwSetWindowPos(app->window, pos_x, pos_y);
 
     }
 
@@ -640,25 +638,25 @@ void render(Application * app) {
     }
 
     // Привязать структуру программы к окну GLFW
-    glfwSetWindowUserPointer(window, app);
+    glfwSetWindowUserPointer(app->window, app);
 
     // обработка изменения размера окна
-    glfwSetFramebufferSizeCallback(window, reshape);
+    glfwSetFramebufferSizeCallback(app->window, reshape);
 
     // Обработка событий мыши
-    glfwSetCursorPosCallback(window, motion_fun);
-    glfwSetMouseButtonCallback(window, mouse_fun);
-    glfwSetScrollCallback(window, mouse_wheel);
+    glfwSetCursorPosCallback(app->window, motion_fun);
+    glfwSetMouseButtonCallback(app->window, mouse_fun);
+    glfwSetScrollCallback(app->window, mouse_wheel);
 
     // Обработка событий клавиатуры
-    glfwSetKeyCallback(window, keyboard_fun);
+    glfwSetKeyCallback(app->window, keyboard_fun);
 
     int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    reshape(window, width, height);
+    glfwGetFramebufferSize(app->window, &width, &height);
+    reshape(app->window, width, height);
 
     // Инициализация CImGUI
-    c_im_gui_init(window, app->exe_dir);
+    c_im_gui_init(app->window, app->exe_dir);
 
     // Переменные для подсчёта FPS
     static double last_time = 0.0;
@@ -670,7 +668,7 @@ void render(Application * app) {
     pan_z = -render_ctx->model_center[2];
 
     // Главный цикл
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(app->window)) {
 
         if (app->running) {
 
@@ -678,13 +676,13 @@ void render(Application * app) {
             glfwPollEvents();
 
             // рендер сцены
-            display(window, app);
+            display(app->window, app);
 
             // рендер интерфейса
             draw_ui(app, &fps, &last_time, total_vertices, total_indices);
 
             // Меняем буферы
-            glfwSwapBuffers(window);
+            glfwSwapBuffers(app->window);
 
         } else {
             break;
@@ -698,7 +696,7 @@ void render(Application * app) {
     // деинициализировать cimgui
     c_im_gui_deinit();
 
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(app->window);
     glfwTerminate();
 
     // deinit FreeImage

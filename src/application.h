@@ -2,6 +2,8 @@
 #define APPLICATION_H
 
 #include <windows.h>
+#include "GL\glew.h"
+#include "GLFW\glfw3.h"
 
 #include "file_io.c"
 
@@ -13,6 +15,9 @@ typedef struct Application {
 
     // Работает ли программа или нет
     bool running;
+
+    // GLFW Окно
+    GLFWwindow * window;
 
     // Абсолютный путь к exe файлу программы
     char exe_dir[MAX_PATH];
