@@ -104,7 +104,7 @@ static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram) {
     if (height == 0) {
         aspect = 1.0f;  // Соотношение по умолчанию (квадратное окно)
     } else {
-        aspect = (float)width / (float)height;
+        aspect = ((float)width - 350.0f) / (float)height;    // вычитаем ширину боковой панели (минус 350)
     }
 
     mat4 model;

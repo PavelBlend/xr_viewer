@@ -364,7 +364,8 @@ void clear_gl_data(RenderContext * render_ctx) {
 }
 
 void reshape(GLFWwindow* window, int w, int h) {
-    glViewport(0, 0, w, h);
+    int side_bar_width = 350;    // ширина боковой панели с параметрами
+    glViewport(side_bar_width, 0, w - side_bar_width, h);
 }
 
 void render(Application * app) {
