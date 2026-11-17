@@ -56,6 +56,21 @@ void center_window(Application* app) {
 
 }
 
+void set_window_transforms(Application* app) {
+
+    const int MAXIMIZE = 1;
+
+    if (MAXIMIZE) {
+        // открыть окно на весь экран
+        maximize_window(app);
+
+    } else {
+        // центрировать окно
+        center_window(app);
+    }
+
+}
+
 // Функция изменения размера окна
 void reshape(GLFWwindow* window, int w, int h) {
     int side_bar_width = 350;    // ширина боковой панели с параметрами

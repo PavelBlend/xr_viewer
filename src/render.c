@@ -62,17 +62,8 @@ void render(Application * app) {
     // Установить настройки рендера OpenGL
     set_opengl_render_settings();
 
-    int MAXIMIZE_WINDOW = 1;
-
-    if (MAXIMIZE_WINDOW) {
-        // открыть окно на весь экран
-        maximize_window(app);
-
-    } else {
-
-        center_window(app);
-
-    }
+    // Установить позицию и размер окна
+    set_window_transforms(app);
 
     // Инициализация GLEW
     GLenum glewStatus = glewInit();
