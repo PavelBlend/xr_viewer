@@ -22,18 +22,23 @@ bool show_theme_window = true;
 
 float menu_bar_height = 0.0f;
 
-void update_fps(double* last_time, double* fps) {
+void update_fps(Application* app) {
 
     // Получаем текущее время
     double current_time = igGetTime();
 
     // Вычисляем дельту времени между кадрами
-    double delta_time = current_time - *last_time;
-    *last_time = current_time;
+    double delta_time = current_time - app->stats.last_time;
+
+    // Устанавливаем предыдущее время
+    app->stats.last_time = current_time;
 
     // Предотвращаем деление на ноль
     if (delta_time > 0.0) {
-        *fps = 1.0 / delta_time;  // FPS = 1 / время_кадра_в_секундах
+
+        // FPS = 1 / время кадра в секундах
+        app->stats.fps = 1.0 / delta_time;
+
     }
 
 }
@@ -93,7 +98,7 @@ void draw_main_menu(Application* app) {
 
 }
 
-void draw_ui(Application* app, double* fps, double* last_time, uint32_t total_vertices, uint32_t total_indices) {
+void draw_ui(Application* app) {
 
     ImGui_ImplGlfw_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
@@ -102,7 +107,7 @@ void draw_ui(Application* app, double* fps, double* last_time, uint32_t total_ve
     RenderContext *  render_ctx  = &app->render_ctx  ;
     OverlayContext * overlay_ctx = &app->overlay_ctx ;
 
-    update_fps(last_time, fps);
+    update_fps(app);
 
     // Главное меню вверху
     draw_main_menu(app);
@@ -170,7 +175,7 @@ void draw_ui(Application* app, double* fps, double* last_time, uint32_t total_ve
             igTableSetColumnIndex(0);
             igText("FPS:");
             igTableSetColumnIndex(1);
-            igText("%d", (int)round(*fps));
+            igText("%d", (int)round(app->stats.fps));
 
             // Children Count
             igTableNextRow(0, 0.0f);
@@ -185,7 +190,7 @@ void draw_ui(Application* app, double* fps, double* last_time, uint32_t total_ve
             igTableSetColumnIndex(0);
             igText("Vertices Count:");
             igTableSetColumnIndex(1);
-            format_uint32_with_spaces(total_vertices, buffer);
+            format_uint32_with_spaces(app->stats.total_vertices, buffer);
             igText("%s", buffer);
 
             // Triangles Count
@@ -193,7 +198,7 @@ void draw_ui(Application* app, double* fps, double* last_time, uint32_t total_ve
             igTableSetColumnIndex(0);
             igText("Triangles Count:");
             igTableSetColumnIndex(1);
-            format_uint32_with_spaces(total_indices / 3, buffer);
+            format_uint32_with_spaces(app->stats.total_indices / 3, buffer);
             igText("%s", buffer);
 
             // Закончить рисовать таблицу с параметрами

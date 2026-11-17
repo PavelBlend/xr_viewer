@@ -51,6 +51,7 @@
 #include "glew\glew_init.c"
 #include "app\app_init.c"
 #include "app\app_deinit.c"
+#include "app\app_loop.c"
 
 void render(Application * app) {
 
@@ -78,10 +79,6 @@ void render(Application * app) {
     render_ctx->useTextureLoc   = glGetUniformLocation(render_ctx->ShaderProgram, "useTexture");
     render_ctx->solidColorLoc   = glGetUniformLocation(render_ctx->ShaderProgram, "solidColor");
     render_ctx->lightDirLoc     = glGetUniformLocation(render_ctx->ShaderProgram, "lightDir");
-
-    // статистика
-    uint32_t total_vertices = 0;
-    uint32_t total_indices = 0;
 
     // центр модели
     render_ctx->model_center[0] = 0.0f;
@@ -126,8 +123,8 @@ void render(Application * app) {
 
             OgfChild* ogf_child = &ogf_file->children[child_id];
 
-            total_vertices += ogf_child->verts->count;
-            total_indices += ogf_child->indices->count;
+            app->stats.total_vertices += ogf_child->verts->count;
+            app->stats.total_indices += ogf_child->indices->count;
 
             if (ogf_child->verts->format == FVF_1L_SOC || ogf_child->verts->format == FVF_1L_CSCOP) {
                 verts_size = ogf_child->verts->count * 60;
@@ -201,37 +198,13 @@ void render(Application * app) {
     // Инициализация CImGUI
     c_im_gui_init(app->window, app->exe_dir);
 
-    // Переменные для подсчёта FPS
-    static double last_time = 0.0;
-    static double fps = 0.0;
-
     // установить начальную позицию камеры
     pan_x = render_ctx->model_center[0];
     pan_y = render_ctx->model_center[1];
     pan_z = -render_ctx->model_center[2];
 
-    // Главный цикл
-    while (!glfwWindowShouldClose(app->window)) {
-
-        if (app->running) {
-
-            // Обработка событий
-            glfwPollEvents();
-
-            // рендер сцены
-            display_draw(app->window, app);
-
-            // рендер интерфейса
-            draw_ui(app, &fps, &last_time, total_vertices, total_indices);
-
-            // Меняем буферы
-            glfwSwapBuffers(app->window);
-
-        } else {
-            break;
-        }
-
-    }
+    // Главный цикл программы
+    app_main_loop(app);
 
     // Деинициализировать программу
     deinit_app(app);

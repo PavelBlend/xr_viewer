@@ -30,6 +30,12 @@ Application create_app(int argc, char* argv[]) {
     // Обработать аргументы командной строки
     handle_arguments(&app, argc, argv);
 
+    // Установить начальные параметры статистики
+    app.stats.fps               = 0.0;
+    app.stats.last_time         = 0.0;
+    app.stats.total_vertices    = 0;
+    app.stats.total_indices     = 0;
+
     return app;
 
 }

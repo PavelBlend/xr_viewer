@@ -10,6 +10,7 @@
 #include "file_formats.h"
 #include "render.h"
 #include "overlays.h"
+#include "stats\stats_types.h"
 
 typedef struct Application {
 
@@ -42,6 +43,9 @@ typedef struct Application {
 
     // Контекст наложений
     OverlayContext overlay_ctx;
+
+    // Статистика
+    Stats stats;
 
 } Application;
 
