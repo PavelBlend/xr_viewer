@@ -39,14 +39,24 @@ void create_indices_buffer(Application * app, uint32_t child_id, OgfChild * ogf_
 
 }
 
+// Создать Vertex Array Object
+void create_vao(Application * app, uint32_t child_id) {
+
+    // Сгенерировать объект
+    glGenVertexArrays(1, &app->render_ctx.vao[child_id]);
+
+    // Привязать объект
+    glBindVertexArray(app->render_ctx.vao[child_id]);
+
+}
+
 void render_init_ogf(Application * app, uint32_t child_id) {
 
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
 
     // Создать VAO
-    glGenVertexArrays(1, &render_ctx->vao[child_id]);
-    glBindVertexArray(render_ctx->vao[child_id]);
+    create_vao(app, child_id);
 
     // Создать вершинный буфер
     glGenBuffers(1, &render_ctx->vertex_buffers[child_id]);
