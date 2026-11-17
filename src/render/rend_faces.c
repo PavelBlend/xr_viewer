@@ -3,9 +3,6 @@
 
 void render_faces(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
-    // рандомный цвет меша
-    float r, g, b;
-
     // отрисовка треугольников
     if (overlay_ctx->draw_faces) {
 
@@ -35,8 +32,12 @@ void render_faces(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
                 glBindTexture(GL_TEXTURE_2D, render_ctx->textures[child_id]);
             } else {
                 glUniform1i(render_ctx->useTextureLoc, 0);
-                random_color_from_id(child_id, &r, &g, &b);
-                glUniform3f(render_ctx->solidColorLoc, r, g, b);
+                glUniform3f(
+                    render_ctx->solidColorLoc,
+                    render_ctx->meshes_color[child_id * 3],
+                    render_ctx->meshes_color[child_id * 3 + 1],
+                    render_ctx->meshes_color[child_id * 3 + 2]
+                );
             }
 
             glBindVertexArray(render_ctx->vao[child_id]);

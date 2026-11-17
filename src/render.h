@@ -21,6 +21,9 @@ typedef struct RenderContext {
     float y_axis_color[3];
     float z_axis_color[3];
 
+    // Цвета мешей
+    float * meshes_color;
+
     // Центр модели
     float model_center[3];
 

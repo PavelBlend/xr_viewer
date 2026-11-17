@@ -28,4 +28,24 @@ static void random_color_from_id(uint32_t id, float* r, float* g, float* b) {
     *b = ((h >> 16) & 0xFF) / 255.0f;
 }
 
+void gen_random_meshes_color(Application * app) {
+
+    // OGF файл
+    OgfFile* ogf_file = (OgfFile*) app->file;
+
+    // Выделить память для цветов
+    app->render_ctx.meshes_color = malloc(sizeof(float) * 3 * ogf_file->children_count);
+
+    // Сгенерировать рандомные цвета
+    for (uint32_t child_id = 0; child_id < ogf_file->children_count; child_id++) {
+        random_color_from_id(
+            child_id,
+            &app->render_ctx.meshes_color[child_id * 3],
+            &app->render_ctx.meshes_color[child_id * 3 + 1],
+            &app->render_ctx.meshes_color[child_id * 3 + 2]
+        );
+    }
+
+}
+
 #endif    // COLOR_UTILS_C

@@ -3,11 +3,6 @@
 
 void render_bbox(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
-    // цвет линий bbox
-    float r = 0.0f;
-    float g = 0.0f;
-    float b = 0.0f;
-
     // отрисовка bbox
     if (overlay_ctx->draw_bbox) {
 
@@ -18,8 +13,14 @@ void render_bbox(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
             glUniform1i(render_ctx->useTextureLoc, 0);
             glUniform1i(render_ctx->useShadelessLoc, 1);
-            random_color_from_id(child_id, &r, &g, &b);
-            glUniform3f(render_ctx->solidColorLoc, r, g, b);
+
+            // Цвет линий bbox
+            glUniform3f(
+                render_ctx->solidColorLoc,
+                render_ctx->meshes_color[child_id * 3],
+                render_ctx->meshes_color[child_id * 3 + 1],
+                render_ctx->meshes_color[child_id * 3 + 2]
+            );
 
             glBindVertexArray(overlay_ctx->bbox_vao[child_id]);
             glDrawElements(GL_LINES, overlay_ctx->bbox_indices_count[child_id], GL_UNSIGNED_SHORT, 0);
