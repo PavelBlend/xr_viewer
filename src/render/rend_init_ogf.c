@@ -22,6 +22,23 @@ void load_ogf_texture(Application * app, uint32_t child_id, OgfChild * ogf_child
     app->render_ctx.textures[child_id] = load_dds_texture(ogf_child->texture_path);
 }
 
+// Создать индексный буфер
+void create_indices_buffer(Application * app, uint32_t child_id, OgfChild * ogf_child) {
+
+    // Сгенерировать буфер
+    glGenBuffers(1, &app->render_ctx.index_buffers[child_id]);
+
+    // Привязать буфер к цели
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, app->render_ctx.index_buffers[child_id]);
+
+    // Заполнить буфер данными
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
+
+    // Сохранить количество индексов
+    app->render_ctx.indices_count[child_id] = ogf_child->indices->count;
+
+}
+
 void render_init_ogf(Application * app, uint32_t child_id) {
 
     // Контекст рендера
@@ -88,14 +105,11 @@ void render_init_ogf(Application * app, uint32_t child_id) {
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
 
-    // Создать буфер индексов
-    glGenBuffers(1, &render_ctx->index_buffers[child_id]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, render_ctx->index_buffers[child_id]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint16_t) * ogf_child->indices->count, ogf_child->indices->indices, GL_STATIC_DRAW);
+    // Создать индексный буфер
+    create_indices_buffer   (app, child_id, ogf_child);
 
-    render_ctx->indices_count[child_id] = ogf_child->indices->count;
-
-    load_ogf_texture(app, child_id, ogf_child);
+    // Загрузить текстуру
+    load_ogf_texture        (app, child_id, ogf_child);
 
 }
 
