@@ -39,6 +39,7 @@
 #include "render\rend_edges.c"
 #include "render\rend_bbox.c"
 #include "render\rend_grid.c"
+#include "render\rend_settings.c"
 #include "window\win_utils.c"
 #include "display\display_draw.c"
 #include "opengl\opengl_clear.c"
@@ -69,6 +70,9 @@ void render(Application * app) {
     // Сгенерировать seed для генератора цвета
     init_color_seed();
 
+    // Установить настройки рендера
+    set_render_settings(app);
+
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
 
@@ -93,48 +97,6 @@ void render(Application * app) {
 
     // Генерация координатной сетки
     generate_grid(overlay_ctx);
-
-    // установить параметр вертикальной синхронизации
-    render_ctx->vsync = true;
-
-    // параметры шейдинга
-    render_ctx->shadeless       = false;
-    render_ctx->use_textures    = true;
-
-    // Установить параметры отсечения
-    render_ctx->cull_face = true;
-    render_ctx->cull_edge = false;
-
-    // Установить цвет для очистки экрана
-    render_ctx->clear_color[0] = 0.5f;
-    render_ctx->clear_color[1] = 0.5f;
-    render_ctx->clear_color[2] = 0.5f;
-    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
-
-    // Установить цвет рёбер меша
-    render_ctx->edges_color[0] = 0.0f;
-    render_ctx->edges_color[1] = 0.0f;
-    render_ctx->edges_color[2] = 0.0f;
-
-    // Установить цвет координатной сетки
-    render_ctx->grid_color[0] = 0.45f;
-    render_ctx->grid_color[1] = 0.45f;
-    render_ctx->grid_color[2] = 0.45f;
-
-    // Установить цвет оси X
-    render_ctx->x_axis_color[0] = 0.5f;
-    render_ctx->x_axis_color[1] = 0.0f;
-    render_ctx->x_axis_color[2] = 0.0f;
-
-    // Установить цвет оси Y
-    render_ctx->y_axis_color[0] = 0.0f;
-    render_ctx->y_axis_color[1] = 0.5f;
-    render_ctx->y_axis_color[2] = 0.0f;
-
-    // Установить цвет оси Z
-    render_ctx->z_axis_color[0] = 0.0f;
-    render_ctx->z_axis_color[1] = 0.0f;
-    render_ctx->z_axis_color[2] = 0.5f;
 
     // загрузить шейдеры
     render_ctx->ShaderProgram = compile_shaders(app->exe_dir);
