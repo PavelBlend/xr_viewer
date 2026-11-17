@@ -1,6 +1,10 @@
 #ifndef REND_INIT_OGF_C
 #define REND_INIT_OGF_C
 
+#define POS_ATTR    0
+#define NORM_ATTR   1
+#define UV_ATTR     2
+
 // Вычислить центр модели
 void calc_model_center(Application * app) {
 
@@ -50,6 +54,13 @@ void create_vao(Application * app, uint32_t child_id) {
 
 }
 
+// Включить использование атрибутов вершин
+void enable_vertex_attrs(void) {
+    glEnableVertexAttribArray(POS_ATTR);    // Позиция
+    glEnableVertexAttribArray(NORM_ATTR);   // Нормаль
+    glEnableVertexAttribArray(UV_ATTR);     // Текстурные координаты
+}
+
 void create_vertex_buffer(Application * app, uint32_t child_id, OgfChild * ogf_child) {
 
     // Создать вершинный буфер
@@ -64,46 +75,45 @@ void create_vertex_buffer(Application * app, uint32_t child_id, OgfChild * ogf_c
     if (ogf_child->verts->format == FVF_1L_SOC || ogf_child->verts->format == FVF_1L_CSCOP) {
         verts_size = ogf_child->verts->count * 60;
         glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_1_link, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);     // position
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 60, (void*) 12);    // normal
+        glVertexAttribPointer(POS_ATTR, 3, GL_FLOAT, GL_FALSE, 60, (void*) 0);     // position
+        glVertexAttribPointer(NORM_ATTR, 3, GL_FLOAT, GL_FALSE, 60, (void*) 12);    // normal
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 60, (void*) 48);    // uv attribute
 
     } else if (ogf_child->verts->format == FVF_2L_SOC || ogf_child->verts->format == FVF_2L_CSCOP) {
         verts_size = ogf_child->verts->count * 64;
         glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_2_link, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 64, (void*) 4);     // position
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 64, (void*) 16);    // normal
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 64, (void*) 56);    // uv attribute
+        glVertexAttribPointer(POS_ATTR, 3, GL_FLOAT, GL_FALSE, 64, (void*) 4);     // position
+        glVertexAttribPointer(NORM_ATTR, 3, GL_FLOAT, GL_FALSE, 64, (void*) 16);    // normal
+        glVertexAttribPointer(UV_ATTR, 2, GL_FLOAT, GL_FALSE, 64, (void*) 56);    // uv attribute
 
     } else if (ogf_child->verts->format == FVF_3L_CSCOP) {
         verts_size = ogf_child->verts->count * 70;
         glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_3_link, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 70, (void*) 6);     // position
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 70, (void*) 18);    // normal
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 70, (void*) 62);    // uv attribute
+        glVertexAttribPointer(POS_ATTR, 3, GL_FLOAT, GL_FALSE, 70, (void*) 6);     // position
+        glVertexAttribPointer(NORM_ATTR, 3, GL_FLOAT, GL_FALSE, 70, (void*) 18);    // normal
+        glVertexAttribPointer(UV_ATTR, 2, GL_FLOAT, GL_FALSE, 70, (void*) 62);    // uv attribute
 
     } else if (ogf_child->verts->format == FVF_4L_CSCOP) {
         verts_size = ogf_child->verts->count * 76;
         glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_4_link, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 76, (void*) 8);     // position
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 76, (void*) 20);    // normal
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 76, (void*) 68);    // uv attribute
+        glVertexAttribPointer(POS_ATTR, 3, GL_FLOAT, GL_FALSE, 76, (void*) 8);     // position
+        glVertexAttribPointer(NORM_ATTR, 3, GL_FLOAT, GL_FALSE, 76, (void*) 20);    // normal
+        glVertexAttribPointer(UV_ATTR, 2, GL_FLOAT, GL_FALSE, 76, (void*) 68);    // uv attribute
 
     } else if (ogf_child->verts->format == FVF_OGF) {
         verts_size = ogf_child->verts->count * 32;
         glBufferData(GL_ARRAY_BUFFER, verts_size, ogf_child->verts->verts_static, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, (void*) 0);     // position
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 32, (void*) 12);    // normal
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 32, (void*) 24);    // uv attribute
+        glVertexAttribPointer(POS_ATTR, 3, GL_FLOAT, GL_FALSE, 32, (void*) 0);     // position
+        glVertexAttribPointer(NORM_ATTR, 3, GL_FLOAT, GL_FALSE, 32, (void*) 12);    // normal
+        glVertexAttribPointer(UV_ATTR, 2, GL_FLOAT, GL_FALSE, 32, (void*) 24);    // uv attribute
 
     } else {
         printf("unsupported rendering for vertex format: 0x%x\n", ogf_child->verts->format);
         exit(EXIT_FAILURE);
     }
 
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
+    // Включить использование атрибутов вершин
+    enable_vertex_attrs();
 
 }
 
