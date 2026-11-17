@@ -26,19 +26,29 @@ void format_uint32_with_spaces(uint32_t value, char* out) {
     size_t out_i = 0;
     int digits_written = 0;
 
-    for (int i=0; i <= pos-1; i++) {
+    if (value > 1000) {
+        for (int i=0; i <= pos-1; i++) {
 
-        out[out_i] = temp[i];
-        out_i++;
+            out[out_i] = temp[i];
+            out_i++;
 
-        digits_written++;
+            digits_written++;
 
-        if (i > 0 && digits_written % 3 == 0) {
-            out[out_i] = ' ';
+            if (i > 0 && digits_written % 3 == 0) {
+                out[out_i] = ' ';
+                out_i++;
+            }
+        }
+        out[out_i] = '\0';
+    } else {
+
+        // если число меньше 1000, то пробелы не нужны
+        for (int i=0; i <= pos-1; i++) {
+            out[out_i] = temp[i];
             out_i++;
         }
+
     }
-    out[out_i] = '\0';
 
     // отзеркалить строку (дойти до половины, чтобы два раза не отзеркалить)
     char temp_char;
