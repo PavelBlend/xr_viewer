@@ -42,6 +42,7 @@
 #include "window\win_utils.c"
 #include "display\display_draw.c"
 #include "opengl\opengl_clear.c"
+#include "opengl\opengl_settings.c"
 #include "glfw\glfw_init.c"
 
 void render(Application * app) {
@@ -58,16 +59,8 @@ void render(Application * app) {
     // Создать окно
     create_window(app);
 
-    // Настройка рендера
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    // включить мультисемплинг в OpenGL
-    glEnable(GL_MULTISAMPLE);
-
-    glEnable(GL_CULL_FACE);          // Включаем отсечение задних граней
-    glCullFace(GL_BACK);             // Отсекаем задние
-    glFrontFace(GL_CW);
+    // Установить настройки рендера OpenGL
+    set_opengl_render_settings();
 
     int maximize_window = 1;
 
