@@ -42,24 +42,15 @@
 #include "window\win_utils.c"
 #include "display\display_draw.c"
 #include "opengl\opengl_clear.c"
+#include "glfw\glfw_init.c"
 
 void render(Application * app) {
 
     // init FreeImage
     init_free_image();
 
-    // Инициализация GLFW
-    glfwInit();
-
-    // установка версии OpenGL
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-
-    // установка профиля OpenGL
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // включить использование мультисемплинга через glfw
-    glfwWindowHint(GLFW_SAMPLES, 8);
+    // инициализировать GLFW
+    glfw_init();
 
     // сгенерировать seed для генератора цвета
     init_color_seed();
