@@ -7,7 +7,8 @@
 
 #include "..\string.c"
 
-void maximizeWindow(Application* app) {
+// Развернуть окно на весь экран
+void maximize_window(Application* app) {
 
     // Получаем handle окна
     HWND hwnd = FindWindow(NULL, app->window_title);
@@ -29,11 +30,39 @@ void maximizeWindow(Application* app) {
 
 }
 
+// Центрировать окно
+void center_window(Application* app) {
+
+    GLFWmonitor*        monitor = glfwGetPrimaryMonitor ();
+    const GLFWvidmode*  mode    = glfwGetVideoMode      (monitor);
+
+    // Получаем размеры экрана
+    int screen_width  = mode->width;
+    int screen_height = mode->height;
+
+    // Вычисляем размер окна (80% ширины и высоты экрана)
+    int win_size_x = screen_width  * 0.8;
+    int win_size_y = screen_height * 0.8;
+
+    // Устанавливаем размер окна
+    glfwSetWindowSize(app->window, win_size_x, win_size_y);
+
+    // Вычисляем позицию окна так, чтобы оно было по центру экрана
+    int pos_x = (screen_width  - win_size_x) / 2;
+    int pos_y = (screen_height - win_size_y) / 2;
+
+    // Установить позицию окна
+    glfwSetWindowPos(app->window, pos_x, pos_y);
+
+}
+
+// Функция изменения размера окна
 void reshape(GLFWwindow* window, int w, int h) {
     int side_bar_width = 350;    // ширина боковой панели с параметрами
     glViewport(side_bar_width, 0, w - side_bar_width, h);
 }
 
+// Создать окно
 void create_window(Application* app) {
 
     // Создать строку для заголовка окна

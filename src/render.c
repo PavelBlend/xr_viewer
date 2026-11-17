@@ -62,30 +62,15 @@ void render(Application * app) {
     // Установить настройки рендера OpenGL
     set_opengl_render_settings();
 
-    int maximize_window = 1;
+    int MAXIMIZE_WINDOW = 1;
 
-    if (maximize_window) {
+    if (MAXIMIZE_WINDOW) {
         // открыть окно на весь экран
-        maximizeWindow(app);
+        maximize_window(app);
 
     } else {
 
-        // Получаем размеры экрана
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        int screen_width = mode->width;
-        int screen_height = mode->height;
-
-        int win_size_x = screen_width * 0.8;
-        int win_size_y = screen_height * 0.8;
-
-        // Устанавливаем размер окна
-        glfwSetWindowSize(app->window, win_size_x, win_size_y);
-
-        // центрируем окно
-        int pos_x = (screen_width - win_size_x) / 2;
-        int pos_y = (screen_height - win_size_y) / 2;
-        glfwSetWindowPos(app->window, pos_x, pos_y);
+        center_window(app);
 
     }
 
