@@ -17,6 +17,11 @@ void calc_model_center(Application * app) {
 
 }
 
+// Загрузить текстуру
+void load_ogf_texture(Application * app, uint32_t child_id, OgfChild * ogf_child) {
+    app->render_ctx.textures[child_id] = load_dds_texture(ogf_child->texture_path);
+}
+
 void render_init_ogf(Application * app, uint32_t child_id) {
 
     // Контекст рендера
@@ -32,9 +37,9 @@ void render_init_ogf(Application * app, uint32_t child_id) {
 
     size_t verts_size;
 
-    OgfFile* ogf_file = (OgfFile*) app->file;
+    OgfFile * ogf_file = (OgfFile*) app->file;
 
-    OgfChild* ogf_child = &ogf_file->children[child_id];
+    OgfChild * ogf_child = &ogf_file->children[child_id];
 
     app->stats.total_vertices += ogf_child->verts->count;
     app->stats.total_indices += ogf_child->indices->count;
@@ -90,8 +95,7 @@ void render_init_ogf(Application * app, uint32_t child_id) {
 
     render_ctx->indices_count[child_id] = ogf_child->indices->count;
 
-    // Загрузить текстуру
-    render_ctx->textures[child_id] = load_dds_texture(ogf_child->texture_path);
+    load_ogf_texture(app, child_id, ogf_child);
 
 }
 
