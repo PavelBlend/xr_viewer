@@ -34,7 +34,9 @@ void gen_random_meshes_color(Application * app) {
     OgfFile* ogf_file = (OgfFile*) app->file;
 
     // Выделить память для цветов
-    app->render_ctx.meshes_color = malloc(sizeof(float) * 3 * ogf_file->children_count);
+    if (app->render_ctx.meshes_color == NULL) {
+        app->render_ctx.meshes_color = malloc(sizeof(float) * 3 * ogf_file->children_count);
+    }
 
     // Сгенерировать рандомные цвета
     for (uint32_t child_id = 0; child_id < ogf_file->children_count; child_id++) {

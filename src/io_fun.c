@@ -151,6 +151,7 @@ void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mod
     // R - изменить рандомный цвет мешей
     } else if (key == GLFW_KEY_R && action == GLFW_PRESS) {
         g_color_seed++;
+        gen_random_meshes_color(app);
     }
 
 }

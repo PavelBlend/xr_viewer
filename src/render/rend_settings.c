@@ -48,6 +48,9 @@ void set_render_settings(Application * app) {
     render_ctx->z_axis_color[1] = 0.0f;
     render_ctx->z_axis_color[2] = 0.5f;
 
+    // Установить рандомные цвета мешей на NULL
+    render_ctx->meshes_color = NULL;
+
 }
 
 #endif    // REND_SETTINGS_C
