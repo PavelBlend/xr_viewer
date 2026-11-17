@@ -1,6 +1,16 @@
 #ifndef REND_INIT_C
 #define REND_INIT_C
 
+// Установить нулевые указатели на буферы рендера
+void set_null_buffers(Application * app) {
+    app->render_ctx.vao             = NULL;
+    app->render_ctx.vertex_buffers  = NULL;
+    app->render_ctx.index_buffers   = NULL;
+    app->render_ctx.indices_count   = NULL;
+    app->render_ctx.textures        = NULL;
+    app->render_ctx.children_count = 0;
+}
+
 void init_render_resources(Application * app) {
 
     // Контекст рендера
@@ -108,12 +118,7 @@ void init_render_resources(Application * app) {
         }
 
     } else {
-        render_ctx->vao             = NULL;
-        render_ctx->vertex_buffers  = NULL;
-        render_ctx->index_buffers   = NULL;
-        render_ctx->indices_count   = NULL;
-        render_ctx->textures        = NULL;
-        render_ctx->children_count = 0;
+        set_null_buffers(app);
     }
 
 }
