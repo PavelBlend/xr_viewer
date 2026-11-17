@@ -50,23 +50,13 @@ void create_vao(Application * app, uint32_t child_id) {
 
 }
 
-void render_init_ogf(Application * app, uint32_t child_id) {
-
-    // Контекст рендера
-    RenderContext * render_ctx = &app->render_ctx;
-
-    // Создать VAO
-    create_vao(app, child_id);
+void create_vertex_buffer(Application * app, uint32_t child_id, OgfChild * ogf_child) {
 
     // Создать вершинный буфер
-    glGenBuffers(1, &render_ctx->vertex_buffers[child_id]);
-    glBindBuffer(GL_ARRAY_BUFFER, render_ctx->vertex_buffers[child_id]);
+    glGenBuffers(1, &app->render_ctx.vertex_buffers[child_id]);
+    glBindBuffer(GL_ARRAY_BUFFER, app->render_ctx.vertex_buffers[child_id]);
 
     size_t verts_size;
-
-    OgfFile * ogf_file = (OgfFile*) app->file;
-
-    OgfChild * ogf_child = &ogf_file->children[child_id];
 
     app->stats.total_vertices += ogf_child->verts->count;
     app->stats.total_indices += ogf_child->indices->count;
@@ -114,6 +104,22 @@ void render_init_ogf(Application * app, uint32_t child_id) {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
+
+}
+
+void render_init_ogf(Application * app, uint32_t child_id) {
+
+    // OGF файл
+    OgfFile* ogf_file = (OgfFile*) app->file;
+
+    // Child-визуал
+    OgfChild * ogf_child = &ogf_file->children[child_id];
+
+    // Создать VAO
+    create_vao(app, child_id);
+
+    // Создать вершинный буфер
+    create_vertex_buffer    (app, child_id, ogf_child);
 
     // Создать индексный буфер
     create_indices_buffer   (app, child_id, ogf_child);
