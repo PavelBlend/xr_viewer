@@ -152,6 +152,10 @@ void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mod
     } else if (key == GLFW_KEY_R && action == GLFW_PRESS) {
         g_color_seed++;
         gen_random_meshes_color(app);
+
+    // S - установить серый цвет мешей (Single Color)
+    } else if (key == GLFW_KEY_S && action == GLFW_PRESS) {
+        gen_gray_meshes_color(app);
     }
 
 }
