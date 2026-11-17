@@ -41,6 +41,7 @@
 #include "render\rend_grid.c"
 #include "render\rend_settings.c"
 #include "overlay\overlay_settings.c"
+#include "overlay\overlay_init.c"
 #include "window\win_utils.c"
 #include "display\display_draw.c"
 #include "opengl\opengl_clear.c"
@@ -64,13 +65,8 @@ void render(Application * app) {
     // Контекст наложений
     OverlayContext * overlay_ctx = &app->overlay_ctx;
 
-    overlay_ctx->vao            = NULL;
-    overlay_ctx->vertex_buffers = NULL;
-    overlay_ctx->index_buffers  = NULL;
-    overlay_ctx->indices_count  = NULL;
-
-    // Генерация координатной сетки
-    generate_grid(overlay_ctx);
+    // Инициализировать наложения
+    init_overlay(app);
 
     // загрузить шейдеры
     render_ctx->ShaderProgram = compile_shaders(app->exe_dir);

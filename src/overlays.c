@@ -284,7 +284,9 @@ void generate_bbox(Application * app, OverlayContext* overlay_ctx) {
 }
 
 // Сгенерировать геометрию координатной сетки
-void generate_grid(OverlayContext* overlay_ctx) {
+void generate_grid(Application * app) {
+
+    OverlayContext* overlay_ctx = &app->overlay_ctx;
 
     // Настроить overlay контекст
 

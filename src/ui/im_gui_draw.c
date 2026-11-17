@@ -355,7 +355,7 @@ void draw_ui(Application* app) {
             igText("Grid Steps:");
             igTableSetColumnIndex(1);
             if (igDragInt("##grid_steps", &overlay_ctx->grid_steps, 1.0f, 1, 1000, "%d", 0)) {
-                generate_grid(overlay_ctx);
+                generate_grid(app);
             }
 
             // Grid Size
@@ -364,7 +364,7 @@ void draw_ui(Application* app) {
             igText("Grid Size:");
             igTableSetColumnIndex(1);
             if (igDragFloat("##grid_size", &overlay_ctx->grid_size, 1.0f, 0.1f, 100.0f, "%.2f", 0)) {
-                generate_grid(overlay_ctx);
+                generate_grid(app);
             }
 
             // Закончить рисовать таблицу с параметрами
