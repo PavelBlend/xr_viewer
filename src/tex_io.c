@@ -21,7 +21,6 @@ GLuint load_dds_texture(char* filename) {
     FIBITMAP* bitmap = FreeImage_Load(FIF_DDS, filename, DDS_DEFAULT);
     if (!bitmap) {
         printf("Cannot load DDS texture: %s\n", filename);
-        deinit_free_image();
         return 0;
     }
 
@@ -43,7 +42,6 @@ GLuint load_dds_texture(char* filename) {
     } else {
         printf("Unsupported image format\n");
         FreeImage_Unload(bitmap);
-        deinit_free_image();
         return 0;
     }
 
