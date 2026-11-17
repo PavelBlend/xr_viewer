@@ -31,6 +31,9 @@ void init_app(Application * app) {
     // Установить настройки наложений
     set_overlay_settings(app);
 
+    // Установка callback'ов GLFW
+    set_glfw_callbacks(app);
+
 }
 
 #endif    // APP_INIT_C

@@ -192,9 +192,6 @@ void render(Application * app) {
         render_ctx->children_count = 0;
     }
 
-    // Установка callback'ов GLFW
-    set_glfw_callbacks(app);
-
     // Инициализация CImGUI
     c_im_gui_init(app->window, app->exe_dir);
 
