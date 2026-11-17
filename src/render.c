@@ -69,9 +69,6 @@ void render(Application * app) {
     // Инициализация GLEW
     glew_init();
 
-    // Режим заливки полигонов
-    glPolygonMode(GL_FRONT, GL_FILL);
-
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
 

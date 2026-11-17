@@ -24,6 +24,9 @@ void set_opengl_render_settings(void) {
     // Установить порядок обхода лицевых граней
     glFrontFace(GL_CW);
 
+    // Режим заливки полигонов
+    glPolygonMode(GL_FRONT, GL_FILL);
+
 }
 
 #endif    // OPENGL_SETTINGS_C
