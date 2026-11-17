@@ -46,6 +46,7 @@
 #include "opengl\opengl_clear.c"
 #include "opengl\opengl_settings.c"
 #include "glfw\glfw_init.c"
+#include "glfw\glfw_deinit.c"
 #include "glfw\glfw_callbacks.c"
 #include "glew\glew_init.c"
 
@@ -254,16 +255,16 @@ void render(Application * app) {
 
     }
 
-    // очистка OpenGL данных
+    // Очистка OpenGL данных
     clear_gl_data(render_ctx);
 
-    // деинициализировать cimgui
+    // Деинициализировать CImGUI
     c_im_gui_deinit();
 
-    glfwDestroyWindow(app->window);
-    glfwTerminate();
+    // Деинициализировать GLFW
+    glfw_deinit(app);
 
-    // deinit FreeImage
+    // Деинициализировать FreeImage
     deinit_free_image();
 
 }
