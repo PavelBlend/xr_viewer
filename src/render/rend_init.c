@@ -1,6 +1,9 @@
 #ifndef REND_INIT_C
 #define REND_INIT_C
 
+#include <stdlib.h>
+#include <inttypes.h>
+
 // Установить нулевые указатели на буферы рендера
 void set_null_buffers(Application * app) {
     app->render_ctx.vao             = NULL;
@@ -11,30 +14,44 @@ void set_null_buffers(Application * app) {
     app->render_ctx.children_count = 0;
 }
 
+// Выделить память для буферов рендера
+void malloc_render_buffers(Application * app) {
+    OgfFile* ogf_file = (OgfFile*) app->file;
+    app->render_ctx.vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    app->render_ctx.vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    app->render_ctx.index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    app->render_ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
+    app->render_ctx.textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    app->render_ctx.children_count  = ogf_file->children_count;
+}
+
+// Выделить память для буферов наложений
+void malloc_overlay_buffers(Application * app) {
+    OgfFile* ogf_file = (OgfFile*) app->file;
+    app->overlay_ctx.bbox_vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    app->overlay_ctx.bbox_vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    app->overlay_ctx.bbox_index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
+    app->overlay_ctx.bbox_indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
+    app->overlay_ctx.bbox_children_count  = ogf_file->children_count;
+}
+
+// Выделить память для буферов
+void malloc_buffers(Application * app) {
+    malloc_render_buffers(app);
+    malloc_overlay_buffers(app);
+}
+
 void create_buffers(Application * app) {
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
 
-    // Контекст наложений
-    OverlayContext * overlay_ctx = &app->overlay_ctx;
-
     OgfFile* ogf_file = (OgfFile*) app->file;
 
-    render_ctx->vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
-    render_ctx->vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
-    render_ctx->index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
-    render_ctx->indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
-    render_ctx->textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
-    render_ctx->children_count  = ogf_file->children_count;
-
-    overlay_ctx->bbox_vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
-    overlay_ctx->bbox_vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
-    overlay_ctx->bbox_index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
-    overlay_ctx->bbox_indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
-    overlay_ctx->bbox_children_count  = ogf_file->children_count;
+    // Выделить память для буферов
+    malloc_buffers(app);
 
     // Сгенерировать bbox геометрию
-    generate_bbox(app, overlay_ctx);
+    generate_bbox(app);
 
     // Вычислить центр модели
     render_ctx->model_center[0] = ogf_file->bbox_min[0] + (ogf_file->bbox_max[0] - ogf_file->bbox_min[0]) / 2;

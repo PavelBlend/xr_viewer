@@ -157,12 +157,12 @@ void generate_axis(OverlayContext* overlay_ctx, uint32_t axis) {
 
 }
 
-void generate_bbox(Application * app, OverlayContext* overlay_ctx) {
+void generate_bbox(Application * app) {
 
     // размер вершин bbox (8 вершин параллелепипеда)
     size_t bbox_verts_size = sizeof(float) * 3 * 8;
 
-    for (uint32_t i=0; i<overlay_ctx->bbox_children_count; i++) {
+    for (uint32_t i=0; i<app->overlay_ctx.bbox_children_count; i++) {
 
         // Выделяем память для вершин bbox
         float* bbox_vertices = malloc(bbox_verts_size);
@@ -212,11 +212,11 @@ void generate_bbox(Application * app, OverlayContext* overlay_ctx) {
         bbox_vertices[23] = ogf_file->children[i].bbox_max[2];
 
         // Создать вершинный буфер для bbox
-        glGenVertexArrays(1, &overlay_ctx->bbox_vao[i]);
-        glBindVertexArray(overlay_ctx->bbox_vao[i]);
+        glGenVertexArrays(1, &app->overlay_ctx.bbox_vao[i]);
+        glBindVertexArray(app->overlay_ctx.bbox_vao[i]);
 
-        glGenBuffers(1, &overlay_ctx->bbox_vertex_buffers[i]);
-        glBindBuffer(GL_ARRAY_BUFFER, overlay_ctx->bbox_vertex_buffers[i]);
+        glGenBuffers(1, &app->overlay_ctx.bbox_vertex_buffers[i]);
+        glBindBuffer(GL_ARRAY_BUFFER, app->overlay_ctx.bbox_vertex_buffers[i]);
 
         glBufferData(GL_ARRAY_BUFFER, bbox_verts_size, bbox_vertices, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 12, (void*) 0);
@@ -273,11 +273,11 @@ void generate_bbox(Application * app, OverlayContext* overlay_ctx) {
         bbox_indices[22] = 3;
         bbox_indices[23] = 7;
 
-        glGenBuffers(1, &overlay_ctx->bbox_index_buffers[i]);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, overlay_ctx->bbox_index_buffers[i]);
+        glGenBuffers(1, &app->overlay_ctx.bbox_index_buffers[i]);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, app->overlay_ctx.bbox_index_buffers[i]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, bbox_indices_size, bbox_indices, GL_STATIC_DRAW);
 
-        overlay_ctx->bbox_indices_count[i] = bbox_indices_count;
+        app->overlay_ctx.bbox_indices_count[i] = bbox_indices_count;
 
     }
 
