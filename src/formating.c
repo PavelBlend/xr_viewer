@@ -9,14 +9,15 @@ void format_uint32_with_spaces(uint32_t value, char* out) {
     // переводим число в строку символов
     char temp[11];
     uint8_t pos = 0;
+    uint32_t temp_value = value;
 
-    if (value == 0) {
+    if (temp_value == 0) {
         temp[pos] = '0';
         pos++;
     } else {
-        while (value != 0) {
-            temp[pos] = (char)('0' + (value % 10));
-            value /= 10;
+        while (temp_value != 0) {
+            temp[pos] = (char)('0' + (temp_value % 10));
+            temp_value /= 10;
             pos++;
         }
     }
@@ -25,30 +26,28 @@ void format_uint32_with_spaces(uint32_t value, char* out) {
     // добавить пробелы
     size_t out_i = 0;
     int digits_written = 0;
+    int digit_place = 1;
 
-    if (value > 1000) {
-        for (int i=0; i <= pos-1; i++) {
+    for (int i=0; i<pos; i++) {
 
-            out[out_i] = temp[i];
-            out_i++;
+        out[out_i] = temp[i];
+        out_i++;
 
-            digits_written++;
+        digits_written++;
 
-            if (i > 0 && digits_written % 3 == 0) {
+        if (i > 0 && digits_written % 3 == 0) {
+            digit_place *= 1000;
+
+            if (value >= digit_place) {
                 out[out_i] = ' ';
                 out_i++;
             }
-        }
-        out[out_i] = '\0';
-    } else {
 
-        // если число меньше 1000, то пробелы не нужны
-        for (int i=0; i <= pos-1; i++) {
-            out[out_i] = temp[i];
-            out_i++;
         }
 
     }
+
+    out[out_i] = '\0';
 
     // отзеркалить строку (дойти до половины, чтобы два раза не отзеркалить)
     char temp_char;
