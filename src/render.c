@@ -50,6 +50,7 @@
 #include "glfw\glfw_callbacks.c"
 #include "glew\glew_init.c"
 #include "app\app_init.c"
+#include "app\app_deinit.c"
 
 void render(Application * app) {
 
@@ -232,17 +233,8 @@ void render(Application * app) {
 
     }
 
-    // Очистка OpenGL данных
-    clear_gl_data(render_ctx);
-
-    // Деинициализировать CImGUI
-    c_im_gui_deinit();
-
-    // Деинициализировать GLFW
-    glfw_deinit(app);
-
-    // Деинициализировать FreeImage
-    deinit_free_image();
+    // Деинициализировать программу
+    deinit_app(app);
 
 }
 
