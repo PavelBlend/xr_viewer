@@ -14,7 +14,7 @@ void display_draw(GLFWwindow* window, Application* app) {
     // Контекст наложений
     OverlayContext * overlay_ctx = &app->overlay_ctx;
 
-    // установить вертикальную синхронизацию
+    // Установить вертикальную синхронизацию
     set_vsync(render_ctx);
 
     // Очистить экран
@@ -29,16 +29,16 @@ void display_draw(GLFWwindow* window, Application* app) {
     // Добавить источник света
     add_light(window, render_ctx);
 
-    // отрисовка треугольников
+    // Отрисовка треугольников
     render_faces(render_ctx, overlay_ctx);
 
-    // отрисовка рёбер
+    // Отрисовка рёбер
     render_edges(render_ctx, overlay_ctx);
 
-    // отрисовка bbox
+    // Отрисовка bbox
     render_bbox(render_ctx, overlay_ctx);
 
-    // отрисовка координатной сетки
+    // Отрисовка координатной сетки
     render_grid(render_ctx, overlay_ctx);
 
 }

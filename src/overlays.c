@@ -193,7 +193,7 @@ void generate_bbox(Application * app) {
         bbox_vertices[10] = ogf_file->children[i].bbox_min[1];
         bbox_vertices[11] = ogf_file->children[i].bbox_max[2];
 
-        // Верхняя часть корogf_file
+        // Верхняя часть корoбки
 
         bbox_vertices[12] = ogf_file->children[i].bbox_min[0];
         bbox_vertices[13] = ogf_file->children[i].bbox_max[1];

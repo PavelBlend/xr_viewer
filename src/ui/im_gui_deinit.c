@@ -3,7 +3,7 @@
 
 #include "cimgui.h"
 
-// Инициализация CImGUI
+// Деинициализация CImGUI
 void c_im_gui_deinit(void) {
 
     ImGui_ImplOpenGL3_Shutdown();
