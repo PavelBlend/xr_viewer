@@ -5,6 +5,7 @@
 
 #include "globals.c"
 #include "overlays.c"
+#include "color_utils.c"
 
 #include "application.h"
 
@@ -146,6 +147,10 @@ void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mod
     // G - рисовать координатную сетку
     } else if (key == GLFW_KEY_G && action == GLFW_PRESS) {
         app->overlay_ctx.draw_grid = !app->overlay_ctx.draw_grid;
+
+    // R - изменить рандомный цвет мешей
+    } else if (key == GLFW_KEY_R && action == GLFW_PRESS) {
+        g_color_seed++;
     }
 
 }
