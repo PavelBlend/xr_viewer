@@ -55,16 +55,8 @@ void render(Application * app) {
     // сгенерировать seed для генератора цвета
     init_color_seed();
 
-    // Создать строку для заголовка окна
-    create_window_title_string(app);
-
-    // создание окна
-    app->window = glfwCreateWindow(800, 600, app->window_title, NULL, NULL);
-    if (!app->window) {
-        glfwTerminate();
-        return;
-    }
-    glfwMakeContextCurrent(app->window);
+    // Создать окно
+    create_window(app);
 
     // Настройка рендера
     glEnable(GL_DEPTH_TEST);
