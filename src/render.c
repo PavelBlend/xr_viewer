@@ -192,9 +192,6 @@ void render(Application * app) {
         render_ctx->children_count = 0;
     }
 
-    // Инициализация CImGUI
-    c_im_gui_init(app->window, app->exe_dir);
-
     // установить начальную позицию камеры
     pan_x = render_ctx->model_center[0];
     pan_y = render_ctx->model_center[1];

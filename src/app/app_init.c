@@ -34,6 +34,9 @@ void init_app(Application * app) {
     // Установка callback'ов GLFW
     set_glfw_callbacks(app);
 
+    // Инициализация CImGUI
+    c_im_gui_init(app);
+
 }
 
 #endif    // APP_INIT_C
