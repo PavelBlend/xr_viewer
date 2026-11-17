@@ -39,28 +39,7 @@
 #include "render\rend_edges.c"
 #include "render\rend_bbox.c"
 #include "render\rend_grid.c"
-
-#define IDI_ICON1 101
-
-void maximizeWindow(char* window_title) {
-
-    // Получаем handle окна
-    HWND hwnd = FindWindow(NULL, window_title);
-
-    if (hwnd) {
-        // максимизировать окно
-        ShowWindow(hwnd, SW_MAXIMIZE);
-
-        // Загружаем иконку из файла
-        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
-        if (hIcon) {
-            // Устанавливаем иконку для окна
-            SendMessage(hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
-            SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-        }
-
-    }
-}
+#include "window\win_utils.c"
 
 void add_light(GLFWwindow* window, RenderContext * render_ctx) {
 
