@@ -57,6 +57,7 @@ void create_buffers(Application * app) {
     // OGF файл
     OgfFile* ogf_file = (OgfFile*) app->file;
 
+    // Создать буферы для рендера
     for (uint32_t child_id = 0; child_id < ogf_file->children_count; child_id++) {
         render_init_ogf(app, child_id);
     }
