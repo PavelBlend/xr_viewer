@@ -19,6 +19,9 @@ typedef struct Application {
     // GLFW Окно
     GLFWwindow * window;
 
+    // Строка для заголовка окна
+    char * window_title;
+
     // Абсолютный путь к exe файлу программы
     char exe_dir[MAX_PATH];
 

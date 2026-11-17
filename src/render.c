@@ -46,7 +46,7 @@
 
 void render(Application * app) {
 
-    // init FreeImage
+    // инициализировать FreeImage
     init_free_image();
 
     // инициализировать GLFW
@@ -56,10 +56,10 @@ void render(Application * app) {
     init_color_seed();
 
     // Создать строку для заголовка окна
-    char * window_title = create_window_title_string(app);
+    create_window_title_string(app);
 
     // создание окна
-    app->window = glfwCreateWindow(800, 600, window_title, NULL, NULL);
+    app->window = glfwCreateWindow(800, 600, app->window_title, NULL, NULL);
     if (!app->window) {
         glfwTerminate();
         return;
@@ -81,7 +81,7 @@ void render(Application * app) {
 
     if (maximize_window) {
         // открыть окно на весь экран
-        maximizeWindow(window_title);
+        maximizeWindow(app);
 
     } else {
 

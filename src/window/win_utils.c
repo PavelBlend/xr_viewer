@@ -3,10 +3,10 @@
 
 #define IDI_ICON1 101
 
-void maximizeWindow(char* window_title) {
+void maximizeWindow(Application* app) {
 
     // Получаем handle окна
-    HWND hwnd = FindWindow(NULL, window_title);
+    HWND hwnd = FindWindow(NULL, app->window_title);
 
     if (hwnd) {
         // максимизировать окно
