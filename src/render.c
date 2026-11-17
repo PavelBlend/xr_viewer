@@ -48,26 +48,26 @@
 
 void render(Application * app) {
 
-    // инициализировать FreeImage
+    // Инициализировать FreeImage
     init_free_image();
 
-    // инициализировать GLFW
+    // Инициализировать GLFW
     glfw_init();
-
-    // сгенерировать seed для генератора цвета
-    init_color_seed();
 
     // Создать окно
     create_window(app);
 
-    // Установить настройки рендера OpenGL
-    set_opengl_render_settings();
-
     // Установить позицию и размер окна
     set_window_transforms(app);
 
-    // Инициализация GLEW
+    // Инициализировать GLEW
     glew_init();
+
+    // Установить настройки рендера OpenGL
+    set_opengl_render_settings();
+
+    // Сгенерировать seed для генератора цвета
+    init_color_seed();
 
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
