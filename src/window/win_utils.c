@@ -30,6 +30,12 @@ void maximize_window(Application* app) {
 
 }
 
+// Функция изменения размера окна
+void reshape(GLFWwindow* window, int w, int h) {
+    int side_bar_width = 350;    // ширина боковой панели с параметрами
+    glViewport(side_bar_width, 0, w - side_bar_width, h);
+}
+
 // Центрировать окно
 void center_window(Application* app) {
 
@@ -69,12 +75,11 @@ void set_window_transforms(Application* app) {
         center_window(app);
     }
 
-}
+    // Обновить вьюпорт
+    int width, height;
+    glfwGetFramebufferSize(app->window, &width, &height);
+    reshape(app->window, width, height);
 
-// Функция изменения размера окна
-void reshape(GLFWwindow* window, int w, int h) {
-    int side_bar_width = 350;    // ширина боковой панели с параметрами
-    glViewport(side_bar_width, 0, w - side_bar_width, h);
 }
 
 // Создать окно

@@ -219,10 +219,6 @@ void render(Application * app) {
     // Установка callback'ов GLFW
     set_glfw_callbacks(app);
 
-    int width, height;
-    glfwGetFramebufferSize(app->window, &width, &height);
-    reshape(app->window, width, height);
-
     // Инициализация CImGUI
     c_im_gui_init(app->window, app->exe_dir);
 
