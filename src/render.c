@@ -40,6 +40,7 @@
 #include "render\rend_bbox.c"
 #include "render\rend_grid.c"
 #include "render\rend_settings.c"
+#include "overlay\overlay_settings.c"
 #include "window\win_utils.c"
 #include "display\display_draw.c"
 #include "opengl\opengl_clear.c"
@@ -73,6 +74,9 @@ void render(Application * app) {
     // Установить настройки рендера
     set_render_settings(app);
 
+    // Установить настройки наложений
+    set_overlay_settings(app);
+
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
 
@@ -83,17 +87,6 @@ void render(Application * app) {
     overlay_ctx->vertex_buffers = NULL;
     overlay_ctx->index_buffers  = NULL;
     overlay_ctx->indices_count  = NULL;
-
-    overlay_ctx->grid_steps     = 10;
-    overlay_ctx->grid_size      = 1.0f;
-
-    overlay_ctx->draw_faces     = true;
-    overlay_ctx->draw_edges     = false;
-    overlay_ctx->draw_bbox      = false;
-    overlay_ctx->draw_grid      = true;
-    overlay_ctx->draw_axis_x    = true;
-    overlay_ctx->draw_axis_y    = true;
-    overlay_ctx->draw_axis_z    = true;
 
     // Генерация координатной сетки
     generate_grid(overlay_ctx);
