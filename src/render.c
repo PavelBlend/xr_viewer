@@ -40,62 +40,7 @@
 #include "render\rend_bbox.c"
 #include "render\rend_grid.c"
 #include "window\win_utils.c"
-#include "light\light_utils.c"
-
-void set_vsync(RenderContext * render_ctx) {
-    if (render_ctx->vsync) {
-        glfwSwapInterval(1);
-    } else {
-        glfwSwapInterval(0);
-    }
-}
-
-void clear_display(RenderContext * render_ctx) {
-
-    // Установить цвет очистки экрана
-    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
-
-    // Очистка экрана
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-}
-
-void display(GLFWwindow* window, Application* app) {
-
-    // Контекст рендера
-    RenderContext * render_ctx = &app->render_ctx;
-
-    // Контекст наложений
-    OverlayContext * overlay_ctx = &app->overlay_ctx;
-
-    // установить вертикальную синхронизацию
-    set_vsync(render_ctx);
-
-    // Очистить экран
-    clear_display(render_ctx);
-
-    // Использовать шейдерную программу
-    glUseProgram(render_ctx->ShaderProgram);
-
-    // Установить матрицы для шейдера
-    set_shader_matrices(window, render_ctx->ShaderProgram);
-
-    // Добавить источник света
-    add_light(window, render_ctx);
-
-    // отрисовка треугольников
-    render_faces(render_ctx, overlay_ctx);
-
-    // отрисовка рёбер
-    render_edges(render_ctx, overlay_ctx);
-
-    // отрисовка bbox
-    render_bbox(render_ctx, overlay_ctx);
-
-    // отрисовка координатной сетки
-    render_grid(render_ctx, overlay_ctx);
-
-}
+#include "display\display_draw.c"
 
 void clear_gl_data(RenderContext * render_ctx) {
 
@@ -450,7 +395,7 @@ void render(Application * app) {
             glfwPollEvents();
 
             // рендер сцены
-            display(app->window, app);
+            display_draw(app->window, app);
 
             // рендер интерфейса
             draw_ui(app, &fps, &last_time, total_vertices, total_indices);
