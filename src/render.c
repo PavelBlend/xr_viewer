@@ -60,32 +60,14 @@ void render(Application * app) {
     // Инициализировать программу
     init_app(app);
 
-    // Контекст рендера
-    RenderContext * render_ctx = &app->render_ctx;
-
     // Инициализировать наложения
     init_overlay(app);
 
-    // загрузить шейдеры
-    render_ctx->ShaderProgram = compile_shaders(app->exe_dir);
-
-    render_ctx->useShadelessLoc = glGetUniformLocation(render_ctx->ShaderProgram, "useShadeless");
-    render_ctx->useTextureLoc   = glGetUniformLocation(render_ctx->ShaderProgram, "useTexture");
-    render_ctx->solidColorLoc   = glGetUniformLocation(render_ctx->ShaderProgram, "solidColor");
-    render_ctx->lightDirLoc     = glGetUniformLocation(render_ctx->ShaderProgram, "lightDir");
-
-    // центр модели
-    render_ctx->model_center[0] = 0.0f;
-    render_ctx->model_center[1] = 0.0f;
-    render_ctx->model_center[2] = 0.0f;
+    // Загрузить шейдеры
+    load_shaders(app);
 
     // Инициализировать ресурсы для рендера
     init_render_resources(app);
-
-    // установить начальную позицию камеры
-    pan_x = render_ctx->model_center[0];
-    pan_y = render_ctx->model_center[1];
-    pan_z = -render_ctx->model_center[2];
 
     // Главный цикл программы
     app_main_loop(app);

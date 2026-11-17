@@ -208,4 +208,23 @@ static GLuint compile_shaders(char* exe_dir) {
 
 }
 
+// Установить uniform переменные
+void set_uniforms(Application * app) {
+    app->render_ctx.useShadelessLoc = glGetUniformLocation(app->render_ctx.ShaderProgram, "useShadeless");
+    app->render_ctx.useTextureLoc   = glGetUniformLocation(app->render_ctx.ShaderProgram, "useTexture");
+    app->render_ctx.solidColorLoc   = glGetUniformLocation(app->render_ctx.ShaderProgram, "solidColor");
+    app->render_ctx.lightDirLoc     = glGetUniformLocation(app->render_ctx.ShaderProgram, "lightDir");
+}
+
+// Загрузить шейдеры
+void load_shaders(Application * app) {
+
+    // Скомпилировать шейдеры
+    app->render_ctx.ShaderProgram = compile_shaders(app->exe_dir);
+
+    // Установить uniform переменные
+    set_uniforms(app);
+
+}
+
 #endif      // SHADERS_C

@@ -64,8 +64,18 @@ void create_buffers(Application * app) {
 
 }
 
+void set_model_center(Application * app) {
+    // центр модели
+    app->render_ctx.model_center[0] = 0.0f;
+    app->render_ctx.model_center[1] = 0.0f;
+    app->render_ctx.model_center[2] = 0.0f;
+}
+
 // Инициализировать ресурсы рендера
 void init_render_resources(Application * app) {
+
+    // Установить центр модели
+    set_model_center(app);
 
     if (app->file != NULL) {
         create_buffers(app);

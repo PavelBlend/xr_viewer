@@ -1,6 +1,8 @@
 #ifndef APP_LOOP_C
 #define APP_LOOP_C
 
+#include "..\globals.c"
+
 // Итерация цикла программы
 void app_loop_iteration(Application * app) {
 
@@ -18,8 +20,18 @@ void app_loop_iteration(Application * app) {
 
 }
 
+// Установить позицию камеры
+void set_camera_position(Application * app) {
+    pan_x =  app->render_ctx.model_center[0];
+    pan_y =  app->render_ctx.model_center[1];
+    pan_z = -app->render_ctx.model_center[2];
+}
+
 // Главный цикл программы
 void app_main_loop(Application * app) {
+
+    // Установить начальную позицию камеры
+    set_camera_position(app);
 
     while (!glfwWindowShouldClose(app->window)) {
 
