@@ -44,6 +44,7 @@
 #include "opengl\opengl_clear.c"
 #include "opengl\opengl_settings.c"
 #include "glfw\glfw_init.c"
+#include "glew\glew_init.c"
 
 void render(Application * app) {
 
@@ -66,10 +67,7 @@ void render(Application * app) {
     set_window_transforms(app);
 
     // Инициализация GLEW
-    GLenum glewStatus = glewInit();
-    if (glewStatus != GLEW_OK) {
-        printf("GLEW Init Error!\n");
-    }
+    glew_init();
 
     // Режим заливки полигонов
     glPolygonMode(GL_FRONT, GL_FILL);
