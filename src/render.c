@@ -46,6 +46,7 @@
 #include "opengl\opengl_clear.c"
 #include "opengl\opengl_settings.c"
 #include "glfw\glfw_init.c"
+#include "glfw\glfw_callbacks.c"
 #include "glew\glew_init.c"
 
 void render(Application * app) {
@@ -215,19 +216,8 @@ void render(Application * app) {
         render_ctx->children_count = 0;
     }
 
-    // Привязать структуру программы к окну GLFW
-    glfwSetWindowUserPointer(app->window, app);
-
-    // обработка изменения размера окна
-    glfwSetFramebufferSizeCallback(app->window, reshape);
-
-    // Обработка событий мыши
-    glfwSetCursorPosCallback(app->window, motion_fun);
-    glfwSetMouseButtonCallback(app->window, mouse_fun);
-    glfwSetScrollCallback(app->window, mouse_wheel);
-
-    // Обработка событий клавиатуры
-    glfwSetKeyCallback(app->window, keyboard_fun);
+    // Установка callback'ов GLFW
+    set_glfw_callbacks(app);
 
     int width, height;
     glfwGetFramebufferSize(app->window, &width, &height);
