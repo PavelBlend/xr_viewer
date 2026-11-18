@@ -1,7 +1,7 @@
 #ifndef OVERLAY_INIT_C
 #define OVERLAY_INIT_C
 
-#include "..\overlays.c"
+#include "..\overlay\overlay_grid.c"
 
 // Инициализировать буферы наложений
 void init_overlay_buffs(Application * app) {

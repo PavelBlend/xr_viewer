@@ -4,7 +4,7 @@
 #include "GLFW\glfw3.h"
 
 #include "globals.c"
-#include "overlays.c"
+#include "overlay\overlay_grid.c"
 #include "color_utils.c"
 
 #include "app\app_types.h"

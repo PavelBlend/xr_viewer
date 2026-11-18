@@ -5,8 +5,8 @@
 #include <stdbool.h>
 
 #include "cimgui.h"
-#include "..\overlays.c"
-#include "..\overlays.h"
+#include "..\overlay\overlay_grid.c"
+#include "..\overlay\overlay_types.h"
 #include "..\globals.c"
 #include "..\render.h"
 #include "..\app\app_types.h"

@@ -22,7 +22,7 @@
 #include "globals.c"
 #include "tex_io.c"
 #include "shaders.c"
-#include "overlays.c"
+#include "overlay\overlay_grid.c"
 #include "formating.c"
 #include "color_utils.c"
 

@@ -9,7 +9,7 @@
 
 #include "..\file_formats.h"
 #include "..\render.h"
-#include "..\overlays.h"
+#include "..\overlay\overlay_types.h"
 #include "..\stats\stats_types.h"
 
 typedef struct Application {
