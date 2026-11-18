@@ -24,6 +24,7 @@ void read_swis(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
         ogf_child->swis->verts_count = *(uint16_t*) (file_data->bytes + offset);
         offset += sizeof(ogf_child->swis->verts_count);
 
+        // Прочитать самый первый SWI и выйти из цикла
         break;
 
     }

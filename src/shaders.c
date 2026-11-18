@@ -165,16 +165,14 @@ static GLuint compile_shaders(char* exe_dir) {
     }
 
     // прочитать шейдерный код из файлов
-    char *vertex_shader = read_shader_file(exe_dir, "shaders\\vertex_shader.glsl");
-    char *fragment_shader = read_shader_file(exe_dir, "shaders\\fragment_shader.glsl");
-
-    // printf("\n");
+    char *vertex_shader   = read_shader_file(exe_dir, "shaders\\vertex_shader.glsl"     );
+    char *fragment_shader = read_shader_file(exe_dir, "shaders\\fragment_shader.glsl"   );
 
     // создать шейдеры
-    create_shader(ShaderProgram, vertex_shader, GL_VERTEX_SHADER, "shaders\\vertex_shader.glsl");
-    create_shader(ShaderProgram, fragment_shader, GL_FRAGMENT_SHADER, "shaders\\fragment_shader.glsl");
+    create_shader(ShaderProgram, vertex_shader,   GL_VERTEX_SHADER,   "shaders\\vertex_shader.glsl"     );
+    create_shader(ShaderProgram, fragment_shader, GL_FRAGMENT_SHADER, "shaders\\fragment_shader.glsl"   );
 
-    free(vertex_shader);
+    free(vertex_shader  );
     free(fragment_shader);
 
     // слинковать шейдерную программу

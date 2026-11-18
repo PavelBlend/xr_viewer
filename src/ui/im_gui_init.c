@@ -11,7 +11,7 @@ void c_im_gui_init(Application * app) {
 
     igCreateContext(NULL);
     ImGui_ImplGlfw_InitForOpenGL(app->window, true);
-    ImGui_ImplOpenGL3_Init("#version 330 core");
+    ImGui_ImplOpenGL3_Init("#version 460 core");
 
     // Установить тему для CImGUI
     cimgui_set_theme();

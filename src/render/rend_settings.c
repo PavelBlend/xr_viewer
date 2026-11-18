@@ -21,7 +21,12 @@ void set_render_settings(Application * app) {
     render_ctx->clear_color[0] = 0.5f;
     render_ctx->clear_color[1] = 0.5f;
     render_ctx->clear_color[2] = 0.5f;
-    glClearColor(render_ctx->clear_color[0], render_ctx->clear_color[1], render_ctx->clear_color[2], 1.0);
+    glClearColor(
+        render_ctx->clear_color[0],
+        render_ctx->clear_color[1],
+        render_ctx->clear_color[2],
+        1.0f
+    );
 
     // Установить цвет рёбер меша
     render_ctx->edges_color[0] = 0.0f;
