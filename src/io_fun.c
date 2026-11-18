@@ -162,6 +162,14 @@ void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mod
     } else if (key == GLFW_KEY_S && action == GLFW_PRESS) {
         gen_gray_meshes_color(app);
 
+    // T - отображать текстуры
+    } else if (key == GLFW_KEY_T && action == GLFW_PRESS) {
+        app->render_ctx.use_textures = !app->render_ctx.use_textures;
+
+    // B - отображать ограничивающие коробки (bounding box)
+    } else if (key == GLFW_KEY_B && action == GLFW_PRESS) {
+        app->overlay_ctx.draw_bbox = !app->overlay_ctx.draw_bbox;
+
     // C - установить вид камеры по центру мешей
     } else if (key == GLFW_KEY_C && action == GLFW_PRESS) {
         set_camera_position(app);
