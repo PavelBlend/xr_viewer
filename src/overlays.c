@@ -166,50 +166,15 @@ void generate_bbox(Application * app) {
 
         // Выделяем память для вершин bbox
         float* bbox_vertices = malloc(bbox_verts_size);
-    
-        // Генерация координат вершин bbox
 
         OgfFile* ogf_file = (OgfFile*) app->file;
 
-        // Нижняя часть коробки
-
-        // Левые вершины
-
-        bbox_vertices[ 0] = ogf_file->children[i].bbox_min[0];
-        bbox_vertices[ 1] = ogf_file->children[i].bbox_min[1];
-        bbox_vertices[ 2] = ogf_file->children[i].bbox_min[2];
-
-        bbox_vertices[ 3] = ogf_file->children[i].bbox_min[0];
-        bbox_vertices[ 4] = ogf_file->children[i].bbox_min[1];
-        bbox_vertices[ 5] = ogf_file->children[i].bbox_max[2];
-
-        // Правые вершины
-
-        bbox_vertices[ 6] = ogf_file->children[i].bbox_max[0];
-        bbox_vertices[ 7] = ogf_file->children[i].bbox_min[1];
-        bbox_vertices[ 8] = ogf_file->children[i].bbox_min[2];
-
-        bbox_vertices[ 9] = ogf_file->children[i].bbox_max[0];
-        bbox_vertices[10] = ogf_file->children[i].bbox_min[1];
-        bbox_vertices[11] = ogf_file->children[i].bbox_max[2];
-
-        // Верхняя часть корoбки
-
-        bbox_vertices[12] = ogf_file->children[i].bbox_min[0];
-        bbox_vertices[13] = ogf_file->children[i].bbox_max[1];
-        bbox_vertices[14] = ogf_file->children[i].bbox_min[2];
-
-        bbox_vertices[15] = ogf_file->children[i].bbox_min[0];
-        bbox_vertices[16] = ogf_file->children[i].bbox_max[1];
-        bbox_vertices[17] = ogf_file->children[i].bbox_max[2];
-
-        bbox_vertices[18] = ogf_file->children[i].bbox_max[0];
-        bbox_vertices[19] = ogf_file->children[i].bbox_max[1];
-        bbox_vertices[20] = ogf_file->children[i].bbox_min[2];
-
-        bbox_vertices[21] = ogf_file->children[i].bbox_max[0];
-        bbox_vertices[22] = ogf_file->children[i].bbox_max[1];
-        bbox_vertices[23] = ogf_file->children[i].bbox_max[2];
+        // Генерация координат вершин bbox
+        for (int vert_id=0; vert_id<8; ++vert_id) {
+            bbox_vertices[vert_id*3 + 0] = (vert_id & 1) ? ogf_file->children[i].bbox_max[0] : ogf_file->children[i].bbox_min[0];
+            bbox_vertices[vert_id*3 + 1] = (vert_id & 2) ? ogf_file->children[i].bbox_max[1] : ogf_file->children[i].bbox_min[1];
+            bbox_vertices[vert_id*3 + 2] = (vert_id & 4) ? ogf_file->children[i].bbox_max[2] : ogf_file->children[i].bbox_min[2];
+        }
 
         // Создать вершинный буфер для bbox
         glGenVertexArrays(1, &app->overlay_ctx.bbox_vao[i]);
@@ -237,7 +202,7 @@ void generate_bbox(Application * app) {
         for (int vert_id=0; vert_id<8; ++vert_id) {
             for (int axis=0; axis<3; ++axis) {
                 int neighbor = vert_id ^ (1 << axis);
-                if (neighbor > vert_id) {          // каждое ребро один раз
+                if (neighbor > vert_id) {
                     bbox_indices[idx++] = vert_id;
                     bbox_indices[idx++] = neighbor;
                 }
