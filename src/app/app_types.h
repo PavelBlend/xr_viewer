@@ -51,6 +51,9 @@ typedef struct Application {
     // Статистика
     Stats stats;
 
+    // Нативный дескриптор окна GLFW
+    HWND hwnd;
+
 } Application;
 
 Application     create_app  (int argc, char* argv[]);

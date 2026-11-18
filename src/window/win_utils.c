@@ -5,27 +5,30 @@
 
 #include <stdio.h>
 
+#define GLFW_EXPOSE_NATIVE_WIN32
+
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
+#include <windows.h>
+
 #include "..\string.c"
 
 // Развернуть окно на весь экран
 void maximize_window(Application* app) {
 
-    // Получаем handle окна
-    HWND hwnd = FindWindow(NULL, app->window_title);
+    if (!app->hwnd || !IsWindow(app->hwnd))
+        return;
 
-    if (hwnd) {
-        // максимизировать окно
-        ShowWindow(hwnd, SW_MAXIMIZE);
+    // максимизировать окно
+    ShowWindow(app->hwnd, SW_MAXIMIZE);
 
-        // Загружаем иконку из файла
-        HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
+    // Загружаем иконку из файла
+    HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
 
-        if (hIcon) {
-            // Устанавливаем иконку для окна
-            SendMessage(hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
-            SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-        }
-
+    if (hIcon) {
+        // Устанавливаем иконку для окна
+        SendMessage(app->hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
+        SendMessage(app->hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
     }
 
 }
@@ -97,6 +100,9 @@ void create_window(Application* app) {
     }
 
     glfwMakeContextCurrent(app->window);
+
+    // сохраняем нативный дескриптор
+    app->hwnd = glfwGetWin32Window(app->window);
 
 }
 
