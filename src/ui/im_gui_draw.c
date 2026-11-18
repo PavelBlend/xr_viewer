@@ -263,6 +263,13 @@ void draw_ui(Application* app) {
             igTableSetColumnIndex(1);
             igCheckbox("##draw_edges", &overlay_ctx->draw_edges);
 
+            // Draw Points
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Draw Points:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##draw_points", &overlay_ctx->draw_points);
+
             // Draw B-Box
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);
@@ -349,6 +356,17 @@ void draw_ui(Application* app) {
             igColorEdit3(
                 "Edges Color",
                 render_ctx->edges_color,
+                ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+            );
+
+            // Points Color
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Points Color:");
+            igTableSetColumnIndex(1);
+            igColorEdit3(
+                "Points Color",
+                render_ctx->points_color,
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 

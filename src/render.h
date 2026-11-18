@@ -13,6 +13,9 @@ typedef struct RenderContext {
     // Цвет рёбер меша
     float edges_color[3];
 
+    // Цвет точек меша
+    float points_color[3];
+
     // Цвет координатной сетки
     float grid_color[3];
 
@@ -52,6 +55,7 @@ typedef struct RenderContext {
     GLint       solidColorLoc;
     GLint       lightDirLoc;
     uint32_t*   indices_count;
+    uint32_t*   vertices_count;
     uint32_t    children_count;
 
 } RenderContext;

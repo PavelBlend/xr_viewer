@@ -12,6 +12,7 @@ void set_null_buffers(Application * app) {
     app->render_ctx.vertex_buffers  = NULL;
     app->render_ctx.index_buffers   = NULL;
     app->render_ctx.indices_count   = NULL;
+    app->render_ctx.vertices_count  = NULL;
     app->render_ctx.textures        = NULL;
     app->render_ctx.children_count = 0;
 }
@@ -23,6 +24,7 @@ void malloc_render_buffers(Application * app) {
     app->render_ctx.vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
     app->render_ctx.index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
     app->render_ctx.indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
+    app->render_ctx.vertices_count  = malloc(sizeof(uint32_t)   * ogf_file->children_count);
     app->render_ctx.textures        = malloc(sizeof(GLuint)     * ogf_file->children_count);
     app->render_ctx.children_count  = ogf_file->children_count;
 }

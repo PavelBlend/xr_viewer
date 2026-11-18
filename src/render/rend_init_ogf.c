@@ -68,13 +68,16 @@ void update_stats(Application * app, OgfChild * ogf_child) {
 }
 
 // Сгенерировать вершинный буфер
-void gen_vertex_buffer(Application * app, uint32_t child_id) {
+void gen_vertex_buffer(Application * app, uint32_t child_id, OgfChild * ogf_child) {
 
     // Сгенерировать буфер
     glGenBuffers(1, &app->render_ctx.vertex_buffers[child_id]);
 
     // Привязать объект
     glBindBuffer(GL_ARRAY_BUFFER, app->render_ctx.vertex_buffers[child_id]);
+
+    // Сохранить количество вершин
+    app->render_ctx.vertices_count[child_id] = ogf_child->verts->count;
 
 }
 
@@ -128,7 +131,7 @@ void set_vertex_buffer_data(OgfChild * ogf_child) {
 void create_vertex_buffer(Application * app, uint32_t child_id, OgfChild * ogf_child) {
 
     // Сгенерировать вершинный буфер
-    gen_vertex_buffer(app, child_id);
+    gen_vertex_buffer(app, child_id, ogf_child);
 
     // Заполнить буфер данными
     set_vertex_buffer_data(ogf_child);

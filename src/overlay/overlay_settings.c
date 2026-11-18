@@ -19,6 +19,9 @@ void set_overlay_settings(Application * app) {
     // Отображать рёбра
     overlay_ctx->draw_edges     = false;
 
+    // Отображать точки
+    overlay_ctx->draw_points    = false;
+
     // Отображать ограничивающие коробки
     overlay_ctx->draw_bbox      = false;
 

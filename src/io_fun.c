@@ -145,6 +145,10 @@ void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mod
     } else if (key == GLFW_KEY_F && action == GLFW_PRESS) {
         app->overlay_ctx.draw_faces = !app->overlay_ctx.draw_faces;
 
+    // P - рисовать точки
+    } else if (key == GLFW_KEY_P && action == GLFW_PRESS) {
+        app->overlay_ctx.draw_points = !app->overlay_ctx.draw_points;
+
     // G - рисовать координатную сетку
     } else if (key == GLFW_KEY_G && action == GLFW_PRESS) {
         app->overlay_ctx.draw_grid = !app->overlay_ctx.draw_grid;

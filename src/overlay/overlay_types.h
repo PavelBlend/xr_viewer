@@ -23,6 +23,7 @@ typedef struct OverlayContext {
 
     bool draw_faces;
     bool draw_edges;
+    bool draw_points;
     bool draw_bbox;
     bool draw_grid;
     bool draw_axis_x;

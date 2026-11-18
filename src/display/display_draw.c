@@ -7,6 +7,7 @@
 #include "..\light\light_utils.c"
 #include "..\render\rend_faces.c"
 #include "..\render\rend_edges.c"
+#include "..\render\rend_points.c"
 #include "..\render\rend_bbox.c"
 #include "..\render\rend_grid.c"
 #include "..\shaders.c"
@@ -39,6 +40,9 @@ void display_draw(GLFWwindow* window, Application* app) {
 
     // Отрисовка рёбер
     render_edges(render_ctx, overlay_ctx);
+
+    // Отрисовка точек
+    render_points(render_ctx, overlay_ctx);
 
     // Отрисовка bbox
     render_bbox(render_ctx, overlay_ctx);

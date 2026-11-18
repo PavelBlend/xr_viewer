@@ -28,6 +28,11 @@ void set_render_settings(Application * app) {
     render_ctx->edges_color[1] = 0.0f;
     render_ctx->edges_color[2] = 0.0f;
 
+    // Установить цвет точек меша
+    render_ctx->points_color[0] = 0.0f;
+    render_ctx->points_color[1] = 0.0f;
+    render_ctx->points_color[2] = 0.0f;
+
     // Установить цвет координатной сетки
     render_ctx->grid_color[0] = 0.45f;
     render_ctx->grid_color[1] = 0.45f;
