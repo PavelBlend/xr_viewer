@@ -232,46 +232,17 @@ void generate_bbox(Application * app) {
 
         uint16_t* bbox_indices = malloc(bbox_indices_size);
 
-        // генерировать индексы рёбер bbox
-
-        // нижние рёбра
-        bbox_indices[ 0] = 0;
-        bbox_indices[ 1] = 1;
-
-        bbox_indices[ 2] = 2;
-        bbox_indices[ 3] = 3;
-
-        bbox_indices[ 4] = 0;
-        bbox_indices[ 5] = 2;
-
-        bbox_indices[ 6] = 1;
-        bbox_indices[ 7] = 3;
-
-        // верхние рёбра
-        bbox_indices[ 8] = 4;
-        bbox_indices[ 9] = 5;
-
-        bbox_indices[10] = 6;
-        bbox_indices[11] = 7;
-
-        bbox_indices[12] = 4;
-        bbox_indices[13] = 6;
-
-        bbox_indices[14] = 5;
-        bbox_indices[15] = 7;
-
-        // боковые рёбра
-        bbox_indices[16] = 0;
-        bbox_indices[17] = 4;
-
-        bbox_indices[18] = 1;
-        bbox_indices[19] = 5;
-
-        bbox_indices[20] = 2;
-        bbox_indices[21] = 6;
-
-        bbox_indices[22] = 3;
-        bbox_indices[23] = 7;
+        // генерировать индексы рёбер bbox (массив из 24 uint32, 12 рёбер × 2)
+        int idx = 0;
+        for (int vert_id=0; vert_id<8; ++vert_id) {
+            for (int axis=0; axis<3; ++axis) {
+                int neighbor = vert_id ^ (1 << axis);
+                if (neighbor > vert_id) {          // каждое ребро один раз
+                    bbox_indices[idx++] = vert_id;
+                    bbox_indices[idx++] = neighbor;
+                }
+            }
+        }
 
         glGenBuffers(1, &app->overlay_ctx.bbox_index_buffers[i]);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, app->overlay_ctx.bbox_index_buffers[i]);
