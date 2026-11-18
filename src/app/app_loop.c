@@ -27,15 +27,15 @@ void set_camera_position(Application * app) {
 
     OgfFile *ogf = (OgfFile*)app->file;
 
-    if (ogf == NULL || *ogf->bsphere_radius <= 0.0f) {
+    if (ogf == NULL || *ogf->header.bsphere_radius <= 0.0f) {
         zoom = 3.0f;   // значение по умолчанию
         return;
     }
 
     // установить позицию камеры
-    pan_x =  *ogf->bsphere_center[0];
-    pan_y =  *ogf->bsphere_center[1];
-    pan_z = -*ogf->bsphere_center[2];
+    pan_x =  *ogf->header.bsphere_center[0];
+    pan_y =  *ogf->header.bsphere_center[1];
+    pan_z = -*ogf->header.bsphere_center[2];
 
     // вычислить aspect
     int width, height;
@@ -57,8 +57,8 @@ void set_camera_position(Application * app) {
     float hfov = 2.0f * atanf(tanf(vfov * 0.5f) * aspect);
 
     // вычислить расстояние
-    float d_v = *ogf->bsphere_radius / sinf(vfov * 0.5f);
-    float d_h = *ogf->bsphere_radius / sinf(hfov * 0.5f);
+    float d_v = *ogf->header.bsphere_radius / sinf(vfov * 0.5f);
+    float d_h = *ogf->header.bsphere_radius / sinf(hfov * 0.5f);
 
     // добавить 15% запаса
     zoom = fmaxf(d_v, d_h) * 1.15f;

@@ -15,48 +15,56 @@
 #include "file_formats.h"
 #include "app\app_types.h"
 
-void read_child_header(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
-    uint32_t offset = chunk->offset;
+void read_ogf_header(OgfHeader* ogf_header, Application * app, Chunks* chunks, int chunk_index) {
 
-    memcpy(&ogf_child->format_version, file_data->bytes + offset, sizeof(uint8_t));
+    // Текущее смещение
+    uint32_t offset = chunks->chunks[chunk_index].offset;
+
+    // Прочитать версию формата
+    ogf_header->format_version = (uint8_t *) (app->file_data->bytes + offset);
+    // Пропустить версию формата
     offset += sizeof(uint8_t);
 
-    offset += sizeof(uint8_t);   // model_type
-    offset += sizeof(uint16_t);  // shader_id
+    // Прочитать тип модели
+    ogf_header->model_type = (uint8_t *) (app->file_data->bytes + offset);
+    // Пропустить тип модели
+    offset += sizeof(uint8_t);
 
-    // bbox min
-    memcpy(&ogf_child->bbox_min[0], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // Прочитать ID шейдера
+    ogf_header->shader_id = (uint16_t *) (app->file_data->bytes + offset);
+    // Пропустить ID шейдера
+    offset += sizeof(uint16_t);
 
-    memcpy(&ogf_child->bbox_min[1], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // Размер float
+    size_t float_size = sizeof(float);
 
-    memcpy(&ogf_child->bbox_min[2], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // Прочитать bbox
 
-    // bbox max
-    memcpy(&ogf_child->bbox_max[0], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // min bbox
+    ogf_header->bbox_min[0] = (float *) (app->file_data->bytes + offset                   );
+    ogf_header->bbox_min[1] = (float *) (app->file_data->bytes + offset + float_size      );
+    ogf_header->bbox_min[2] = (float *) (app->file_data->bytes + offset + float_size * 2  );
 
-    memcpy(&ogf_child->bbox_max[1], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // max bbox
+    ogf_header->bbox_max[0] = (float *) (app->file_data->bytes + offset + float_size * 3  );
+    ogf_header->bbox_max[1] = (float *) (app->file_data->bytes + offset + float_size * 4  );
+    ogf_header->bbox_max[2] = (float *) (app->file_data->bytes + offset + float_size * 5  );
 
-    memcpy(&ogf_child->bbox_max[2], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // Пропустить bbox
+    offset += float_size * 6;
+
+    // Прочитать bsphere
 
     // bsphere center
-    memcpy(&ogf_child->bsphere_center[0], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
-
-    memcpy(&ogf_child->bsphere_center[1], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
-
-    memcpy(&ogf_child->bsphere_center[2], file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    ogf_header->bsphere_center[0] = (float *) (app->file_data->bytes + offset                   );
+    ogf_header->bsphere_center[1] = (float *) (app->file_data->bytes + offset + float_size      );
+    ogf_header->bsphere_center[2] = (float *) (app->file_data->bytes + offset + float_size * 2  );
 
     // bsphere radius
-    memcpy(&ogf_child->bsphere_radius, file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    ogf_header->bsphere_radius    = (float *) (app->file_data->bytes + offset + float_size * 3  );
+
+    // Пропустить bsphere
+    offset += float_size * 4;
 
 }
 
@@ -71,7 +79,7 @@ void read_ogf_child(OgfChild* ogf_child, Application* app, Chunks* chunks, int c
     for (int i=0; i<chunks_child->count; i++) {
 
         if (*chunks_child->chunks[i].id == HEADER) {
-            read_child_header(ogf_child, app->file_data, &chunks_child->chunks[i]);
+            read_ogf_header(&ogf_child->header, app, chunks_child, i);
 
         } else if (*chunks_child->chunks[i].id == TEXTURE) {
             read_texture(ogf_child, app, &chunks_child->chunks[i]);
@@ -107,59 +115,6 @@ void read_ogf_children(OgfFile* ogf_file, Application* app, Chunks* chunks, int 
 
 }
 
-void read_ogf_header(OgfFile* ogf_file, Application * app, Chunks* chunks, int chunk_index) {
-
-    // Текущее смещение
-    uint32_t offset = chunks->chunks[chunk_index].offset;
-
-    // Прочитать версию формата
-    ogf_file->format_version = (uint8_t *) (app->file_data->bytes + offset);
-    // Пропустить версию формата
-    offset += sizeof(uint8_t);
-
-    // Прочитать тип модели
-    ogf_file->model_type = (uint8_t *) (app->file_data->bytes + offset);
-    // Пропустить тип модели
-    offset += sizeof(uint8_t);
-
-    // Прочитать ID шейдера
-    ogf_file->shader_id = (uint16_t *) (app->file_data->bytes + offset);
-    // Пропустить ID шейдера
-    offset += sizeof(uint16_t);
-
-    // Размер float
-    size_t float_size = sizeof(float);
-
-    // Прочитать bbox
-
-    // min bbox
-    ogf_file->bbox_min[0] = (float *) (app->file_data->bytes + offset                   );
-    ogf_file->bbox_min[1] = (float *) (app->file_data->bytes + offset + float_size      );
-    ogf_file->bbox_min[2] = (float *) (app->file_data->bytes + offset + float_size * 2  );
-
-    // max bbox
-    ogf_file->bbox_max[0] = (float *) (app->file_data->bytes + offset + float_size * 3  );
-    ogf_file->bbox_max[1] = (float *) (app->file_data->bytes + offset + float_size * 4  );
-    ogf_file->bbox_max[2] = (float *) (app->file_data->bytes + offset + float_size * 5  );
-
-    // Пропустить bbox
-    offset += float_size * 6;
-
-    // Прочитать bsphere
-
-    // bsphere center
-    ogf_file->bsphere_center[0] = (float *) (app->file_data->bytes + offset                   );
-    ogf_file->bsphere_center[1] = (float *) (app->file_data->bytes + offset + float_size      );
-    ogf_file->bsphere_center[2] = (float *) (app->file_data->bytes + offset + float_size * 2  );
-
-    // bsphere radius
-    ogf_file->bsphere_radius    = (float *) (app->file_data->bytes + offset + float_size * 3  );
-
-    // Пропустить bsphere
-    offset += float_size * 4;
-
-}
-
 // освободить память
 void free_ogf_file(OgfFile* ogf_file) {
     if (ogf_file != NULL) {
@@ -177,7 +132,7 @@ OgfFile* read_ogf(Application * app, Chunks* chunks) {
     for (int i=0; i<chunks->count; i++) {
 
         if (*chunks->chunks[i].id == (uint32_t)HEADER) {
-            read_ogf_header(ogf_file, app, chunks, i);
+            read_ogf_header(&ogf_file->header, app, chunks, i);
 
         } else if (*chunks->chunks[i].id == (uint32_t)CHILDREN) {
             read_ogf_children(ogf_file, app, chunks, i);

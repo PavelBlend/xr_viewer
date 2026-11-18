@@ -16,7 +16,7 @@ void generate_bbox(Application * app) {
         // Генерация координат вершин bbox
         for (int vert_id=0; vert_id<8; ++vert_id) {
             for (int axis=0; axis<3; ++axis) {
-                bbox_vertices[vert_id*3 + axis] = (vert_id & (1 << axis)) ? ogf_file->children[i].bbox_max[axis] : ogf_file->children[i].bbox_min[axis];
+                bbox_vertices[vert_id*3 + axis] = (vert_id & (1 << axis)) ? *ogf_file->children[i].header.bbox_max[axis] : *ogf_file->children[i].header.bbox_min[axis];
             }
         }
 

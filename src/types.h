@@ -156,20 +156,7 @@ typedef struct OgfSwis {
     uint16_t verts_count;
 } OgfSwis;
 
-typedef struct OgfChild {
-    uint8_t         format_version;
-    char*           texture;
-    char*           texture_path;
-    float           bbox_min[3];
-    float           bbox_max[3];
-    float           bsphere_center[3];
-    float           bsphere_radius;
-    OgfVerts*       verts;
-    OgfIndices*     indices;
-    OgfSwis*        swis;
-} OgfChild;
-
-typedef struct OgfFile {
+typedef struct OgfHeader {
     uint8_t *   format_version;
     uint8_t *   model_type;
     uint16_t *  shader_id;
@@ -177,6 +164,19 @@ typedef struct OgfFile {
     float *     bbox_max[3];
     float *     bsphere_center[3];
     float *     bsphere_radius;
+} OgfHeader;
+
+typedef struct OgfChild {
+    OgfHeader       header;
+    char*           texture;
+    char*           texture_path;
+    OgfVerts*       verts;
+    OgfIndices*     indices;
+    OgfSwis*        swis;
+} OgfChild;
+
+typedef struct OgfFile {
+    OgfHeader   header;
     uint32_t    children_count;
     OgfChild*   children;
 } OgfFile;
