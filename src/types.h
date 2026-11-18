@@ -170,7 +170,9 @@ typedef struct OgfChild {
 } OgfChild;
 
 typedef struct OgfFile {
-    uint8_t     format_version;
+    uint8_t *   format_version;
+    uint8_t *   model_type;
+    uint16_t *  shader_id;
     float *     bbox_min[3];
     float *     bbox_max[3];
     float *     bsphere_center[3];

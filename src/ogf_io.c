@@ -108,14 +108,26 @@ void read_ogf_children(OgfFile* ogf_file, Application* app, Chunks* chunks, int 
 }
 
 void read_ogf_header(OgfFile* ogf_file, Application * app, Chunks* chunks, int chunk_index) {
+
+    // Текущее смещение
     uint32_t offset = chunks->chunks[chunk_index].offset;
 
-    memcpy(&ogf_file->format_version, app->file_data->bytes + offset, sizeof(uint8_t));
+    // Прочитать версию формата
+    ogf_file->format_version = (uint8_t *) (app->file_data->bytes + offset);
+    // Пропустить версию формата
     offset += sizeof(uint8_t);
 
-    offset += sizeof(uint8_t);   // model_type
-    offset += sizeof(uint16_t);  // shader_id
+    // Прочитать тип модели
+    ogf_file->model_type = (uint8_t *) (app->file_data->bytes + offset);
+    // Пропустить тип модели
+    offset += sizeof(uint8_t);
 
+    // Прочитать ID шейдера
+    ogf_file->shader_id = (uint16_t *) (app->file_data->bytes + offset);
+    // Пропустить ID шейдера
+    offset += sizeof(uint16_t);
+
+    // Размер float
     size_t float_size = sizeof(float);
 
     // Прочитать bbox
