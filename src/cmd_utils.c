@@ -4,7 +4,7 @@
 #include "help.c"
 #include "ogf_io.c"
 
-#include "app\application.h"
+#include "app\app_types.h"
 
 // Обработать аргументы командной строки
 void handle_arguments(Application * app, int argc, char * argv[]) {

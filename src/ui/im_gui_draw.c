@@ -9,7 +9,7 @@
 #include "..\overlays.h"
 #include "..\globals.c"
 #include "..\render.h"
-#include "..\app\application.h"
+#include "..\app\app_types.h"
 #include "..\version.h"
 
 bool show_main_window = true;

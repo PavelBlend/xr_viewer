@@ -5,7 +5,7 @@
 #include <inttypes.h>
 
 #include "file_io.h"
-#include "app\application.h"
+#include "app\app_types.h"
 
 uint32_t get_string_length(char* string) {
     uint32_t length = 0;

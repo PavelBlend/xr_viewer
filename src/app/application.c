@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "application.h"
+#include "app_types.h"
 #include "..\file_formats.h"
 
 #include "..\path_utils.c"
