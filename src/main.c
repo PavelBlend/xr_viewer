@@ -1,5 +1,5 @@
 #include "render.c"
-#include "app\application.c"
+#include "app\app.c"
 
 int main (int argc, char* argv[]) {
 
