@@ -135,6 +135,20 @@ void read_ogf_header(OgfFile* ogf_file, Application * app, Chunks* chunks, int c
     memcpy(&ogf_file->bbox_max[2], app->file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
+    // bsphere center
+    memcpy(&ogf_file->bsphere_center[0], app->file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_file->bsphere_center[1], app->file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_file->bsphere_center[2], app->file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    // bsphere radius
+    memcpy(&ogf_file->bsphere_radius, app->file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
 }
 
 // освободить память

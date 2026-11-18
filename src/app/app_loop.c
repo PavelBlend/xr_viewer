@@ -24,9 +24,45 @@ void app_loop_iteration(Application * app) {
 
 // Установить позицию камеры
 void set_camera_position(Application * app) {
-    pan_x =  app->render_ctx.model_center[0];
-    pan_y =  app->render_ctx.model_center[1];
-    pan_z = -app->render_ctx.model_center[2];
+
+    OgfFile *ogf = (OgfFile*)app->file;
+
+    if (ogf == NULL || ogf->bsphere_radius <= 0.0f) {
+        zoom = 3.0f;   // значение по умолчанию
+        return;
+    }
+
+    // установить позицию камеры
+    pan_x =  ogf->bsphere_center[0];
+    pan_y =  ogf->bsphere_center[1];
+    pan_z = -ogf->bsphere_center[2];
+
+    // вычислить aspect
+    int width, height;
+    glfwGetWindowSize(app->window, &width, &height);
+
+    float aspect;
+    if (height == 0) {
+        aspect = 1.0f;
+    } else {
+        aspect = ((float)width - 350.0f) / (float)height;
+        if (aspect <= 0.0f) {
+            aspect = 1.0f;
+        }
+    }
+
+    // fov
+    const float PI = 3.14159265358979323846f;
+    float vfov = fov * PI / 180.0f;
+    float hfov = 2.0f * atanf(tanf(vfov * 0.5f) * aspect);
+
+    // вычислить расстояние
+    float d_v = ogf->bsphere_radius / sinf(vfov * 0.5f);
+    float d_h = ogf->bsphere_radius / sinf(hfov * 0.5f);
+
+    // добавить 15% запаса
+    zoom = fmaxf(d_v, d_h) * 1.15f;
+
 }
 
 // Главный цикл программы
