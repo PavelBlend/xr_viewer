@@ -2,6 +2,7 @@
 #define OGF_IO_C
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "ogf_chunks.h"
 #include "ogf_tex.c"
@@ -115,39 +116,35 @@ void read_ogf_header(OgfFile* ogf_file, Application * app, Chunks* chunks, int c
     offset += sizeof(uint8_t);   // model_type
     offset += sizeof(uint16_t);  // shader_id
 
-    // bbox min
-    memcpy(&ogf_file->bbox_min[0], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    size_t float_size = sizeof(float);
 
-    memcpy(&ogf_file->bbox_min[1], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // Прочитать bbox
 
-    memcpy(&ogf_file->bbox_min[2], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // min bbox
+    ogf_file->bbox_min[0] = (float *) (app->file_data->bytes + offset                   );
+    ogf_file->bbox_min[1] = (float *) (app->file_data->bytes + offset + float_size      );
+    ogf_file->bbox_min[2] = (float *) (app->file_data->bytes + offset + float_size * 2  );
 
-    // bbox max
-    memcpy(&ogf_file->bbox_max[0], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // max bbox
+    ogf_file->bbox_max[0] = (float *) (app->file_data->bytes + offset + float_size * 3  );
+    ogf_file->bbox_max[1] = (float *) (app->file_data->bytes + offset + float_size * 4  );
+    ogf_file->bbox_max[2] = (float *) (app->file_data->bytes + offset + float_size * 5  );
 
-    memcpy(&ogf_file->bbox_max[1], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // Пропустить bbox
+    offset += float_size * 6;
 
-    memcpy(&ogf_file->bbox_max[2], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    // Прочитать bsphere
 
     // bsphere center
-    memcpy(&ogf_file->bsphere_center[0], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
-
-    memcpy(&ogf_file->bsphere_center[1], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
-
-    memcpy(&ogf_file->bsphere_center[2], app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    ogf_file->bsphere_center[0] = (float *) (app->file_data->bytes + offset                   );
+    ogf_file->bsphere_center[1] = (float *) (app->file_data->bytes + offset + float_size      );
+    ogf_file->bsphere_center[2] = (float *) (app->file_data->bytes + offset + float_size * 2  );
 
     // bsphere radius
-    memcpy(&ogf_file->bsphere_radius, app->file_data->bytes + offset, sizeof(float));
-    offset += sizeof(float);
+    ogf_file->bsphere_radius    = (float *) (app->file_data->bytes + offset + float_size * 3  );
+
+    // Пропустить bsphere
+    offset += float_size * 4;
 
 }
 

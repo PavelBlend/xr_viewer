@@ -15,9 +15,9 @@ void calc_model_center(Application * app) {
     OgfFile* ogf_file = (OgfFile*) app->file;
 
     // Центр
-    render_ctx->model_center[0] = ogf_file->bbox_min[0] + (ogf_file->bbox_max[0] - ogf_file->bbox_min[0]) / 2;
-    render_ctx->model_center[1] = ogf_file->bbox_min[1] + (ogf_file->bbox_max[1] - ogf_file->bbox_min[1]) / 2;
-    render_ctx->model_center[2] = ogf_file->bbox_min[2] + (ogf_file->bbox_max[2] - ogf_file->bbox_min[2]) / 2;
+    render_ctx->model_center[0] = *ogf_file->bbox_min[0] + (*ogf_file->bbox_max[0] - *ogf_file->bbox_min[0]) / 2;
+    render_ctx->model_center[1] = *ogf_file->bbox_min[1] + (*ogf_file->bbox_max[1] - *ogf_file->bbox_min[1]) / 2;
+    render_ctx->model_center[2] = *ogf_file->bbox_min[2] + (*ogf_file->bbox_max[2] - *ogf_file->bbox_min[2]) / 2;
 
 }
 
