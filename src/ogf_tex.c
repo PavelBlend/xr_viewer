@@ -3,24 +3,23 @@
 
 #include "types.h"
 #include "string.c"
-#include "textures.c"
 
 #include "chunk_io.h"
 
 // прочитать текстуру ogf файла
-void read_texture(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
+void read_texture(OgfChild* ogf_child, Application * app, Chunk* chunk) {
 
     // прочитать относительный путь к текстуре
-    ogf_child->texture = read_string_zero(file_data, &chunk->offset);
+    ogf_child->texture = read_string_zero(app->file_data, &chunk->offset);
 
     // длина пути к textures папке
-    uint32_t tex_folder_length  = get_string_length(tex_folder);
+    uint32_t tex_folder_length  = get_string_length(app->prefs.tex_folder);
 
     // длина относительного пути к текстуре
     uint32_t tex_relpath_length = get_string_length(ogf_child->texture);
 
     // длина расширения .dds
-    uint32_t tex_ext_length     = get_string_length(tex_ext);
+    uint32_t tex_ext_length     = get_string_length(app->prefs.tex_ext);
 
     // длина всего абсолютного пути (+1 в конце - нулевой байт)
     uint32_t tex_abspath_length = tex_folder_length + tex_relpath_length + tex_ext_length + 1;
@@ -30,7 +29,7 @@ void read_texture(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
 
     // записать символы пути к textures папке
     for (uint32_t i=0; i<tex_folder_length; i++) {
-        ogf_child->texture_path[i] = tex_folder[i];
+        ogf_child->texture_path[i] = app->prefs.tex_folder[i];
     }
 
     // записать символы относительного пути к текстуре
@@ -40,7 +39,7 @@ void read_texture(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
 
     // записать символы расширения
     for (uint32_t i=0; i<tex_ext_length; i++) {
-        ogf_child->texture_path[tex_folder_length + tex_relpath_length + i] = tex_ext[i];
+        ogf_child->texture_path[tex_folder_length + tex_relpath_length + i] = app->prefs.tex_ext[i];
     }
 
     // записать нулевой байт

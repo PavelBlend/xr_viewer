@@ -21,6 +21,10 @@ Application create_app(int argc, char* argv[]) {
     // Вычислить абсолютный путь к exe файлу программы
     get_exe_dir(&app);
 
+    // Установить настройки по-умолчанию
+    app.prefs.tex_folder = "T:\\";
+    app.prefs.tex_ext    = ".dds";
+
     // Установить открытый файл по-умолчанию (пустой файл)
     app.file_type   = FILE_NONE;
     app.file        = NULL;

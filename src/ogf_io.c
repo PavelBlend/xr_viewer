@@ -45,10 +45,10 @@ void read_child_header(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
 
 }
 
-void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, int chunk_index) {
+void read_ogf_child(OgfChild* ogf_child, Application* app, Chunks* chunks, int chunk_index) {
 
     Chunks* chunks_child = read_chunks(
-        file_data,
+        app->file_data,
         chunks->chunks[chunk_index].offset,
         chunks->chunks[chunk_index].offset + *chunks->chunks[chunk_index].size
     );
@@ -56,28 +56,28 @@ void read_ogf_child(OgfChild* ogf_child, FileData* file_data, Chunks* chunks, in
     for (int i=0; i<chunks_child->count; i++) {
 
         if (*chunks_child->chunks[i].id == HEADER) {
-            read_child_header(ogf_child, file_data, &chunks_child->chunks[i]);
+            read_child_header(ogf_child, app->file_data, &chunks_child->chunks[i]);
 
         } else if (*chunks_child->chunks[i].id == TEXTURE) {
-            read_texture(ogf_child, file_data, &chunks_child->chunks[i]);
+            read_texture(ogf_child, app, &chunks_child->chunks[i]);
 
         } else if (*chunks_child->chunks[i].id == VERTICES) {
-            read_verts(ogf_child, file_data, &chunks_child->chunks[i]);
+            read_verts(ogf_child, app->file_data, &chunks_child->chunks[i]);
 
         } else if (*chunks_child->chunks[i].id == INDICES) {
-            read_indices(ogf_child, file_data, &chunks_child->chunks[i]);
+            read_indices(ogf_child, app->file_data, &chunks_child->chunks[i]);
 
         } else if (*chunks_child->chunks[i].id == SWIDATA) {
-            read_swis(ogf_child, file_data, &chunks_child->chunks[i]);
+            read_swis(ogf_child, app->file_data, &chunks_child->chunks[i]);
         }
 
     }
 
 }
 
-void read_ogf_children(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, int chunk_index) {
+void read_ogf_children(OgfFile* ogf_file, Application* app, Chunks* chunks, int chunk_index) {
     Chunks* chunks_children = read_chunks(
-        file_data,
+        app->file_data,
         chunks->chunks[chunk_index].offset,
         chunks->chunks[chunk_index].offset + *chunks->chunks[chunk_index].size
     );
@@ -86,39 +86,39 @@ void read_ogf_children(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, i
     ogf_file->children_count    = 0;
 
     for (int visual_id=0; visual_id<chunks_children->count; visual_id++) {
-        read_ogf_child(&ogf_file->children[visual_id], file_data, chunks_children, visual_id);
+        read_ogf_child(&ogf_file->children[visual_id], app, chunks_children, visual_id);
         ogf_file->children_count++;
     }
 
 }
 
-void read_ogf_header(OgfFile* ogf_file, FileData* file_data, Chunks* chunks, int chunk_index) {
+void read_ogf_header(OgfFile* ogf_file, Application * app, Chunks* chunks, int chunk_index) {
     uint32_t offset = chunks->chunks[chunk_index].offset;
 
-    memcpy(&ogf_file->format_version, file_data->bytes + offset, sizeof(uint8_t));
+    memcpy(&ogf_file->format_version, app->file_data->bytes + offset, sizeof(uint8_t));
     offset += sizeof(uint8_t);
 
     offset += sizeof(uint8_t);   // model_type
     offset += sizeof(uint16_t);  // shader_id
 
     // bbox min
-    memcpy(&ogf_file->bbox_min[0], file_data->bytes + offset, sizeof(float));
+    memcpy(&ogf_file->bbox_min[0], app->file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
-    memcpy(&ogf_file->bbox_min[1], file_data->bytes + offset, sizeof(float));
+    memcpy(&ogf_file->bbox_min[1], app->file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
-    memcpy(&ogf_file->bbox_min[2], file_data->bytes + offset, sizeof(float));
+    memcpy(&ogf_file->bbox_min[2], app->file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
     // bbox max
-    memcpy(&ogf_file->bbox_max[0], file_data->bytes + offset, sizeof(float));
+    memcpy(&ogf_file->bbox_max[0], app->file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
-    memcpy(&ogf_file->bbox_max[1], file_data->bytes + offset, sizeof(float));
+    memcpy(&ogf_file->bbox_max[1], app->file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
-    memcpy(&ogf_file->bbox_max[2], file_data->bytes + offset, sizeof(float));
+    memcpy(&ogf_file->bbox_max[2], app->file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
 }
@@ -133,17 +133,17 @@ void free_ogf_file(OgfFile* ogf_file) {
     }
 }
 
-OgfFile* read_ogf(FileData* file_data, Chunks* chunks) {
+OgfFile* read_ogf(Application * app, Chunks* chunks) {
 
     OgfFile* ogf_file = malloc(sizeof(OgfFile));
 
     for (int i=0; i<chunks->count; i++) {
 
         if (*chunks->chunks[i].id == (uint32_t)HEADER) {
-            read_ogf_header(ogf_file, file_data, chunks, i);
+            read_ogf_header(ogf_file, app, chunks, i);
 
         } else if (*chunks->chunks[i].id == (uint32_t)CHILDREN) {
-            read_ogf_children(ogf_file, file_data, chunks, i);
+            read_ogf_children(ogf_file, app, chunks, i);
         }
 
     }
@@ -167,7 +167,7 @@ void read_ogf_file(Application * app, char* argv[]) {
     chunks = read_chunks(app->file_data, 0, (uint32_t)app->file_data->size);
 
     // Прочитать данные ogf файла
-    app->file = read_ogf(app->file_data, chunks);
+    app->file = read_ogf(app, chunks);
 
     // Освободить память чанков
     free_chunks(chunks);
