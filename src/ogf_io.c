@@ -43,6 +43,20 @@ void read_child_header(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     memcpy(&ogf_child->bbox_max[2], file_data->bytes + offset, sizeof(float));
     offset += sizeof(float);
 
+    // bsphere center
+    memcpy(&ogf_child->bsphere_center[0], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_child->bsphere_center[1], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    memcpy(&ogf_child->bsphere_center[2], file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
+    // bsphere radius
+    memcpy(&ogf_child->bsphere_radius, file_data->bytes + offset, sizeof(float));
+    offset += sizeof(float);
+
 }
 
 void read_ogf_child(OgfChild* ogf_child, Application* app, Chunks* chunks, int chunk_index) {

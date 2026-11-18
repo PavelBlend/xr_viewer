@@ -162,6 +162,8 @@ typedef struct OgfChild {
     char*           texture_path;
     float           bbox_min[3];
     float           bbox_max[3];
+    float           bsphere_center[3];
+    float           bsphere_radius;
     OgfVerts*       verts;
     OgfIndices*     indices;
     OgfSwis*        swis;
@@ -171,6 +173,8 @@ typedef struct OgfFile {
     uint8_t     format_version;
     float       bbox_min[3];
     float       bbox_max[3];
+    float       bsphere_center[3];
+    float       bsphere_radius;
     uint32_t    children_count;
     OgfChild*   children;
 } OgfFile;
