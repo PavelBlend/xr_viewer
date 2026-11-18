@@ -17,13 +17,6 @@ void draw_main_menu(Application* app) {
         // Меню File
         if (igBeginMenu("File", true)) {
 
-            if (igMenuItemEx("Clear", "", "", false, true)) {
-                // Очистка OpenGL данных
-                clear_gl_data(&app->render_ctx);
-                // Очистка данных файла
-                free_mem(app);
-            }
-
             if (igMenuItemEx("Quit", "", "", false, true)) {
                 app->running = false;
             }
