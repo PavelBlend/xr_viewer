@@ -9,7 +9,7 @@ void render_points(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
         glDisable(GL_CULL_FACE);
 
         // Режим точек
-        glPointSize(3.0f);
+        glPointSize(overlay_ctx->point_size);
 
         for (uint32_t child_id = 0; child_id < render_ctx->children_count; child_id++) {
 

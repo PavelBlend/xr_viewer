@@ -21,6 +21,7 @@ typedef struct OverlayContext {
     int32_t     grid_steps;     // Количество линий в каждую сторону
     float       grid_size;      // Половина размера сетки
 
+    float       point_size;     // размер точек
     float       edge_width;     // Толщина линий сетки
 
     bool draw_faces;
