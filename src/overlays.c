@@ -171,9 +171,9 @@ void generate_bbox(Application * app) {
 
         // Генерация координат вершин bbox
         for (int vert_id=0; vert_id<8; ++vert_id) {
-            bbox_vertices[vert_id*3 + 0] = (vert_id & 1) ? ogf_file->children[i].bbox_max[0] : ogf_file->children[i].bbox_min[0];
-            bbox_vertices[vert_id*3 + 1] = (vert_id & 2) ? ogf_file->children[i].bbox_max[1] : ogf_file->children[i].bbox_min[1];
-            bbox_vertices[vert_id*3 + 2] = (vert_id & 4) ? ogf_file->children[i].bbox_max[2] : ogf_file->children[i].bbox_min[2];
+            for (int axis=0; axis<3; ++axis) {
+                bbox_vertices[vert_id*3 + axis] = (vert_id & (1 << axis)) ? ogf_file->children[i].bbox_max[axis] : ogf_file->children[i].bbox_min[axis];
+            }
         }
 
         // Создать вершинный буфер для bbox
