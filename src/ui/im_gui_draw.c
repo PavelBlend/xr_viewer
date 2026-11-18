@@ -22,6 +22,8 @@ bool show_theme_window = true;
 
 float menu_bar_height = 0.0f;
 
+#include "im_gui_draw_main_menu.c"
+
 void update_fps(Application* app) {
 
     // Получаем текущее время
@@ -38,61 +40,6 @@ void update_fps(Application* app) {
 
         // FPS = 1 / время кадра в секундах
         app->stats.fps = 1.0 / delta_time;
-
-    }
-
-}
-
-void draw_main_menu(Application* app) {
-
-    if (igBeginMainMenuBar()) {
-
-        ImVec2 menu_size = igGetWindowSize();
-        menu_bar_height = menu_size.y;
-
-        // Меню File
-        if (igBeginMenu("File", true)) {
-
-            if (igMenuItemEx("Quit", "", "", false, true)) {
-                app->running = false;
-            }
-
-            igEndMenu();
-
-        }
-
-        // Меню Window
-        if (igBeginMenu("Window", true)) {
-
-            if (igMenuItem_Bool("Stats", "", show_stats_window, true)) {
-                show_stats_window = !show_stats_window;
-            }
-
-            if (igMenuItem_Bool("Viewport", "", show_viewport_window, true)) {
-                show_viewport_window = !show_viewport_window;
-            }
-
-            if (igMenuItem_Bool("Shading", "", show_shading_window, true)) {
-                show_shading_window = !show_shading_window;
-            }
-
-            if (igMenuItem_Bool("Overlays", "", show_overlays_window, true)) {
-                show_overlays_window = !show_overlays_window;
-            }
-
-            if (igMenuItem_Bool("Theme", "", show_theme_window, true)) {
-                show_theme_window = !show_theme_window;
-            }
-
-            if (igMenuItem_Bool("Navigation", "", show_navigation_window, true)) {
-                show_navigation_window = !show_navigation_window;
-            }
-
-            igEndMenu();
-
-        }
-
-        igEndMainMenuBar();
 
     }
 
