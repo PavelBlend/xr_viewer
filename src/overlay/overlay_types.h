@@ -18,8 +18,10 @@ typedef struct OverlayContext {
     uint32_t*   bbox_indices_count;
     uint32_t    bbox_children_count;
 
-    int32_t     grid_steps;    // Количество линий в каждую сторону
-    float       grid_size;    // Половина размера сетки
+    int32_t     grid_steps;     // Количество линий в каждую сторону
+    float       grid_size;      // Половина размера сетки
+
+    float       edge_width;     // Толщина линий сетки
 
     bool draw_faces;
     bool draw_edges;

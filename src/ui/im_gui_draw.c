@@ -323,6 +323,15 @@ void draw_ui(Application* app) {
                 generate_grid(app);
             }
 
+            // Edge Width
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Edge Width:");
+            igTableSetColumnIndex(1);
+            if (igDragFloat("##edge_width", &overlay_ctx->edge_width, 1.0f, 1.0f, 5.0f, "%.2f", 0)) {
+                generate_grid(app);
+            }
+
             // Закончить рисовать таблицу с параметрами
             igEndTable();
 

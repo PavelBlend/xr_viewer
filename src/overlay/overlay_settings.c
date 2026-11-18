@@ -13,6 +13,9 @@ void set_overlay_settings(Application * app) {
     // Размер клетки
     overlay_ctx->grid_size      = 1.0f;
 
+    // Толщина линий рёбер
+    overlay_ctx->edge_width     = 1.0f;
+
     // Отображать полигоны
     overlay_ctx->draw_faces     = true;
 
