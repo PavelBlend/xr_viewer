@@ -7,7 +7,7 @@
 #include "overlays.c"
 #include "color_utils.c"
 
-#include "application.h"
+#include "app\application.h"
 
 static void get_camera_right_and_up(vec3 right, vec3 up) {
     float rad_x = glm_rad(camera_angle_x);

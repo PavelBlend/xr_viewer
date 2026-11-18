@@ -28,7 +28,7 @@
 
 #include "render.h"
 #include "types.h"
-#include "application.h"
+#include "app\application.h"
 #include "ogf_verts.h"
 
 #include "ui\im_gui_init.c"

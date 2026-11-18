@@ -5,12 +5,12 @@
 #include "GL\glew.h"
 #include "GLFW\glfw3.h"
 
-#include "file_io.c"
+#include "..\file_io.c"
 
-#include "file_formats.h"
-#include "render.h"
-#include "overlays.h"
-#include "stats\stats_types.h"
+#include "..\file_formats.h"
+#include "..\render.h"
+#include "..\overlays.h"
+#include "..\stats\stats_types.h"
 
 typedef struct Application {
 

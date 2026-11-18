@@ -12,7 +12,7 @@
 #include "file_io.c"
 #include "types.h"
 #include "file_formats.h"
-#include "application.h"
+#include "app\application.h"
 
 void read_child_header(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     uint32_t offset = chunk->offset;

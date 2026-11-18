@@ -5,7 +5,7 @@
 #include <string.h>
 #include <windows.h>
 
-#include "application.h"
+#include "app\application.h"
 
 // Напечатать ошибку функции get_exe_dir и закрыть программу
 void exe_dir_error(int exe_dir_code) {
