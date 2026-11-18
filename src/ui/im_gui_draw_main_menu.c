@@ -52,6 +52,10 @@ void draw_main_menu(Application* app) {
                 show_navigation_window = !show_navigation_window;
             }
 
+            if (igMenuItem_Bool("Preferences", "", show_prefs_window, true)) {
+                show_prefs_window = !show_prefs_window;
+            }
+
             igEndMenu();
 
         }

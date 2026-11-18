@@ -19,6 +19,7 @@ bool show_viewport_window = true;
 bool show_overlays_window = true;
 bool show_navigation_window = true;
 bool show_theme_window = true;
+bool show_prefs_window = true;
 
 float menu_bar_height = 0.0f;
 
@@ -449,6 +450,34 @@ void draw_ui(Application* app) {
             igText("Zoom:");
             igTableSetColumnIndex(1);
             igDragFloat("##zoom", &zoom, 0.01f, -FLT_MAX, FLT_MAX, "%.4f", 0);
+
+            // Закончить рисовать таблицу с параметрами
+            igEndTable();
+
+        }
+    }
+
+    // Рисовать окно с настройками
+    if (igCollapsingHeader_BoolPtr("Preferences", &show_prefs_window, ImGuiTreeNodeFlags_DefaultOpen)) {
+
+        if (igBeginTable("ParamsTable", 2, ImGuiTableFlags_SizingStretchSame, (ImVec2){0,0}, 0)) {
+
+            igTableSetupColumn("Parameter", ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+            igTableSetupColumn("Value",     ImGuiTableColumnFlags_WidthStretch, 180.0f, 0);
+
+            // Textures Folder
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Textures Folder:");
+            igTableSetColumnIndex(1);
+            igText("\"%s\"", app->prefs.tex_folder);
+
+            // Textures Extension
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Textures Extension:");
+            igTableSetColumnIndex(1);
+            igText("\"%s\"", app->prefs.tex_ext);
 
             // Закончить рисовать таблицу с параметрами
             igEndTable();
