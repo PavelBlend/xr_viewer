@@ -31,9 +31,9 @@ void add_light(GLFWwindow* window, RenderContext * render_ctx) {
     mat3 view3;
     glm_mat4_pick3(view, view3);
 
-    float lx = -0.408163f;
-    float ly = +0.844415f;
-    float lz = +0.346939f;
+    float lx = 0.0f;
+    float ly = 0.0f;
+    float lz = 1.0f;
 
     // направление света в пространстве вида (константа)
     vec3 light_view = {lx, ly, lz};
