@@ -5,6 +5,11 @@
 #include "display_vsync.c"
 
 #include "..\light\light_utils.c"
+#include "..\render\rend_faces.c"
+#include "..\render\rend_edges.c"
+#include "..\render\rend_bbox.c"
+#include "..\render\rend_grid.c"
+#include "..\shaders.c"
 
 void display_draw(GLFWwindow* window, Application* app) {
 

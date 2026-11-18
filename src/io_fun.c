@@ -7,6 +7,7 @@
 #include "overlay\overlay_grid.c"
 #include "color_utils.c"
 
+#include "app\app_loop.c"
 #include "app\app_types.h"
 
 static void get_camera_right_and_up(vec3 right, vec3 up) {
@@ -156,6 +157,10 @@ void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mod
     // S - установить серый цвет мешей (Single Color)
     } else if (key == GLFW_KEY_S && action == GLFW_PRESS) {
         gen_gray_meshes_color(app);
+
+    // C - установить вид камеры по центру мешей
+    } else if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+        set_camera_position(app);
     }
 
 }

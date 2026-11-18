@@ -8,6 +8,7 @@
 #include "..\overlay\overlay_grid.c"
 #include "..\overlay\overlay_types.h"
 #include "..\globals.c"
+#include "..\formating.c"
 #include "..\render.h"
 #include "..\app\app_types.h"
 #include "..\version.h"

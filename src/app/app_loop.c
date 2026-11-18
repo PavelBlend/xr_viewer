@@ -2,6 +2,8 @@
 #define APP_LOOP_C
 
 #include "..\globals.c"
+#include "..\display\display_draw.c"
+#include "..\ui\im_gui_draw.c"
 
 // Итерация цикла программы
 void app_loop_iteration(Application * app) {
