@@ -362,6 +362,19 @@ void draw_ui(Application* app) {
                 ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
             );
 
+            // Meshes Color
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Meshes Color:");
+            igTableSetColumnIndex(1);
+            if (igColorEdit3(
+                "Meshes Color",
+                render_ctx->meshes_color_def,
+                ImGuiColorEditFlags_Float | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel
+            )) {
+                gen_gray_meshes_color(app);
+            }
+
             // Edges Color
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);

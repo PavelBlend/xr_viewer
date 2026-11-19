@@ -28,6 +28,11 @@ void set_render_settings(Application * app) {
         1.0f
     );
 
+    // Установить цвет меша
+    render_ctx->meshes_color_def[0] = 0.75f;
+    render_ctx->meshes_color_def[1] = 0.75f;
+    render_ctx->meshes_color_def[2] = 0.75f;
+
     // Установить цвет рёбер меша
     render_ctx->edges_color[0] = 0.0f;
     render_ctx->edges_color[1] = 0.0f;

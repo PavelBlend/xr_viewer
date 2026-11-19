@@ -10,6 +10,9 @@ typedef struct RenderContext {
     // Цвет очистки окна
     float clear_color[3];
 
+    // Цвет мешей по-умолчанию
+    float meshes_color_def[3];
+
     // Цвет рёбер меша
     float edges_color[3];
 

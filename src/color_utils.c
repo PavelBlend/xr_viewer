@@ -62,9 +62,9 @@ void gen_gray_meshes_color(Application * app) {
 
     // Установить серый цвет для мешей
     for (uint32_t child_id = 0; child_id < ogf_file->children_count; child_id++) {
-        app->render_ctx.meshes_color[child_id * 3    ] = 0.75f;
-        app->render_ctx.meshes_color[child_id * 3 + 1] = 0.75f;
-        app->render_ctx.meshes_color[child_id * 3 + 2] = 0.75f;
+        app->render_ctx.meshes_color[child_id * 3    ] = app->render_ctx.meshes_color_def[0];
+        app->render_ctx.meshes_color[child_id * 3 + 1] = app->render_ctx.meshes_color_def[1];
+        app->render_ctx.meshes_color[child_id * 3 + 2] = app->render_ctx.meshes_color_def[2];
     }
 
 }
