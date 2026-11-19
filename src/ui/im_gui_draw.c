@@ -3,6 +3,7 @@
 
 #include <float.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "cimgui.h"
 #include "..\overlay\overlay_grid.c"
@@ -12,6 +13,7 @@
 #include "..\render.h"
 #include "..\app\app_types.h"
 #include "..\version.h"
+#include "..\types.h"
 
 bool show_main_window = true;
 bool show_stats_window = true;
@@ -21,6 +23,10 @@ bool show_overlays_window = true;
 bool show_navigation_window = true;
 bool show_theme_window = true;
 bool show_prefs_window = true;
+bool show_outliner_window = false;
+
+// Индекс выбранного child-визуала в окне Outliner (-1 — ничего не выбрано)
+int selected_child = -1;
 
 float menu_bar_height = 0.0f;
 
@@ -44,6 +50,70 @@ void update_fps(Application* app) {
         app->stats.fps = 1.0 / delta_time;
 
     }
+
+}
+
+// Рисовать окно Outliner (список child-визуалов текущего ogf файла)
+void draw_outliner(Application* app) {
+
+    if (!show_outliner_window) {
+        return;
+    }
+
+    // Получить указатель на главный вьюпорт
+    ImGuiViewport* viewport = igGetMainViewport();
+
+    // Ширина окна
+    const float outliner_width = 250.0f;
+
+    // Установить позицию окна (справа)
+    ImVec2 pivot = {0.0f, 0.0f};
+    igSetNextWindowPos((ImVec2){viewport->WorkSize.x - outliner_width, menu_bar_height}, ImGuiCond_Always, pivot);
+
+    // Установить размер окна
+    igSetNextWindowSize((ImVec2){outliner_width, viewport->WorkSize.y}, ImGuiCond_Always);
+
+    // Окно закрывается крестиком в заголовке
+    igBegin("Outliner", &show_outliner_window, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+    if (app->file_type == FILE_OGF && app->file != NULL) {
+
+        OgfFile* ogf = (OgfFile*)app->file;
+
+        // Сбросить выделение, если child с таким индексом больше нет
+        if (selected_child >= (int)ogf->children_count) {
+            selected_child = -1;
+        }
+
+        // Клиппер, чтобы не рисовать невидимые элементы списка
+        ImGuiListClipper* clipper = ImGuiListClipper_ImGuiListClipper();
+        ImGuiListClipper_Begin(clipper, (int)ogf->children_count, -1.0f);
+
+        while (ImGuiListClipper_Step(clipper)) {
+
+            for (int i = clipper->DisplayStart; i < clipper->DisplayEnd; i++) {
+
+                // Имя элемента списка
+                char label[32];
+                snprintf(label, sizeof(label), "visual_%d", i);
+
+                // Выделение одного child по ЛКМ
+                if (igSelectable_Bool(label, selected_child == i, ImGuiSelectableFlags_None, (ImVec2){0, 0})) {
+                    selected_child = i;
+                }
+
+            }
+
+        }
+
+        ImGuiListClipper_End(clipper);
+        ImGuiListClipper_destroy(clipper);
+
+    } else {
+        igText("No OGF file opened");
+    }
+
+    igEnd();
 
 }
 
@@ -532,6 +602,9 @@ void draw_ui(Application* app) {
     }
 
     igEnd();
+
+    // Рисовать окно Outliner (список child-визуалов справа)
+    draw_outliner(app);
 
     igRender();
     ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());

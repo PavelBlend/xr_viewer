@@ -2,6 +2,7 @@
 #define IO_FUN_C
 
 #include "GLFW\glfw3.h"
+#include "cimgui.h"
 
 #include "globals.c"
 #include "overlay\overlay_grid.c"
@@ -40,6 +41,11 @@ static void get_camera_right_and_up(vec3 right, vec3 up) {
 }
 
 void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
+
+    // Игнорировать нажатия кнопок мыши по интерфейсу (ImGui)
+    if (action == GLFW_PRESS && igGetIO_Nil()->WantCaptureMouse) {
+        return;
+    }
 
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
@@ -119,6 +125,11 @@ void motion_fun(GLFWwindow* window, double xpos, double ypos) {
 }
 
 void mouse_wheel(GLFWwindow* window, double xoffset, double yoffset) {
+
+    if (igGetIO_Nil()->WantCaptureMouse) {
+        return;
+    }
+
     // Увеличиваем или уменьшаем zoom
     if (yoffset > 0) {
         zoom /= 1.1f;

@@ -56,6 +56,10 @@ void draw_main_menu(Application* app) {
                 show_prefs_window = !show_prefs_window;
             }
 
+            if (igMenuItem_Bool("Outliner", "", show_outliner_window, true)) {
+                show_outliner_window = !show_outliner_window;
+            }
+
             igEndMenu();
 
         }
