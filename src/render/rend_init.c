@@ -56,8 +56,8 @@ void create_buffers(Application * app) {
     // Вычислить центр модели
     calc_model_center(app);
 
-    // Сгенерировать рандомные цвета для мешей
-    gen_random_meshes_color(app);
+    // Сгенерировать цвета для мешей
+    gen_gray_meshes_color(app);
 
     // OGF файл
     OgfFile* ogf_file = (OgfFile*) app->file;
