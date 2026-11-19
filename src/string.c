@@ -3,7 +3,9 @@
 
 #include <stdio.h>
 #include <inttypes.h>
+#include <string.h>
 
+#include "encoding_utils.c"
 #include "file_io.h"
 #include "app\app_types.h"
 
@@ -48,11 +50,17 @@ void create_window_title_string(Application * app) {
 
     if (app->file_path != NULL) {
 
+        // путь в UTF-8
+        char* file_path_utf8 = ansi_to_utf8(app->file_path);
+        if (file_path_utf8 == NULL) {
+            file_path_utf8 = _strdup(app->file_path);
+        }
+
         // длина имени программы
         size_t win_name_size = strlen(window_name);
 
         // длина пути к файлу
-        size_t file_path_size = strlen(app->file_path);
+        size_t file_path_size = strlen(file_path_utf8);
 
         // разделители
         char* separator_1 = " - [";
@@ -80,7 +88,7 @@ void create_window_title_string(Application * app) {
         pos += separator_1_size;
 
         // скопировать путь к файлу в итоговую строку
-        memcpy(pos, app->file_path, file_path_size);
+        memcpy(pos, file_path_utf8, file_path_size);
         pos += file_path_size;
 
         // скопировать второй разделитель в итоговую строку
@@ -89,6 +97,8 @@ void create_window_title_string(Application * app) {
 
         // добавить нулевой символ
         *pos = 0;
+
+        free(file_path_utf8);
 
     } else {
         app->window_title = window_name;
