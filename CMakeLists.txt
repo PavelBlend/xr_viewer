@@ -75,10 +75,10 @@ add_custom_target(GenerateIcon
 )
 
 # исходные файлы
-set(SOURCES src/main.c)
+set(SOURCES "src/main.c")
 
 # ресурсы
-set(RESOURCES icon/icon.o)
+set(RESOURCES "icon/icon.o")
 
 # исполняемый файл
 add_executable(xr_viewer ${SOURCES} ${RESOURCES})
@@ -99,14 +99,14 @@ set(GLFW_INCLUDE            "${GLFW_DIR}include")
 set(GLEW_INCLUDE            "${GLEW_DIR}include")
 set(CGLM_INCLUDE            "${CGLM_DIR}include")
 set(FREE_IMAGE_INCLUDE      "${FREE_IMAGE_DIR}Dist/x64")
-set(CIMGUI_INCLUDE          "C:/libs/cimgui/cimgui")
+set(CIMGUI_INCLUDE          "${LIBS_DIR}cimgui/cimgui")
 
 # пути к библиотекам
 set(GLFW_LIB            "${GLFW_DIR}lib-mingw-w64")
 set(GLEW_LIB            "${GLEW_DIR}lib/Release/x64")
 set(FREE_IMAGE_LIB      "${FREE_IMAGE_DIR}Dist/x64")
 
-# установить пути к включениям
+# установить пути к включениям для xr_viewer
 target_include_directories(xr_viewer PRIVATE
     ${GLFW_INCLUDE}
     ${GLEW_INCLUDE}
@@ -115,53 +115,51 @@ target_include_directories(xr_viewer PRIVATE
     ${CIMGUI_INCLUDE}
 )
 
-# установить пути к библиотекам
+# установить пути к библиотекам для xr_viewer
 target_link_directories(xr_viewer PRIVATE
     ${GLFW_LIB}
     ${GLEW_LIB}
     ${FREE_IMAGE_LIB}
 )
 
-set(BAKENDS_FOLDER "C:/libs/cimgui/cimgui/imgui/backends/")
-set(TABLES_SOURCE "C:/libs/cimgui/cimgui/imgui/imgui_tables.cpp")
+set(BACKENDS_FOLDER "${CIMGUI_INCLUDE}/imgui/backends/"         )
+set(TABLES_SOURCE   "${CIMGUI_INCLUDE}/imgui/imgui_tables.cpp"  )
 
-include_directories("C:/libs/cimgui/cimgui/imgui")
+include_directories("${CIMGUI_INCLUDE}/imgui")
 
 add_definitions("-DIMGUI_USER_CONFIG=\"C:/libs/cimgui/cimgui/cimconfig.h\"")
 add_definitions("-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1")
 
 set(IMGUI_SOURCES 
-    "C:/libs/cimgui/cimgui/cimgui.cpp"
-    "C:/libs/cimgui/cimgui/imgui/imgui.cpp"
-    "C:/libs/cimgui/cimgui/imgui/imgui_draw.cpp"
-    "C:/libs/cimgui/cimgui/imgui/imgui_demo.cpp"
-    "C:/libs/cimgui/cimgui/imgui/imgui_widgets.cpp"
+    "${CIMGUI_INCLUDE}/cimgui.cpp"
+    "${CIMGUI_INCLUDE}/imgui/imgui.cpp"
+    "${CIMGUI_INCLUDE}/imgui/imgui_draw.cpp"
+    "${CIMGUI_INCLUDE}/imgui/imgui_demo.cpp"
+    "${CIMGUI_INCLUDE}/imgui/imgui_widgets.cpp"
     ${TABLES_SOURCE}
 )
-
-set(IMGUI_LIBRARIES )
 
 add_compile_definitions("IMGUI_IMPL_OPENGL_LOADER_GL3W")
 
 # opengl 3
-list(APPEND IMGUI_SOURCES ${BAKENDS_FOLDER}imgui_impl_opengl3.cpp)
+list(APPEND IMGUI_SOURCES ${BACKENDS_FOLDER}imgui_impl_opengl3.cpp)
 
 # GLFW
-list(APPEND IMGUI_SOURCES ${BAKENDS_FOLDER}imgui_impl_glfw.cpp)
+list(APPEND IMGUI_SOURCES ${BACKENDS_FOLDER}imgui_impl_glfw.cpp)
 
 add_library(cimgui SHARED ${IMGUI_SOURCES})
 
-# установить пути к включениям
+# установить пути к включениям для cimgui
 target_include_directories(cimgui PRIVATE
     ${GLFW_INCLUDE}
 )
 
-# установить пути к библиотекам
+# установить пути к библиотекам для cimgui
 target_link_directories(cimgui PRIVATE
     ${GLFW_LIB}
 )
 
-# использовать библиотеки
+# использовать библиотеки для cimgui
 target_link_libraries(cimgui PRIVATE
     glfw3dll
 )
@@ -174,7 +172,7 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC -DCIMGUI_USE_OPENGL3 -DCIMGUI_
 # опции компилятора
 target_compile_options(xr_viewer PRIVATE -Wall -m64)
 
-# использовать библиотеки
+# использовать библиотеки для xr_viewer
 target_link_libraries(xr_viewer PRIVATE
     glfw3dll
     glew32
