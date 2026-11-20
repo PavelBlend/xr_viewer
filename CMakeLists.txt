@@ -9,20 +9,24 @@ set(CMAKE_CXX_STANDARD 11)
 
 # установить путь для исполняемых файлов
 set(BIN_DIRECTORY "C:/progs/xr_viewer")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN_DIRECTORY})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BIN_DIRECTORY})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BIN_DIRECTORY})
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY          ${BIN_DIRECTORY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG    ${BIN_DIRECTORY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BIN_DIRECTORY})
+
+# установить путь к программам
+set(PROGS_DIRECTORY "C:/progs/")
 
 # найти программу magick
 find_program(MAGICK_EXECUTABLE
     NAMES magick convert
-    HINTS "C:/progs/image_magick"
+    HINTS "${PROGS_DIRECTORY}image_magick"
 )
 
 # найти программу windres
 find_program(WINDRES_EXECUTABLE
     NAMES windres
-    HINTS "C:/progs/mingw/bin"
+    HINTS "${PROGS_DIRECTORY}mingw/bin"
 )
 
 # Проверяем, что всё нашли
@@ -40,14 +44,20 @@ set(ICON_O            "${ICON_DIR}icon.o")
 set(ICON_RC           "${ICON_DIR}icon.rc")
 set(ICON_ICO          "${ICON_DIR}icon.ico")
 
+# имя иконки
+set(ICON_NAME "icon_")
+
+# расширение иконки
+set(ICON_EXT ".png")
+
 # список png-файлов для иконки
 set(ICON_PNGS
-    "${ICON_DIR}/icon_16.png"
-    "${ICON_DIR}/icon_32.png"
-    "${ICON_DIR}/icon_48.png"
-    "${ICON_DIR}/icon_64.png"
-    "${ICON_DIR}/icon_128.png"
-    "${ICON_DIR}/icon_256.png"
+    "${ICON_DIR}/${ICON_NAME}16${ICON_EXT}"
+    "${ICON_DIR}/${ICON_NAME}32${ICON_EXT}"
+    "${ICON_DIR}/${ICON_NAME}48${ICON_EXT}"
+    "${ICON_DIR}/${ICON_NAME}64${ICON_EXT}"
+    "${ICON_DIR}/${ICON_NAME}128${ICON_EXT}"
+    "${ICON_DIR}/${ICON_NAME}256${ICON_EXT}"
 )
 
 # конвертировать png в ico
@@ -122,8 +132,11 @@ target_link_directories(xr_viewer PRIVATE
     ${FREE_IMAGE_LIB}
 )
 
-set(BACKENDS_FOLDER "${CIMGUI_INCLUDE}/imgui/backends/"         )
-set(TABLES_SOURCE   "${CIMGUI_INCLUDE}/imgui/imgui_tables.cpp"  )
+# установить путь к imgui (Си++)
+set(IMGUI_FOLDER "${CIMGUI_INCLUDE}/imgui/")
+
+set(BACKENDS_FOLDER "${IMGUI_FOLDER}backends/"         )
+set(TABLES_SOURCE   "${IMGUI_FOLDER}imgui_tables.cpp"  )
 
 include_directories("${CIMGUI_INCLUDE}/imgui")
 
@@ -132,10 +145,10 @@ add_definitions("-DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1")
 
 set(IMGUI_SOURCES 
     "${CIMGUI_INCLUDE}/cimgui.cpp"
-    "${CIMGUI_INCLUDE}/imgui/imgui.cpp"
-    "${CIMGUI_INCLUDE}/imgui/imgui_draw.cpp"
-    "${CIMGUI_INCLUDE}/imgui/imgui_demo.cpp"
-    "${CIMGUI_INCLUDE}/imgui/imgui_widgets.cpp"
+    "${IMGUI_FOLDER}imgui.cpp"
+    "${IMGUI_FOLDER}imgui_draw.cpp"
+    "${IMGUI_FOLDER}imgui_demo.cpp"
+    "${IMGUI_FOLDER}imgui_widgets.cpp"
     ${TABLES_SOURCE}
 )
 
@@ -209,10 +222,8 @@ set(COPY_GLSL
 foreach(COPY_FILE IN LISTS COPY_DLL)
     cmake_path(GET COPY_FILE FILENAME FILE_NAME)
     add_custom_command(TARGET xr_viewer POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E echo "Copy: ${FILE_NAME} in $<TARGET_FILE_DIR:xr_viewer>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${COPY_FILE}"
-            "$<TARGET_FILE_DIR:xr_viewer>/${FILE_NAME}"
+        COMMAND ${CMAKE_COMMAND} -E echo                "Copy: ${FILE_NAME} in $<TARGET_FILE_DIR:xr_viewer>"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different   "${COPY_FILE}" "$<TARGET_FILE_DIR:xr_viewer>/${FILE_NAME}"
         VERBATIM
     )
 endforeach()
@@ -221,10 +232,8 @@ endforeach()
 foreach(COPY_FILE IN LISTS COPY_GLSL)
     cmake_path(GET COPY_FILE FILENAME FILE_NAME)
     add_custom_command(TARGET xr_viewer POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E echo "Copy: ${FILE_NAME} in $<TARGET_FILE_DIR:xr_viewer>/shaders"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${COPY_FILE}"
-            "$<TARGET_FILE_DIR:xr_viewer>/shaders/${FILE_NAME}"
+        COMMAND ${CMAKE_COMMAND} -E echo                "Copy: ${FILE_NAME} in $<TARGET_FILE_DIR:xr_viewer>/shaders"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different   "${COPY_FILE}" "$<TARGET_FILE_DIR:xr_viewer>/shaders/${FILE_NAME}"
         VERBATIM
     )
 endforeach()
