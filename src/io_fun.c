@@ -43,7 +43,7 @@ static void get_camera_right_and_up(vec3 right, vec3 up) {
 void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
 
     // Игнорировать нажатия кнопок мыши по интерфейсу (ImGui)
-    if (action == GLFW_PRESS && igGetIO_Nil()->WantCaptureMouse) {
+    if (igGetIO_Nil()->WantCaptureMouse) {
         return;
     }
 
@@ -73,6 +73,10 @@ void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
 }
 
 void motion_fun(GLFWwindow* window, double xpos, double ypos) {
+
+    if (igGetIO_Nil()->WantCaptureMouse) {
+        return;
+    }
 
     if (is_rotating) {
         float delta_x = xpos - last_mouse_x;
