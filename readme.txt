@@ -28,7 +28,7 @@ Disk_T_Create.bat и Disk_T_Remove.bat.
     - G         - отображать координатную сетку         (grid)
     - R         - рандомизировать цвета мешей           (random color)
     - S         - установить один цвет всем мешам       (single color)
-    - T         - отображать текустуры                  (textures)
+    - T         - отображать текстуры                   (textures)
     - B         - отображать ограничивающие коробки     (bounding box)
     - C         - центрировать вид по модели            (center view)
 
