@@ -32,18 +32,20 @@
 ## Зависимости
 - [MinGW-W64](https://github.com/niXman/mingw-builds-binaries)
 - [CMake 4.2](https://github.com/Kitware/CMake/releases/tag/v4.2.8)
+- [Premake 5.0.0](https://github.com/premake/premake-core/releases/tag/v5.0.0)
 - [ImageMagick](https://github.com/ImageMagick/ImageMagick)
 - [GLFW 3.3.9](https://github.com/glfw/glfw/releases/tag/3.3.9)
 - [GLEW 2.2.0](https://github.com/nigels-com/glew/releases/tag/glew-2.2.0)
 - [CGLM 0.9.6](https://github.com/recp/cglm/releases/tag/v0.9.6)
-- [FreeImage 3.18.0](https://sourceforge.net/projects/freeimage/files/Binary%20Distribution/3.18.0/)
+- [SOIL2 1.4.2](https://github.com/SpartanJ/SOIL2/releases/tag/1.4.2)
 - [cimgui](https://github.com/cimgui/cimgui)
 
 В `CMakeLists.txt` указаны такие абсолютные пути к зависимостям:
 - MinGW-W64 - `C:\progs\mingw\bin\`
 - ImageMagick - `C:\progs\image_magick\`
+- Premake - `C:\progs\premake\`
 - GLFW - `C:\libs\glfw\glfw-3.3.9\`
 - GLEW - `C:\libs\glew\glew-2.2.0\`
 - CGLM - `C:\libs\cglm\cglm-0.9.6\`
-- FreeImage - `C:\libs\freeimage\FreeImage3180Win32Win64\FreeImage\`
+- SOIL2 - `C:\libs\soil2\SOIL2-1.4.2\`
 - cimgui - `C:\libs\cimgui\cimgui\`
