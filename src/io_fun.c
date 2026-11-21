@@ -8,6 +8,8 @@
 #include "app\app_loop.c"
 #include "app\app_types.h"
 
+float CAMERA_MAX_ANGLE_X = 89.9f;
+
 static void get_camera_right_and_up(vec3 right, vec3 up) {
     float rad_x = glm_rad(camera_angle_x);
     float rad_y = glm_rad(-camera_angle_y);
@@ -85,9 +87,13 @@ void motion_fun(GLFWwindow* window, double xpos, double ypos) {
         camera_angle_x += delta_y * 0.25f;
         camera_angle_y += delta_x * 0.25f;
 
-        // Ограничиваем углы для удобства
-        /*if (camera_angle_x > 89.0f) camera_angle_x = 89.0f;
-        if (camera_angle_x < -89.0f) camera_angle_x = -89.0f;*/
+        // Ограничиваем углы
+        if (camera_angle_x > CAMERA_MAX_ANGLE_X) {
+            camera_angle_x = CAMERA_MAX_ANGLE_X;
+        }
+        if (camera_angle_x < -CAMERA_MAX_ANGLE_X) {
+            camera_angle_x = -CAMERA_MAX_ANGLE_X;
+        }
 
     }
 
