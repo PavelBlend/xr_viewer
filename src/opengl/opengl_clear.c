@@ -1,7 +1,12 @@
 #ifndef OPENGL_CLEAR
 #define OPENGL_CLEAR
 
+#include "..\tex_io.c"
+
 void clear_gl_data(RenderContext * render_ctx) {
+
+    // Очистка кэша текстур
+    tex_cache_free();
 
     // Очистка ресурсов OpenGL
     for (uint32_t i = 0; i < render_ctx->children_count; i++) {
