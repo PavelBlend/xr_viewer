@@ -1,10 +1,6 @@
 #ifndef IM_GUI_UTILS_C
 #define IM_GUI_UTILS_C
 
-#include "cimgui.h"
-
-#define igGetIO igGetIO_Nil
-
 void c_im_gui_set_ini_path(char* exe_dir) {
 
     // Формируем полный путь к imgui.ini
@@ -12,7 +8,7 @@ void c_im_gui_set_ini_path(char* exe_dir) {
     snprintf(cimgui_ini_path, sizeof(cimgui_ini_path), "%s\\imgui.ini", exe_dir);
 
     // Указать путь к .ini настройкам ImGUI
-    ImGuiIO* io = igGetIO();
+    ImGuiIO* io = igGetIO_Nil();
     io->IniFilename = cimgui_ini_path;
 
 }

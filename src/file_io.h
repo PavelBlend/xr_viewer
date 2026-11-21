@@ -1,10 +1,6 @@
 #ifndef FILE_IO_H
 #define FILE_IO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <inttypes.h>
-
 #include "file_io.h"
 
 // структура данных файла

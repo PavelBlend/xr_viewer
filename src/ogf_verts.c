@@ -1,8 +1,6 @@
 #ifndef OGF_VERTS_C
 #define OGF_VERTS_C
 
-#include <stdlib.h>
-
 #include "ogf_verts.h"
 #include "types.h"
 #include "chunk_io.h"

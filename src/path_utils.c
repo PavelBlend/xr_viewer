@@ -1,10 +1,6 @@
 #ifndef PATH_UTILS_C
 #define PATH_UTILS_C
 
-#include <stdlib.h>
-#include <string.h>
-#include <windows.h>
-
 #include "app\app_types.h"
 
 // Напечатать ошибку функции get_exe_dir и закрыть программу

@@ -1,10 +1,6 @@
 #ifndef FILE_IO_C
 #define FILE_IO_C
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <inttypes.h>
-
 #include "file_io.h"
 
 // открыть файл

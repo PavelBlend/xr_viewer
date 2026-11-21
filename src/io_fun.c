@@ -1,9 +1,6 @@
 #ifndef IO_FUN_C
 #define IO_FUN_C
 
-#include "GLFW\glfw3.h"
-#include "cimgui.h"
-
 #include "globals.c"
 #include "overlay\overlay_grid.c"
 #include "color_utils.c"

@@ -1,10 +1,6 @@
 #ifndef COLOR_UTILS_C
 #define COLOR_UTILS_C
 
-#include <inttypes.h>
-#include <stdlib.h>
-#include <time.h>
-
 // seed для генератора цвета
 static uint32_t g_color_seed = 0;
 

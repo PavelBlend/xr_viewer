@@ -1,23 +1,7 @@
 #ifndef RENDER_C
 #define RENDER_C
 
-#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
-
-#include <windows.h>
-#include <math.h>
-#include <string.h>
-#include <inttypes.h>
-#include <time.h>
-
 #include "ogf_io.c"
-
-#include "cimgui.h"
-#include "cimgui_impl.h"
-#include "GL\glew.h"
-#include "GLFW\glfw3.h"
-#include "cglm\cglm.h"
-#include "FreeImage.h"
-
 #include "io_fun.c"
 #include "globals.c"
 #include "tex_io.c"

@@ -1,8 +1,6 @@
 #ifndef STATS_TYPES_H
 #define STATS_TYPES_H
 
-#include <inttypes.h>
-
 typedef struct Stats {
 
     // Количество кадров в секунду

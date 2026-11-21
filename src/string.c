@@ -1,10 +1,6 @@
 #ifndef STRING_C
 #define STRING_C
 
-#include <stdio.h>
-#include <inttypes.h>
-#include <string.h>
-
 #include "encoding_utils.c"
 #include "file_io.h"
 #include "app\app_types.h"

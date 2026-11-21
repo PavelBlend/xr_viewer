@@ -1,8 +1,6 @@
 #ifndef IM_GUI_DRAW__MAIN_MENU_C
 #define IM_GUI_DRAW__MAIN_MENU_C
 
-#include "cimgui.h"
-
 #include "..\opengl\opengl_clear.c"
 #include "..\app\app.c"
 #include "..\app\app_types.h"

@@ -1,10 +1,6 @@
 #ifndef CHUNK_IO_H
 #define CHUNK_IO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <inttypes.h>
-
 typedef struct Chunk {
     uint32_t* id;
     uint32_t* size;

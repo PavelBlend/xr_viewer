@@ -1,8 +1,6 @@
 #ifndef OGF_INDICES_C
 #define OGF_INDICES_C
 
-#include <inttypes.h>
-
 #include "types.h"
 #include "chunk_io.h"
 

@@ -1,11 +1,6 @@
 #ifndef IM_GUI_DRAW_C
 #define IM_GUI_DRAW_C
 
-#include <float.h>
-#include <stdbool.h>
-#include <stdio.h>
-
-#include "cimgui.h"
 #include "..\overlay\overlay_grid.c"
 #include "..\overlay\overlay_types.h"
 #include "..\globals.c"

@@ -1,11 +1,6 @@
 #ifndef GLEW_INIT_C
 #define GLEW_INIT_C
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "GL\glew.h"
-
 // Инициализировать GLEW
 void glew_init(void) {
 

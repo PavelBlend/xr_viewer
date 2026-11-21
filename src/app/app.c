@@ -1,8 +1,6 @@
 #ifndef APPLICATION_C
 #define APPLICATION_C
 
-#include <stdbool.h>
-
 #include "app_types.h"
 #include "..\file_formats.h"
 

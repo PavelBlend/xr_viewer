@@ -1,11 +1,6 @@
 #ifndef TEX_IO_C
 #define TEX_IO_C
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <GL/glew.h>
-#include <FreeImage.h>
-
 // Инициализация FreeImage
 void init_free_image() {
     FreeImage_Initialise(TRUE);

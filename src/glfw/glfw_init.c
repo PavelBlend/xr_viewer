@@ -1,8 +1,6 @@
 #ifndef GLFW_INIT_C
 #define GLFW_INIT_C
 
-#include "GLFW\glfw3.h"
-
 void glfw_init(void) {
 
     // Инициализация GLFW

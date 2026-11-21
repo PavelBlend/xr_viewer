@@ -1,12 +1,6 @@
 #ifndef ENCODING_UTILS_C
 #define ENCODING_UTILS_C
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <wchar.h>
-#include <windows.h>
-#include <shellapi.h>    // CommandLineToArgvW (нужна библиотека shell32)
-
 // Перевести строку из UTF-16 (wchar_t) в UTF-8.
 char* wide_to_utf8(const wchar_t* wide_string) {
 

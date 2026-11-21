@@ -1,9 +1,6 @@
 #ifndef OGF_IO_C
 #define OGF_IO_C
 
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "ogf_chunks.h"
 #include "ogf_tex.c"
 #include "ogf_verts.c"

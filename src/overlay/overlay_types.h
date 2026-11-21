@@ -1,10 +1,6 @@
 #ifndef OVERLAYS_H
 #define OVERLAYS_H
 
-#include <stdbool.h>
-
-#include "GL\glew.h"
-
 typedef struct OverlayContext {
 
     GLuint*     vao;

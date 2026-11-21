@@ -1,10 +1,6 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-#include <stdbool.h>
-
-#include "GL\glew.h"
-
 typedef struct RenderContext {
 
     // Цвет очистки окна

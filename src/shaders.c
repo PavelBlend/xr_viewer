@@ -1,17 +1,6 @@
 #ifndef SHADERS_C
 #define SHADERS_C
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <inttypes.h>
-#include <assert.h>
-#include <math.h>
-
-#include "GL\glew.h"
-#include "GLFW\glfw3.h"
-#include "cglm\cglm.h"
-
 #include "globals.c"
 
 float fov = 67.5f;

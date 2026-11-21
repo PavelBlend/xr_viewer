@@ -1,8 +1,6 @@
 #ifndef GLFW_CALLBACKS_C
 #define GLFW_CALLBACKS_C
 
-#include "GLFW\glfw3.h"
-
 #include "..\io_fun.c"
 #include "..\window\win_utils.c"
 

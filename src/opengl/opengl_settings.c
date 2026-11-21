@@ -1,8 +1,6 @@
 #ifndef OPENGL_SETTINGS_C
 #define OPENGL_SETTINGS_C
 
-#include "GL\glew.h"
-
 // Установить настройки рендера
 void set_opengl_render_settings(void) {
 

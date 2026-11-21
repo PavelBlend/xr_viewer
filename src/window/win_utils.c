@@ -3,14 +3,6 @@
 
 #define IDI_ICON1 101
 
-#include <stdio.h>
-
-#define GLFW_EXPOSE_NATIVE_WIN32
-
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
-#include <windows.h>
-
 #include "..\string.c"
 
 // Развернуть окно на весь экран

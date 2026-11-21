@@ -1,8 +1,6 @@
 #ifndef HELP_C
 #define HELP_C
 
-#include <stdio.h>
-
 void print_usage(int argc, char* argv[]) {
 
     printf("\nfile not specified, current command:\n    ");

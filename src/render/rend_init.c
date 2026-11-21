@@ -1,9 +1,6 @@
 #ifndef REND_INIT_C
 #define REND_INIT_C
 
-#include <stdlib.h>
-#include <inttypes.h>
-
 #include "rend_init_ogf.c"
 
 // Установить нулевые указатели на буферы рендера
