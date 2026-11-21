@@ -18,7 +18,7 @@
 #include "GLFW\glfw3.h"
 #include <GLFW/glfw3native.h>
 #include "cglm\cglm.h"
-#include "FreeImage.h"
+#include "SOIL2.h"
 #include "cimgui.h"
 #include "cimgui_impl.h"
 

@@ -4,9 +4,6 @@
 // Инициализировать программу
 void init_app(Application * app) {
 
-    // Инициализировать FreeImage
-    init_free_image();
-
     // Инициализировать GLFW
     glfw_init();
 

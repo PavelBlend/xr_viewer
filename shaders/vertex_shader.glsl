@@ -16,6 +16,6 @@ uniform vec3 solidColor;
 void main()
 {
     gl_Position = projection * view * model * vec4(Position, 1.0);
-    TexCoord0 = vec2(TexCoord.x, 1.0 - TexCoord.y);
+    TexCoord0 = vec2(TexCoord.x, TexCoord.y);
     Normal0 = mat3(model) * Normal;
 }

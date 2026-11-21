@@ -23,6 +23,12 @@ find_program(MAGICK_EXECUTABLE
     HINTS "${PROGS_DIRECTORY}image_magick"
 )
 
+# найти программу premake5
+find_program(PREMAKE5_EXECUTABLE
+    NAMES premake5
+    HINTS "${PROGS_DIRECTORY}premake"
+)
+
 # найти программу windres
 find_program(WINDRES_EXECUTABLE
     NAMES windres
@@ -36,6 +42,10 @@ endif()
 
 if(NOT WINDRES_EXECUTABLE)
     message(FATAL_ERROR "windres not found")
+endif()
+
+if(NOT PREMAKE5_EXECUTABLE)
+    message(FATAL_ERROR "premake not found")
 endif()
 
 # пути к файлам иконки
@@ -102,34 +112,65 @@ set(LIBS_DIR            "C:/libs/")
 set(GLFW_DIR            "${LIBS_DIR}glfw/glfw-3.3.9/")
 set(GLEW_DIR            "${LIBS_DIR}glew/glew-2.2.0/")
 set(CGLM_DIR            "${LIBS_DIR}cglm/cglm-0.9.6/")
-set(FREE_IMAGE_DIR      "${LIBS_DIR}freeimage/FreeImage3180Win32Win64/FreeImage/")
+set(SOIL2_DIR           "${LIBS_DIR}soil2/SOIL2-1.4.2/")
 
 # пути к включениям
 set(GLFW_INCLUDE            "${GLFW_DIR}include")
 set(GLEW_INCLUDE            "${GLEW_DIR}include")
 set(CGLM_INCLUDE            "${CGLM_DIR}include")
-set(FREE_IMAGE_INCLUDE      "${FREE_IMAGE_DIR}Dist/x64")
 set(CIMGUI_INCLUDE          "${LIBS_DIR}cimgui/cimgui")
+set(SOIL2_INCLUDE           "${SOIL2_DIR}src/SOIL2")
 
 # пути к библиотекам
 set(GLFW_LIB            "${GLFW_DIR}lib-mingw-w64")
 set(GLEW_LIB            "${GLEW_DIR}lib/Release/x64")
-set(FREE_IMAGE_LIB      "${FREE_IMAGE_DIR}Dist/x64")
+set(SOIL2_LIB           "${SOIL2_DIR}lib/windows")
+
+# компилировать SOIL2
+add_custom_command(
+    OUTPUT ${SOIL2_DIR}make/windows/Makefile
+    WORKING_DIRECTORY ${SOIL2_DIR}
+    COMMAND ${PREMAKE5_EXECUTABLE} gmake
+    COMMENT "Generate SOIL2 Makefile"
+    VERBATIM
+)
+add_custom_command(
+    OUTPUT ${SOIL2_DIR}lib/windows/soil2.lib ${SOIL2_DIR}lib/windows/soil2.dll
+    WORKING_DIRECTORY ${SOIL2_DIR}make/windows
+    COMMAND mingw32-make config=release_x86_64 soil2-static-lib soil2-shared-lib
+    COMMENT "Compile SOIL2"
+    DEPENDS ${SOIL2_DIR}make/windows/Makefile
+    VERBATIM
+)
+
+# зависимость от генерации MakeFile для SOIL2
+add_custom_target(SOIL2GenerateMakeFile
+    DEPENDS ${SOIL2_DIR}make/windows/Makefile
+    COMMENT "SOIL2 Generate Makefile"
+)
+add_dependencies(xr_viewer SOIL2GenerateMakeFile)
+
+# зависимость от SOIL2 библиотек
+add_custom_target(SOIL2Lib
+    DEPENDS ${SOIL2_DIR}lib/windows/soil2.lib ${SOIL2_DIR}lib/windows/soil2.dll
+    COMMENT "SOIL2 Compile"
+)
+add_dependencies(xr_viewer SOIL2Lib)
 
 # установить пути к включениям для xr_viewer
 target_include_directories(xr_viewer PRIVATE
     ${GLFW_INCLUDE}
     ${GLEW_INCLUDE}
     ${CGLM_INCLUDE}
-    ${FREE_IMAGE_INCLUDE}
     ${CIMGUI_INCLUDE}
+    ${SOIL2_INCLUDE}
 )
 
 # установить пути к библиотекам для xr_viewer
 target_link_directories(xr_viewer PRIVATE
     ${GLFW_LIB}
     ${GLEW_LIB}
-    ${FREE_IMAGE_LIB}
+    ${SOIL2_LIB}
 )
 
 # установить путь к imgui (Си++)
@@ -189,7 +230,7 @@ target_compile_options(xr_viewer PRIVATE -Wall -m64)
 target_link_libraries(xr_viewer PRIVATE
     glfw3dll
     glew32
-    FreeImage
+    soil2
     opengl32
     gdi32
     cimgui
@@ -198,7 +239,7 @@ target_link_libraries(xr_viewer PRIVATE
 # пути к dll файлам
 set(GLFW_DLL            "${GLFW_LIB}/glfw3.dll")
 set(GLEW_DLL            "${GLEW_DIR}/bin/Release/x64/glew32.dll")
-set(FREEIMAGE_DLL       "${FREE_IMAGE_LIB}/FreeImage.dll")
+set(SOLD2_DLL           "${SOIL2_DIR}/lib/windows/soil2.dll")
 
 # пути к glsl файлам
 set(SHADERS_DIR             "${CMAKE_SOURCE_DIR}/shaders/")
@@ -209,7 +250,7 @@ set(FRAGMENT_SHADER_GLSL    "${SHADERS_DIR}fragment_shader.glsl")
 set(COPY_DLL
     ${GLFW_DLL}
     ${GLEW_DLL}
-    ${FREEIMAGE_DLL}
+    ${SOLD2_DLL}
 )
 
 # список копируемых glsl файлов

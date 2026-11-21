@@ -13,9 +13,6 @@ void deinit_app(Application * app) {
     // Деинициализировать GLFW
     glfw_deinit(app);
 
-    // Деинициализировать FreeImage
-    deinit_free_image();
-
 }
 
 #endif    // APP_DEINIT_C
