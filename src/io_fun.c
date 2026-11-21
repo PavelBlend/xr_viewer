@@ -39,7 +39,7 @@ static void get_camera_right_and_up(vec3 right, vec3 up) {
 
 void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
 
-    // Игнорировать нажатия кнопок мыши по интерфейсу (ImGui)
+    // Игнорировать действия мыши в интерфейсе
     if (igGetIO_Nil()->WantCaptureMouse) {
         return;
     }
@@ -71,6 +71,7 @@ void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
 
 void motion_fun(GLFWwindow* window, double xpos, double ypos) {
 
+    // Игнорировать действия мыши в интерфейсе
     if (igGetIO_Nil()->WantCaptureMouse) {
         return;
     }
@@ -127,6 +128,7 @@ void motion_fun(GLFWwindow* window, double xpos, double ypos) {
 
 void mouse_wheel(GLFWwindow* window, double xoffset, double yoffset) {
 
+    // Игнорировать действия мыши в интерфейсе
     if (igGetIO_Nil()->WantCaptureMouse) {
         return;
     }
@@ -141,6 +143,11 @@ void mouse_wheel(GLFWwindow* window, double xoffset, double yoffset) {
 
 // Обработка клавиатуры
 void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mods) {
+
+    // Игнорировать действия клавиатуры в интерфейсе
+    if (igGetIO_Nil()->WantCaptureKeyboard) {
+        return;
+    }
 
     // Извлечь указатель на основную структуру программы
     Application* app = (Application*)glfwGetWindowUserPointer(window);
