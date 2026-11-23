@@ -1,7 +1,7 @@
 #ifndef OGF_SWIS_C
 #define OGF_SWIS_C
 
-#include "types.h"
+#include "..\types.h"
 
 void read_swis(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->swis = malloc(sizeof(OgfSwis));

@@ -2,8 +2,8 @@
 #define OGF_VERTS_C
 
 #include "ogf_verts.h"
-#include "types.h"
-#include "chunk_io.h"
+#include "..\types.h"
+#include "..\chunk_io.h"
 
 // прочитать вершины ogf файла
 void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {

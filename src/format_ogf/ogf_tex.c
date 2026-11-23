@@ -1,10 +1,10 @@
 #ifndef OGF_TEX_C
 #define OGF_TEX_C
 
-#include "types.h"
-#include "string.c"
+#include "..\types.h"
+#include "..\string.c"
 
-#include "chunk_io.h"
+#include "..\chunk_io.h"
 
 // прочитать текстуру ogf файла
 void read_texture(OgfChild* ogf_child, Application * app, Chunk* chunk) {

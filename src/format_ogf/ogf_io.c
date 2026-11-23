@@ -6,11 +6,11 @@
 #include "ogf_verts.c"
 #include "ogf_indices.c"
 #include "ogf_swis.c"
-#include "chunk_io.c"
-#include "file_io.c"
-#include "types.h"
-#include "file_formats.h"
-#include "app\app_types.h"
+#include "..\chunk_io.c"
+#include "..\file_io.c"
+#include "..\types.h"
+#include "..\file_formats.h"
+#include "..\app\app_types.h"
 
 void read_ogf_header(OgfHeader* ogf_header, Application * app, Chunks* chunks, int chunk_index) {
 

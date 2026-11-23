@@ -1,7 +1,7 @@
 #ifndef RENDER_C
 #define RENDER_C
 
-#include "ogf_io.c"
+#include "format_ogf\ogf_io.c"
 #include "io_fun.c"
 #include "globals.c"
 #include "tex_io.c"
@@ -13,7 +13,7 @@
 #include "render.h"
 #include "types.h"
 #include "app\app_types.h"
-#include "ogf_verts.h"
+#include "format_ogf\ogf_verts.h"
 
 #include "ui\im_gui_init.c"
 #include "ui\im_gui_deinit.c"

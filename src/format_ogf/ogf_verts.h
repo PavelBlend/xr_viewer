@@ -1,8 +1,8 @@
 #ifndef OGF_VERTS_H
 #define OGF_VERTS_H
 
-#include "types.h"
-#include "chunk_io.h"
+#include "..\types.h"
+#include "..\chunk_io.h"
 
 // ТЧ
 #define FVF_1L_SOC 0x12071980

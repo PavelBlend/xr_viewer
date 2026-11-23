@@ -3,7 +3,7 @@
 
 #include "file_io.h"
 #include "chunk_io.h"
-#include "ogf_chunks.h"
+#include "format_ogf\ogf_chunks.h"
 
 // Освободить память чанков
 void free_chunks(Chunks* chunked_file) {

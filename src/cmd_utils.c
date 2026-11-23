@@ -2,7 +2,7 @@
 #define CMD_UTILS_C
 
 #include "help.c"
-#include "ogf_io.c"
+#include "format_ogf\ogf_io.c"
 
 #include "app\app_types.h"
 

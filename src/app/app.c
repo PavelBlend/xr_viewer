@@ -6,7 +6,7 @@
 
 #include "..\path_utils.c"
 #include "..\cmd_utils.c"
-#include "..\ogf_io.c"
+#include "..\format_ogf\ogf_io.c"
 
 // Создать основную структуру программы
 Application create_app(int argc, char* argv[]) {

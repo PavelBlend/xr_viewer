@@ -1,8 +1,8 @@
 #ifndef OGF_INDICES_C
 #define OGF_INDICES_C
 
-#include "types.h"
-#include "chunk_io.h"
+#include "..\types.h"
+#include "..\chunk_io.h"
 
 // прочитать индексы треугольников ogf файла
 void read_indices(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
