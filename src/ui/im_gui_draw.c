@@ -363,6 +363,13 @@ void draw_ui(Application* app) {
             igTableSetColumnIndex(1);
             igCheckbox("##draw_z_axis", &overlay_ctx->draw_axis_z);
 
+            // Navigation Center
+            igTableNextRow(0, 0.0f);
+            igTableSetColumnIndex(0);
+            igText("Navigation Center:");
+            igTableSetColumnIndex(1);
+            igCheckbox("##draw_navigation_center", &overlay_ctx->draw_navigation_center);
+
             // Draw Grid
             igTableNextRow(0, 0.0f);
             igTableSetColumnIndex(0);

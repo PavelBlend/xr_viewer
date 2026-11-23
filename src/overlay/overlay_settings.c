@@ -39,6 +39,9 @@ void set_overlay_settings(Application * app) {
     overlay_ctx->draw_axis_y    = true;
     overlay_ctx->draw_axis_z    = true;
 
+    // Отображать центр навигации
+    overlay_ctx->draw_navigation_center    = false;
+
 }
 
 #endif    // OVERLAY_SETTINGS_C

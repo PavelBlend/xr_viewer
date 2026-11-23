@@ -82,7 +82,7 @@ char* read_shader_file(char* exe_dir, char* file_name) {
     return file_data;
 }
 
-static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram) {
+static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram, GLuint ShaderProgramNav) {
 
     int width, height;
     glfwGetWindowSize(window, &width, &height);    // Получаем ширину и высоту окна
@@ -129,7 +129,7 @@ static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram) {
     mat4 view;
     glm_lookat(eye, center, up, view);
 
-    // Матриа проекции
+    // Матрица проекции
     mat4 projection;
     glm_perspective(glm_rad(fov), aspect, near_plane, far_plane, projection);
 
@@ -141,9 +141,23 @@ static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram) {
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, (const GLfloat*)projection);
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, (const GLfloat*)view);
 
+    // Использовать шейдерную программу
+    glUseProgram(ShaderProgramNav);
+
+    GLint modelLocNav = glGetUniformLocation(ShaderProgramNav, "model");
+    GLint projLocNav = glGetUniformLocation(ShaderProgramNav, "projection");
+    GLint viewLocNav = glGetUniformLocation(ShaderProgramNav, "view");
+
+    glUniformMatrix4fv(modelLocNav, 1, GL_FALSE, (const GLfloat*)model);
+    glUniformMatrix4fv(projLocNav, 1, GL_FALSE, (const GLfloat*)projection);
+    glUniformMatrix4fv(viewLocNav, 1, GL_FALSE, (const GLfloat*)view);
+
+    // Использовать шейдерную программу
+    glUseProgram(ShaderProgram);
+
 }
 
-static GLuint compile_shaders(char* exe_dir) {
+static GLuint compile_shaders(char* exe_dir, char* vs_file, char* fs_file, bool use_sampler) {
 
     // создать шейдерную программу
     GLuint ShaderProgram = glCreateProgram();
@@ -154,12 +168,12 @@ static GLuint compile_shaders(char* exe_dir) {
     }
 
     // прочитать шейдерный код из файлов
-    char *vertex_shader   = read_shader_file(exe_dir, "shaders\\vertex_shader.glsl"     );
-    char *fragment_shader = read_shader_file(exe_dir, "shaders\\fragment_shader.glsl"   );
+    char *vertex_shader   = read_shader_file(exe_dir, vs_file   );
+    char *fragment_shader = read_shader_file(exe_dir, fs_file   );
 
     // создать шейдеры
-    create_shader(ShaderProgram, vertex_shader,   GL_VERTEX_SHADER,   "shaders\\vertex_shader.glsl"     );
-    create_shader(ShaderProgram, fragment_shader, GL_FRAGMENT_SHADER, "shaders\\fragment_shader.glsl"   );
+    create_shader(ShaderProgram, vertex_shader,   GL_VERTEX_SHADER,   vs_file   );
+    create_shader(ShaderProgram, fragment_shader, GL_FRAGMENT_SHADER, fs_file   );
 
     free(vertex_shader  );
     free(fragment_shader);
@@ -187,9 +201,11 @@ static GLuint compile_shaders(char* exe_dir) {
 
     glUseProgram(ShaderProgram);
 
-    GLuint gSampler = glGetUniformLocation(ShaderProgram, "gSampler");
-    assert(gSampler != 0xFFFFFFFF);
-    glUniform1i(gSampler, 0);
+    if (use_sampler) {
+        GLint gSampler = glGetUniformLocation(ShaderProgram, "gSampler");
+        assert(gSampler != 0xFFFFFFFF);
+        glUniform1i(gSampler, 0);
+    }
 
     return ShaderProgram;
 
@@ -203,14 +219,37 @@ void set_uniforms(Application * app) {
     app->render_ctx.lightDirLoc     = glGetUniformLocation(app->render_ctx.ShaderProgram, "lightDir");
 }
 
+// Установить uniform переменные
+void set_uniforms_nav(Application * app) {
+    app->render_ctx.NavSolidColorLoc    = glGetUniformLocation(app->render_ctx.ShaderProgramNavCenter,  "solidColor"    );
+    app->render_ctx.uniform_pan         = glGetUniformLocation(app->render_ctx.ShaderProgramNavCenter,  "pan"           );
+    app->render_ctx.uniform_zoom        = glGetUniformLocation(app->render_ctx.ShaderProgramNavCenter,  "zoom"          );
+}
+
 // Загрузить шейдеры
 void load_shaders(Application * app) {
 
     // Скомпилировать шейдеры
-    app->render_ctx.ShaderProgram = compile_shaders(app->exe_dir);
+    app->render_ctx.ShaderProgram = compile_shaders(
+        app->exe_dir,
+        "shaders\\vertex_shader.glsl",
+        "shaders\\fragment_shader.glsl",
+        true
+    );
+
+    // Скомпилировать шейдеры для навигационного центра
+    app->render_ctx.ShaderProgramNavCenter = compile_shaders(
+        app->exe_dir,
+        "shaders\\navigation_center_vs.glsl",
+        "shaders\\navigation_center_fs.glsl",
+        false
+    );
 
     // Установить uniform переменные
     set_uniforms(app);
+
+    // Установить uniform переменные для navigation center
+    set_uniforms_nav(app);
 
 }
 

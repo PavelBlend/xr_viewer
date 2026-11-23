@@ -49,10 +49,14 @@ typedef struct RenderContext {
     GLuint*     index_buffers;
     GLuint*     textures;
     GLuint      ShaderProgram;
+    GLuint      ShaderProgramNavCenter;
     GLint       useShadelessLoc;
     GLint       useTextureLoc;
     GLint       solidColorLoc;
     GLint       lightDirLoc;
+    GLint       NavSolidColorLoc;
+    GLint       uniform_pan;
+    GLint       uniform_zoom;
     uint32_t*   indices_count;
     uint32_t*   vertices_count;
     uint32_t    children_count;

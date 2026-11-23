@@ -10,9 +10,6 @@ void init_app(Application * app) {
     // Создать окно
     create_window(app);
 
-    // Установить позицию и размер окна
-    set_window_transforms(app);
-
     // Инициализировать GLEW
     glew_init();
 

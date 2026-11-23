@@ -83,8 +83,10 @@ void create_window(Application* app) {
     // Создать строку для заголовка окна
     create_window_title_string(app);
 
-    // создание окна
+    // Создание окна
     app->window = glfwCreateWindow(800, 600, app->window_title, NULL, NULL);
+
+    // Проверка корректности создания
     if (!app->window) {
         glfwTerminate();
         printf("GLFW Window Creation Error!\n");
@@ -93,8 +95,11 @@ void create_window(Application* app) {
 
     glfwMakeContextCurrent(app->window);
 
-    // сохраняем нативный дескриптор
+    // Сохраняем нативный дескриптор
     app->hwnd = glfwGetWin32Window(app->window);
+
+    // Установить позицию и размер окна
+    set_window_transforms(app);
 
 }
 

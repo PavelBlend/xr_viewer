@@ -28,12 +28,16 @@ void malloc_render_buffers(Application * app) {
 
 // Выделить память для буферов наложений
 void malloc_overlay_buffers(Application * app) {
+
     OgfFile* ogf_file = (OgfFile*) app->file;
+
+    // bbox
     app->overlay_ctx.bbox_vao             = malloc(sizeof(GLuint)     * ogf_file->children_count);
     app->overlay_ctx.bbox_vertex_buffers  = malloc(sizeof(GLuint)     * ogf_file->children_count);
     app->overlay_ctx.bbox_index_buffers   = malloc(sizeof(GLuint)     * ogf_file->children_count);
     app->overlay_ctx.bbox_indices_count   = malloc(sizeof(uint32_t)   * ogf_file->children_count);
     app->overlay_ctx.bbox_children_count  = ogf_file->children_count;
+
 }
 
 // Выделить память для буферов
