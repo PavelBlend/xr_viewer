@@ -67,6 +67,7 @@ void read_ogf_header(OgfHeader* ogf_header, Application * app, Chunks* chunks, i
 
 void read_ogf_child(OgfChild* ogf_child, Application* app, Chunks* chunks, int chunk_index) {
 
+    // Прочитать чанки
     Chunks* chunks_child = read_chunks(
         app->file_data,
         chunks->chunks[chunk_index].offset,
@@ -93,9 +94,14 @@ void read_ogf_child(OgfChild* ogf_child, Application* app, Chunks* chunks, int c
 
     }
 
+    // Освободить память чанков
+    free_chunks(chunks_child);
+
 }
 
 void read_ogf_children(OgfFile* ogf_file, Application* app, Chunks* chunks, int chunk_index) {
+
+    // Прочитать чанки
     Chunks* chunks_children = read_chunks(
         app->file_data,
         chunks->chunks[chunk_index].offset,
@@ -109,6 +115,9 @@ void read_ogf_children(OgfFile* ogf_file, Application* app, Chunks* chunks, int 
         read_ogf_child(&ogf_file->children[visual_id], app, chunks_children, visual_id);
         ogf_file->children_count++;
     }
+
+    // Освободить память чанков
+    free_chunks(chunks_children);
 
 }
 
