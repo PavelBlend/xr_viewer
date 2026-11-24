@@ -20,7 +20,7 @@ LevelFile* read_level(Application * app, Chunks* chunks) {
 
         // Заголовок
         if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_HEADER) {
-            read_level_header(&level_file->header, app, chunks, chunk_index);
+            read_level_header(level_file, app, chunks, chunk_index);
 
         // Шейдеры
         } else if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_14_SHADERS) {
@@ -29,6 +29,9 @@ LevelFile* read_level(Application * app, Chunks* chunks) {
         // Визуалы
         } else if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_14_VISUALS) {
             read_level_visuals_14(level_file, app, chunks, chunk_index);
+
+        } else {
+            printf("chunk: %u\n", *chunks->chunks[chunk_index].id);
         }
 
     }

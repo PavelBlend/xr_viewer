@@ -16,6 +16,7 @@ typedef struct LevelShaders {
 typedef struct LevelFile {
     LevelHeader     header;
     LevelShaders    shaders;
+    FileData *      geom_data;
 } LevelFile;
 
 #endif    // LEVEL_TYPES_H
