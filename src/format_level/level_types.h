@@ -19,4 +19,8 @@ typedef struct LevelFile {
     FileData *      geom_data;
 } LevelFile;
 
+typedef struct LevelGeomFile {
+    LevelHeader     header;
+} LevelGeomFile;
+
 #endif    // LEVEL_TYPES_H

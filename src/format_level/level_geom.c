@@ -2,6 +2,7 @@
 #define LEVEL_GEOM_C
 
 #include "level_types.h"
+#include "level_header.h"
 #include "..\file_io.c"
 #include "..\path_utils.c"
 
@@ -107,12 +108,51 @@ FileData * read_level_geom(const char * level_file_path) {
 
 }
 
+void read_level_geom_chunks(LevelFile * level, FileData * geom_data, Chunks* chunks, char * level_file_path) {
+
+    LevelGeomFile level_geom;
+
+    for (uint32_t chunk_index=0; chunk_index<chunks->count; chunk_index++) {
+
+        // Заголовок
+        if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_HEADER) {
+            read_level_header(level, &level_geom.header, geom_data->bytes, chunks, chunk_index, level_file_path, true);
+
+            if (*level_geom.header.format_version != 14) {
+                printf("Unsupported level.geom format version: %u\n", *level_geom.header.format_version);
+                exit(EXIT_FAILURE);
+            }
+
+        }
+
+    }
+
+    return;
+
+}
+
+void read_level_geom_data(LevelFile * level, char * level_file_path) {
+
+    // Создать структуру для чанков level.geom файла
+    Chunks* chunks = NULL;
+
+    // Прочитать чанки
+    chunks = read_chunks(level->geom_data, 0, (uint32_t)level->geom_data->size);
+
+    // Прочитать данные чанков
+    read_level_geom_chunks(level, level->geom_data, chunks, level_file_path);
+
+}
+
 // Прочитать level.geom
-void read_level_geom_14(LevelFile * level, const char * level_file_path) {
+void read_level_geom_14(LevelFile * level, char * level_file_path) {
 
     if (*level->header.format_version == 14) {
         level->geom_data = read_level_geom(level_file_path);
     }
+
+    // Прочитать чанки level.geom
+    read_level_geom_data(level, level_file_path);
 
     return;
 

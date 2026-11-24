@@ -32,7 +32,7 @@ uint32_t get_chunks_count(
     Chunk chunk;
 
     // размер заголовка
-    uint32_t header_size = (uint32_t)(sizeof(chunk.id) + sizeof(chunk.size));
+    uint32_t header_size = (uint32_t)(sizeof(*chunk.id) + sizeof(*chunk.size));
 
     while (offset < end) {
 

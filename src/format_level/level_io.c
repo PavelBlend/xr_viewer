@@ -20,7 +20,7 @@ LevelFile* read_level(Application * app, Chunks* chunks) {
 
         // Заголовок
         if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_HEADER) {
-            read_level_header(level_file, app, chunks, chunk_index);
+            read_level_header(level_file, &level_file->header, app->file_data->bytes, chunks, chunk_index, app->file_path, false);
 
         // Шейдеры
         } else if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_14_SHADERS) {
