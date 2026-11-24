@@ -4,6 +4,7 @@
 #include "level_types.h"
 #include "level_chunks.h"
 #include "level_header.c"
+#include "level_shaders.c"
 #include "..\chunk_io.c"
 #include "..\file_io.c"
 #include "..\types.h"
@@ -12,12 +13,16 @@
 
 LevelFile* read_level(Application * app, Chunks* chunks) {
 
-    LevelFile* level_file = malloc(sizeof(LevelFile));
+    LevelFile * level_file = malloc(sizeof(LevelFile));
 
     for (uint32_t chunk_index=0; chunk_index<chunks->count; chunk_index++) {
 
+        // Заголовок
         if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_HEADER) {
             read_level_header(&level_file->header, app, chunks, chunk_index);
+
+        } else if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_14_SHADERS) {
+            read_level_shaders_14(level_file, app, chunks, chunk_index);
         }
 
     }

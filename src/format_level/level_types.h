@@ -8,8 +8,13 @@ typedef struct LevelHeader {
     uint16_t *      quality;
 } LevelHeader;
 
+typedef struct LevelShaders {
+    uint32_t *      count;
+} LevelShaders;
+
 typedef struct LevelFile {
     LevelHeader     header;
+    LevelShaders    shaders;
 } LevelFile;
 
 #endif    // LEVEL_TYPES_H
