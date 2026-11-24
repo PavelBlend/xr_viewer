@@ -3,6 +3,7 @@
 
 #include "level_types.h"
 #include "level_header.h"
+#include "level_vb.c"
 #include "..\file_io.c"
 #include "..\path_utils.c"
 
@@ -123,6 +124,12 @@ void read_level_geom_chunks(LevelFile * level, FileData * geom_data, Chunks* chu
                 exit(EXIT_FAILURE);
             }
 
+        // Вершинные буферы
+        } else if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_14_VB) {
+            read_level_vbs(level, level->geom_data, chunks, chunk_index);
+
+        } else {
+            printf("unknown level.geom chunk %u\n", *chunks->chunks[chunk_index].id);
         }
 
     }
