@@ -179,4 +179,18 @@ typedef struct OgfFile {
     OgfChild*   children;
 } OgfFile;
 
+typedef struct GContainer {
+    uint32_t * vb_index;
+    uint32_t * vb_offset;
+    uint32_t * vb_size;
+    uint32_t * ib_index;
+    uint32_t * ib_offset;
+    uint32_t * ib_size;
+} GContainer;
+
+typedef struct LevelVisual {
+    OgfHeader       header;
+    GContainer      gcontainer;
+} LevelVisual;
+
 #endif    // TYPES_H

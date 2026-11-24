@@ -5,6 +5,7 @@
 #include "level_chunks.h"
 #include "level_header.c"
 #include "level_shaders.c"
+#include "level_visuals.c"
 #include "..\chunk_io.c"
 #include "..\file_io.c"
 #include "..\types.h"
@@ -21,8 +22,13 @@ LevelFile* read_level(Application * app, Chunks* chunks) {
         if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_HEADER) {
             read_level_header(&level_file->header, app, chunks, chunk_index);
 
+        // Шейдеры
         } else if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_14_SHADERS) {
             read_level_shaders_14(level_file, app, chunks, chunk_index);
+
+        // Визуалы
+        } else if (*chunks->chunks[chunk_index].id == (uint32_t)LEVEL_14_VISUALS) {
+            read_level_visuals_14(level_file, app, chunks, chunk_index);
         }
 
     }
