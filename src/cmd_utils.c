@@ -3,6 +3,7 @@
 
 #include "help.c"
 #include "format_ogf\ogf_io.c"
+#include "format_level\level_io.c"
 
 #include "app\app_types.h"
 
@@ -72,7 +73,7 @@ void read_input_file(Application * app, char * argv[]) {
         }
 
     } else if (strcmp(filename, "level") == 0) {
-        printf("Level files not supported!\n");
+        read_level_file(app, argv);
 
     } else {
         printf("Unsupported file: \"%s\"\n", filename);
