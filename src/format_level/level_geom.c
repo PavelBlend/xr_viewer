@@ -108,13 +108,14 @@ FileData * read_level_geom(const char * level_file_path) {
 }
 
 // Прочитать level.geom
-FileData * read_level_geom_14(uint16_t format_version, const char * level_file_path) {
+void read_level_geom_14(LevelFile * level, const char * level_file_path) {
 
-    if (format_version != 14) {
-        return NULL;
+    if (*level->header.format_version == 14) {
+        level->geom_data = read_level_geom(level_file_path);
     }
 
-    return read_level_geom(level_file_path);
+    return;
+
 }
 
 #endif    // LEVEL_GEOM_C

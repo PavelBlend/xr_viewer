@@ -28,10 +28,7 @@ void read_level_header(LevelFile * level, Application * app, Chunks * chunks, ui
     }
 
     // Прочитать level.geom, если версия 14
-    level->geom_data = read_level_geom_14(
-        *level->header.format_version,
-        app->file_path
-    );
+    read_level_geom_14(level, app->file_path);
 
 }
 
