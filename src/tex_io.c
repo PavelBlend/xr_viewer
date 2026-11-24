@@ -91,4 +91,44 @@ void tex_cache_free(void) {
 
 }
 
+// Вычислить абсолютный путь к текстуре по относительному пути
+char * get_abs_tex_path(Application * app, char* rel_tex_path) {
+
+    // длина пути к textures папке
+    uint32_t tex_folder_length  = get_string_length(app->prefs.tex_folder);
+
+    // длина относительного пути к текстуре
+    uint32_t tex_relpath_length = get_string_length(rel_tex_path);
+
+    // длина расширения .dds
+    uint32_t tex_ext_length     = get_string_length(app->prefs.tex_ext);
+
+    // длина всего абсолютного пути (+1 в конце - нулевой байт)
+    uint32_t tex_abspath_length = tex_folder_length + tex_relpath_length + tex_ext_length + 1;
+
+    // выделить память под абсолютный путь к текстуре
+    char * abc_tex_path = malloc(tex_abspath_length);
+
+    // записать символы пути к textures папке
+    for (uint32_t i=0; i<tex_folder_length; i++) {
+        abc_tex_path[i] = app->prefs.tex_folder[i];
+    }
+
+    // записать символы относительного пути к текстуре
+    for (uint32_t i=0; i<tex_relpath_length; i++) {
+        abc_tex_path[tex_folder_length + i] = rel_tex_path[i];
+    }
+
+    // записать символы расширения
+    for (uint32_t i=0; i<tex_ext_length; i++) {
+        abc_tex_path[tex_folder_length + tex_relpath_length + i] = app->prefs.tex_ext[i];
+    }
+
+    // записать нулевой байт
+    abc_tex_path[tex_abspath_length - 1] = 0;
+
+    return abc_tex_path;
+
+}
+
 #endif    // TEX_IO_C

@@ -10,6 +10,7 @@ typedef struct LevelHeader {
 
 typedef struct LevelShaders {
     uint32_t *      count;
+    char **         texture_paths;
 } LevelShaders;
 
 typedef struct LevelFile {
