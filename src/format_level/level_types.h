@@ -9,8 +9,8 @@ typedef struct LevelHeader {
 } LevelHeader;
 
 typedef struct LevelShaders {
-    uint32_t *      count;
-    char **         texture_paths;
+    uint32_t *      count;              // Количество шейдеров
+    char **         abs_tex_paths;      // Абсолютные пути к текстурам
 } LevelShaders;
 
 typedef struct LevelFile {

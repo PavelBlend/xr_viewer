@@ -56,7 +56,7 @@ char * get_shader_textures(char * shader) {
 
 }
 
-void read_level_shader_14(Application * app, uint32_t * offset, LevelFile * level_file) {
+void read_level_shader_14(Application * app, uint32_t * offset, LevelFile * level_file, uint32_t shader_id) {
 
     uint32_t    str_len;    // длина строки
     char *      shader;     // строка шейдера
@@ -92,7 +92,7 @@ void read_level_shader_14(Application * app, uint32_t * offset, LevelFile * leve
         abs_text_path = "\0";
     }
 
-    printf("\"%s\"\n", abs_text_path);
+    level_file->shaders.abs_tex_paths[shader_id] = abs_text_path;
 
 }
 
@@ -110,11 +110,15 @@ void read_level_shaders_14(LevelFile * level_file, Application * app, Chunks * c
     offset += sizeof(uint32_t);
 
     // Выделить память под абсолютные пути к текстурам
-    level_file->shaders.texture_paths = malloc(sizeof(char *) * (size_t)level_file->shaders.count);
+    level_file->shaders.abs_tex_paths = malloc(sizeof(char *) * (size_t)*level_file->shaders.count);
 
     // Чтение шейдеров
     for (uint32_t shader_id=0; shader_id<*level_file->shaders.count; shader_id++) {
-        read_level_shader_14(app, &offset, level_file);
+        read_level_shader_14(app, &offset, level_file, shader_id);
+    }
+
+    for (uint32_t i=0; i<*level_file->shaders.count; i++) {
+        printf("\"%s\"\n", level_file->shaders.abs_tex_paths[i]);
     }
 
 }
