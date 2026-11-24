@@ -9,10 +9,4 @@ typedef struct LevelIndexBuffer {
     uint16_t * indices;     // массив индексов (count штук)
 } LevelIndexBuffer;
 
-// Прочитать чанк LEVEL_14_IB
-void read_level_ibs(LevelFile * level, FileData * geom_data, Chunks * chunks, uint32_t chunk_index);
-
-// Освободить один IB
-void free_level_index_buffer(LevelIndexBuffer * ib);
-
 #endif    // LEVEL_IB_H

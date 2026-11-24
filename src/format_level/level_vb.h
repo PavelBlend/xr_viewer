@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "level_types.h"
+
 // ---- Константы формата level ----
 #define LEVEL_VB_VERSION_10 10
 #define LEVEL_VB_VERSION_14 14
@@ -77,11 +79,5 @@ typedef struct LevelVertexBuffer {
     bool has_hemi;
     bool has_sun;
 } LevelVertexBuffer;
-
-// Прочитать чанк LEVEL_14_VB
-void read_level_vbs(LevelFile * level, FileData * geom_data, Chunks * chunks, uint32_t chunk_index);
-
-// Освободить VB
-void free_level_vertex_buffer(LevelVertexBuffer * vb);
 
 #endif    // LEVEL_VB_H

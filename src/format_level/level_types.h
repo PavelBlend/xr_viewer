@@ -3,6 +3,10 @@
 
 #define SUPPORTED_LEVEL_VERSION 14
 
+#include "level_vb.h"
+#include "level_ib.h"
+#include "level_swis.h"
+
 typedef struct LevelHeader {
     uint16_t *      format_version;
     uint16_t *      quality;
@@ -17,6 +21,8 @@ typedef struct LevelFile {
     LevelHeader     header;
     LevelShaders    shaders;
     FileData *      geom_data;
+    LevelSWIBuffer * swis;
+    uint32_t         swis_count;
 } LevelFile;
 
 typedef struct LevelGeomFile {
