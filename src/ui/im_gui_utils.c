@@ -1,5 +1,4 @@
-#ifndef IM_GUI_UTILS_C
-#define IM_GUI_UTILS_C
+#pragma once
 
 void c_im_gui_set_ini_path(char* exe_dir) {
 
@@ -12,5 +11,3 @@ void c_im_gui_set_ini_path(char* exe_dir) {
     io->IniFilename = cimgui_ini_path;
 
 }
-
-#endif    // IM_GUI_UTILS_C

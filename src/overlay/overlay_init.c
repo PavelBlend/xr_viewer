@@ -1,5 +1,4 @@
-#ifndef OVERLAY_INIT_C
-#define OVERLAY_INIT_C
+#pragma once
 
 #include "..\overlay\overlay_grid.c"
 #include "..\overlay\overlay_nav_center.c"
@@ -32,5 +31,3 @@ void init_overlay(Application * app) {
     generate_nav_center(app);
 
 }
-
-#endif    // OVERLAY_INIT_C

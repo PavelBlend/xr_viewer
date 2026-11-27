@@ -1,5 +1,4 @@
-#ifndef IM_GUI_DRAW__MAIN_MENU_C
-#define IM_GUI_DRAW__MAIN_MENU_C
+#pragma once
 
 #include "..\opengl\opengl_clear.c"
 #include "..\app\app.c"
@@ -67,5 +66,3 @@ void draw_main_menu(Application* app) {
     }
 
 }
-
-#endif    // IM_GUI_DRAW__MAIN_MENU_C

@@ -1,5 +1,4 @@
-#ifndef OGF_INDICES_C
-#define OGF_INDICES_C
+#pragma once
 
 #include "..\types.h"
 #include "..\chunk_io.h"
@@ -23,5 +22,3 @@ void read_indices(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->indices->indices = (uint16_t*) (file_data->bytes + offset);
 
 }
-
-#endif    // OGF_INDICES_C

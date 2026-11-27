@@ -1,5 +1,4 @@
-#ifndef REND_BBOX_C
-#define REND_BBOX_C
+#pragma once
 
 void render_bbox(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
@@ -28,5 +27,3 @@ void render_bbox(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
         }
     }
 }
-
-#endif    // REND_BBOX_C

@@ -1,5 +1,4 @@
-#ifndef LEVEL_VB_C
-#define LEVEL_VB_C
+#pragma once
 
 #include "level_types.h"
 #include "level_vb.h"
@@ -402,5 +401,3 @@ void read_level_vbs(LevelFile * level, FileData * geom_data, Chunks * chunks, ui
     }
 
 }
-
-#endif    // LEVEL_VB_C

@@ -1,5 +1,4 @@
-#ifndef ENCODING_UTILS_C
-#define ENCODING_UTILS_C
+#pragma once
 
 // Перевести строку из UTF-16 (wchar_t) в UTF-8.
 char* wide_to_utf8(const wchar_t* wide_string) {
@@ -170,5 +169,3 @@ char** get_utf8_argv(int* argc_out) {
     return argv_utf8;
 
 }
-
-#endif    // ENCODING_UTILS_C

@@ -1,5 +1,4 @@
-#ifndef REND_FACES_C
-#define REND_FACES_C
+#pragma once
 
 void render_faces(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
@@ -50,5 +49,3 @@ void render_faces(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
     }
 
 }
-
-#endif    // REND_FACES_C

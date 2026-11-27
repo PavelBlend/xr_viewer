@@ -1,5 +1,4 @@
-#ifndef FILE_IO_C
-#define FILE_IO_C
+#pragma once
 
 #include "file_io.h"
 
@@ -84,5 +83,3 @@ FileData* read_file(char* file_path) {
                                 close_file      (file, file_path);
     return file_data;
 }
-
-#endif    // FILE_IO_C

@@ -1,5 +1,4 @@
-#ifndef COLOR_UTILS_C
-#define COLOR_UTILS_C
+#pragma once
 
 // seed для генератора цвета
 static uint32_t g_color_seed = 0;
@@ -64,5 +63,3 @@ void gen_gray_meshes_color(Application * app) {
     }
 
 }
-
-#endif    // COLOR_UTILS_C

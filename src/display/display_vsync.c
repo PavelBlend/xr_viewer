@@ -1,5 +1,4 @@
-#ifndef DISPLAY_VSYNC_C
-#define DISPLAY_VSYNC_C
+#pragma once
 
 void set_vsync(RenderContext * render_ctx) {
     if (render_ctx->vsync) {
@@ -8,5 +7,3 @@ void set_vsync(RenderContext * render_ctx) {
         glfwSwapInterval(0);
     }
 }
-
-#endif    // DISPLAY_VSYNC_C

@@ -1,5 +1,4 @@
-#ifndef LEVEL_GEOM_C
-#define LEVEL_GEOM_C
+#pragma once
 
 #include "level_types.h"
 #include "level_header.h"
@@ -174,5 +173,3 @@ void read_level_geom_14(LevelFile * level, char * level_file_path) {
     return;
 
 }
-
-#endif    // LEVEL_GEOM_C

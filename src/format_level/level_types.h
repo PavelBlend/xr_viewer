@@ -1,5 +1,4 @@
-#ifndef LEVEL_TYPES_H
-#define LEVEL_TYPES_H
+#pragma once
 
 #define SUPPORTED_LEVEL_VERSION 14
 
@@ -28,5 +27,3 @@ typedef struct LevelFile {
 typedef struct LevelGeomFile {
     LevelHeader     header;
 } LevelGeomFile;
-
-#endif    // LEVEL_TYPES_H

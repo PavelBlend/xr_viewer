@@ -1,5 +1,4 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#pragma once
 
 #include "..\file_io.c"
 
@@ -49,5 +48,3 @@ typedef struct Application {
 
 Application     create_app  (int argc, char* argv[]);
 void            free_mem    (Application * app);
-
-#endif    // APPLICATION_H

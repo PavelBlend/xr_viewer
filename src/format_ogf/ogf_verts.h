@@ -1,5 +1,4 @@
-#ifndef OGF_VERTS_H
-#define OGF_VERTS_H
+#pragma once
 
 #include "..\types.h"
 #include "..\chunk_io.h"
@@ -18,5 +17,3 @@
 #define FVF_OGF 0x112
 
 void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk);
-
-#endif    // OGF_VERTS_H

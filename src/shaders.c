@@ -1,5 +1,4 @@
-#ifndef SHADERS_C
-#define SHADERS_C
+#pragma once
 
 #include "globals.c"
 
@@ -252,5 +251,3 @@ void load_shaders(Application * app) {
     set_uniforms_nav(app);
 
 }
-
-#endif      // SHADERS_C

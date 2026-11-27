@@ -1,5 +1,4 @@
-#ifndef DISPLAY_DRAW_C
-#define DISPLAY_DRAW_C
+#pragma once
 
 #include "display_clear.c"
 #include "display_vsync.c"
@@ -55,5 +54,3 @@ void display_draw(GLFWwindow* window_glfw, Application* app) {
     render_navigation_center(render_ctx, overlay_ctx);
 
 }
-
-#endif    // DISPLAY_DRAW_C

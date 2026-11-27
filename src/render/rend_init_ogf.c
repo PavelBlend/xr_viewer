@@ -1,5 +1,4 @@
-#ifndef REND_INIT_OGF_C
-#define REND_INIT_OGF_C
+#pragma once
 
 #define POS_ATTR    0
 #define NORM_ATTR   1
@@ -165,5 +164,3 @@ void render_init_ogf(Application * app, uint32_t child_id) {
     update_stats            (app, ogf_child);
 
 }
-
-#endif    // REND_INIT_OGF_C

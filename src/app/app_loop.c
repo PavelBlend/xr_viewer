@@ -1,5 +1,4 @@
-#ifndef APP_LOOP_C
-#define APP_LOOP_C
+#pragma once
 
 #include "..\globals.c"
 #include "..\display\display_draw.c"
@@ -82,5 +81,3 @@ void app_main_loop(Application * app) {
     }
 
 }
-
-#endif    // APP_LOOP_C

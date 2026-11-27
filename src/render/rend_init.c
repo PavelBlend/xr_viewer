@@ -1,5 +1,4 @@
-#ifndef REND_INIT_C
-#define REND_INIT_C
+#pragma once
 
 #include "rend_init_ogf.c"
 
@@ -91,5 +90,3 @@ void init_render_resources(Application * app) {
     }
 
 }
-
-#endif    // REND_INIT_C

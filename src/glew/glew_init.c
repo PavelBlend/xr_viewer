@@ -1,5 +1,4 @@
-#ifndef GLEW_INIT_C
-#define GLEW_INIT_C
+#pragma once
 
 // Инициализировать GLEW
 void glew_init(void) {
@@ -14,5 +13,3 @@ void glew_init(void) {
     }
 
 }
-
-#endif    // GLEW_INIT_C

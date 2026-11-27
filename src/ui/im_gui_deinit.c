@@ -1,5 +1,4 @@
-#ifndef IM_GUI_DEINIT_C
-#define IM_GUI_DEINIT_C
+#pragma once
 
 // Деинициализация CImGUI
 void c_im_gui_deinit(void) {
@@ -9,5 +8,3 @@ void c_im_gui_deinit(void) {
     igDestroyContext(NULL);
 
 }
-
-#endif    // IM_GUI_DEINIT_C

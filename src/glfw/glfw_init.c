@@ -1,5 +1,4 @@
-#ifndef GLFW_INIT_C
-#define GLFW_INIT_C
+#pragma once
 
 void glfw_init(void) {
 
@@ -17,5 +16,3 @@ void glfw_init(void) {
     glfwWindowHint(GLFW_SAMPLES, 8);
 
 }
-
-#endif    // GLFW_INIT_C

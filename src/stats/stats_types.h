@@ -1,5 +1,4 @@
-#ifndef STATS_TYPES_H
-#define STATS_TYPES_H
+#pragma once
 
 typedef struct Stats {
 
@@ -16,5 +15,3 @@ typedef struct Stats {
     uint32_t total_indices;
 
 } Stats;
-
-#endif    // STATS_TYPES_H

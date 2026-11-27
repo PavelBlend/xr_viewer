@@ -1,5 +1,4 @@
-#ifndef OGF_CHUNKS_H
-#define OGF_CHUNKS_H
+#pragma once
 
 enum OGF_Chunks {
     HEADER              =  1,
@@ -26,5 +25,3 @@ enum OGF_Chunks {
     S_LODS              = 23,
     S_MOTION_REFS_2     = 24
 };
-
-#endif    // OGF_CHUNKS_H

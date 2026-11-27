@@ -1,5 +1,4 @@
-#ifndef LEVEL_VB_H
-#define LEVEL_VB_H
+#pragma once
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -79,5 +78,3 @@ typedef struct LevelVertexBuffer {
     bool has_hemi;
     bool has_sun;
 } LevelVertexBuffer;
-
-#endif    // LEVEL_VB_H

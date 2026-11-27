@@ -1,5 +1,4 @@
-#ifndef IM_GUI_THEME_C
-#define IM_GUI_THEME_C
+#pragma once
 
 void cimgui_set_theme(void) {
 
@@ -41,5 +40,3 @@ void cimgui_set_theme(void) {
     style->FrameRounding    = 4.0f;
 
 }
-
-#endif    // IM_GUI_THEME_C

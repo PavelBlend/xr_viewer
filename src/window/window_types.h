@@ -1,5 +1,4 @@
-#ifndef WINDOW_TYPES_H
-#define WINDOW_TYPES_H
+#pragma once
 
 // Структура окна программы
 typedef struct Window {
@@ -14,5 +13,3 @@ typedef struct Window {
     HWND hwnd;
 
 } Window;
-
-#endif    // WINDOW_TYPES_H

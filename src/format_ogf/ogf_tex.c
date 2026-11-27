@@ -1,5 +1,4 @@
-#ifndef OGF_TEX_C
-#define OGF_TEX_C
+#pragma once
 
 #include "..\types.h"
 #include "..\string.c"
@@ -17,5 +16,3 @@ void read_texture(OgfChild* ogf_child, Application * app, Chunk* chunk) {
     ogf_child->texture_path = get_abs_tex_path(app, ogf_child->texture);
 
 }
-
-#endif    // OGF_TEX_C

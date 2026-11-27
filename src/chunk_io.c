@@ -1,5 +1,4 @@
-#ifndef CHUNK_IO_C
-#define CHUNK_IO_C
+#pragma once
 
 #include "file_io.h"
 #include "chunk_io.h"
@@ -105,5 +104,3 @@ Chunks* read_chunks(FileData* file_data, uint32_t start, uint32_t end) {
     return chunks;
 
 }
-
-#endif    // CHUNK_IO_C

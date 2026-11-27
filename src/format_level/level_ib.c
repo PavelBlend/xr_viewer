@@ -1,5 +1,4 @@
-#ifndef LEVEL_IB_C
-#define LEVEL_IB_C
+#pragma once
 
 #include "level_types.h"
 #include "level_ib.h"
@@ -56,5 +55,3 @@ void read_level_ibs(LevelFile * level, FileData * geom_data, Chunks * chunks, ui
         printf("LEVEL_14_IB chunk: read %u of %u bytes\n", r.pos, r.size);
     }
 }
-
-#endif    // LEVEL_IB_C

@@ -1,5 +1,4 @@
-#ifndef REND_EDGES_C
-#define REND_EDGES_C
+#pragma once
 
 void render_edges(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
@@ -30,5 +29,3 @@ void render_edges(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
     }
 
 }
-
-#endif    // REND_EDGES_C

@@ -1,5 +1,4 @@
-#ifndef IO_FUN_C
-#define IO_FUN_C
+#pragma once
 
 #include "globals.c"
 #include "overlay\overlay_grid.c"
@@ -201,5 +200,3 @@ void keyboard_fun(GLFWwindow* window_glfw, int key, int scancode, int action, in
     }
 
 }
-
-#endif    // IO_FUN_C

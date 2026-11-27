@@ -1,5 +1,4 @@
-#ifndef OGF_SWIS_C
-#define OGF_SWIS_C
+#pragma once
 
 #include "..\types.h"
 
@@ -33,5 +32,3 @@ void read_swis(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     ogf_child->indices->count = ogf_child->swis->tris_count * 3;
 
 }
-
-#endif    // OGF_SWIS_C

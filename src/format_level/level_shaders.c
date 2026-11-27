@@ -1,5 +1,4 @@
-#ifndef LEVEL_SHADERS_C
-#define LEVEL_SHADERS_C
+#pragma once
 
 #include "level_types.h"
 #include "..\string.c"
@@ -122,5 +121,3 @@ void read_level_shaders_14(LevelFile * level_file, Application * app, Chunks * c
     }
 
 }
-
-#endif    // LEVEL_SHADERS_C

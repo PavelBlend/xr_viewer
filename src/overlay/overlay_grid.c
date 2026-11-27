@@ -1,5 +1,4 @@
-#ifndef OVERLAYS_C
-#define OVERLAYS_C
+#pragma once
 
 #include "..\render.h"
 
@@ -45,5 +44,3 @@ void generate_grid(Application * app) {
     generate_axis(overlay_ctx, BUFFER_AXIS_Z);
 
 }
-
-#endif    // OVERLAYS_C

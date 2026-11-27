@@ -1,5 +1,4 @@
-#ifndef DISPLAY_CLEAR_C
-#define DISPLAY_CLEAR_C
+#pragma once
 
 void display_clear(RenderContext * render_ctx) {
 
@@ -10,5 +9,3 @@ void display_clear(RenderContext * render_ctx) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
-
-#endif    // DISPLAY_CLEAR_C

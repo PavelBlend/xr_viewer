@@ -1,5 +1,4 @@
-#ifndef GLFW_CALLBACKS_C
-#define GLFW_CALLBACKS_C
+#pragma once
 
 #include "..\io_fun.c"
 #include "..\window\win_utils.c"
@@ -21,5 +20,3 @@ void set_glfw_callbacks(Application * app) {
     glfwSetKeyCallback(app->window.window_glfw, keyboard_fun);
 
 }
-
-#endif    // GLFW_CALLBACKS_C

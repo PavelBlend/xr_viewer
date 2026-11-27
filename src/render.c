@@ -1,5 +1,4 @@
-#ifndef RENDER_C
-#define RENDER_C
+#pragma once
 
 #include "format_ogf\ogf_io.c"
 #include "io_fun.c"
@@ -60,5 +59,3 @@ void render(Application * app) {
     deinit_app(app);
 
 }
-
-#endif    // RENDER_C

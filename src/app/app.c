@@ -1,5 +1,4 @@
-#ifndef APPLICATION_C
-#define APPLICATION_C
+#pragma once
 
 #include "app_types.h"
 #include "..\file_formats.h"
@@ -54,5 +53,3 @@ void free_mem(Application * app) {
     app->file_data = NULL;
 
 }
-
-#endif

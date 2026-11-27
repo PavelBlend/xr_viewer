@@ -1,5 +1,4 @@
-#ifndef LEVEL_SWIS_H
-#define LEVEL_SWIS_H
+#pragma once
 
 #include <stdint.h>
 #include "level_types.h"
@@ -16,5 +15,3 @@ typedef struct LevelSWIBuffer {
     uint32_t        items_count;
     LevelSWIItem *  items;
 } LevelSWIBuffer;
-
-#endif    // LEVEL_SWIS_H

@@ -1,5 +1,4 @@
-#ifndef OVERLAY_COORD_LINES_C
-#define OVERLAY_COORD_LINES_C
+#pragma once
 
 // Сгенерировать основные линии координатной сетки, без линий в нулевых координатах
 // Линии в нулевых координатах генерировать не нужно, так как вместо них будут глобальные оси
@@ -94,5 +93,3 @@ void generate_coord_lines(OverlayContext* overlay_ctx) {
     overlay_ctx->indices_count[BUFFER_COORD_LINES] = grid_indices_count;
 
 }
-
-#endif    // OVERLAY_COORD_LINES_C

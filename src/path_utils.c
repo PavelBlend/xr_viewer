@@ -1,5 +1,4 @@
-#ifndef PATH_UTILS_C
-#define PATH_UTILS_C
+#pragma once
 
 #include "app\app_types.h"
 
@@ -29,5 +28,3 @@ void get_exe_dir(Application *app) {
     *(last + 1) = '\0';
 
 }
-
-#endif

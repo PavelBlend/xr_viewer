@@ -1,5 +1,4 @@
-#ifndef REND_POINTS_C
-#define REND_POINTS_C
+#pragma once
 
 void render_points(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
@@ -39,5 +38,3 @@ void render_points(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
     }
 
 }
-
-#endif    // REND_POINTS_C

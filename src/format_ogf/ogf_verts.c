@@ -1,5 +1,4 @@
-#ifndef OGF_VERTS_C
-#define OGF_VERTS_C
+#pragma once
 
 #include "ogf_verts.h"
 #include "..\types.h"
@@ -55,5 +54,3 @@ void read_verts(OgfChild* ogf_child, FileData* file_data, Chunk* chunk) {
     }
 
 }
-
-#endif    // OGF_VERTS_C

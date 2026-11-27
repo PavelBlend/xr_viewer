@@ -1,5 +1,4 @@
-#ifndef CMD_UTILS_C
-#define CMD_UTILS_C
+#pragma once
 
 #include "help.c"
 #include "format_ogf\ogf_io.c"
@@ -91,5 +90,3 @@ void handle_arguments(Application * app, int argc, char * argv[]) {
     }
 
 }
-
-#endif

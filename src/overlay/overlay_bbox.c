@@ -1,5 +1,4 @@
-#ifndef OVERLAY_BBOX_C
-#define OVERLAY_BBOX_C
+#pragma once
 
 void generate_bbox(Application * app) {
 
@@ -62,5 +61,3 @@ void generate_bbox(Application * app) {
     }
 
 }
-
-#endif    // OVERLAY_BBOX_C

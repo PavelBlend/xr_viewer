@@ -1,5 +1,4 @@
-#ifndef OVERLAY_COORD_AXIS_C
-#define OVERLAY_COORD_AXIS_C
+#pragma once
 
 // Сгенерировать линии осей для координатной сетки
 void generate_axis(OverlayContext* overlay_ctx, uint32_t axis) {
@@ -53,5 +52,3 @@ void generate_axis(OverlayContext* overlay_ctx, uint32_t axis) {
     overlay_ctx->indices_count[axis] = 2;
 
 }
-
-#endif    // OVERLAY_COORD_AXIS_C

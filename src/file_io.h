@@ -1,5 +1,4 @@
-#ifndef FILE_IO_H
-#define FILE_IO_H
+#pragma once
 
 #include "file_io.h"
 
@@ -15,5 +14,3 @@ void        free_file_data  (FileData* file_data            );
 size_t      get_file_size   (FILE* file, char* file_path    );
 FileData*   read_file_data  (FILE* file, char* file_path    );
 FileData*   read_file       (char* file_path                );
-
-#endif    // FILE_IO_H

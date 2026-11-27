@@ -1,5 +1,4 @@
-#ifndef OVERLAY_SETTINGS_C
-#define OVERLAY_SETTINGS_C
+#pragma once
 
 void set_overlay_settings(Application * app) {
 
@@ -43,5 +42,3 @@ void set_overlay_settings(Application * app) {
     overlay_ctx->draw_navigation_center    = false;
 
 }
-
-#endif    // OVERLAY_SETTINGS_C

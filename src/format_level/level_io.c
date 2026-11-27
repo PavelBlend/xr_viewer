@@ -1,5 +1,4 @@
-#ifndef LEVEL_IO_C
-#define LEVEL_IO_C
+#pragma once
 
 #include "level_types.h"
 #include "level_chunks.h"
@@ -65,5 +64,3 @@ void read_level_file(Application * app, char* argv[]) {
     // app->file_type = FILE_LEVEL;
 
 }
-
-#endif    // LEVEL_IO_C

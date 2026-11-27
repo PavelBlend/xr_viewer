@@ -1,5 +1,4 @@
-#ifndef HELP_C
-#define HELP_C
+#pragma once
 
 void print_usage(int argc, char* argv[]) {
 
@@ -13,5 +12,3 @@ void print_usage(int argc, char* argv[]) {
     printf("\nusage:\n    %s file_name.ogf\n\n", argv[0]);
 
 }
-
-#endif

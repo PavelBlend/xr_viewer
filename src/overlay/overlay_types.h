@@ -1,5 +1,4 @@
-#ifndef OVERLAYS_H
-#define OVERLAYS_H
+#pragma once
 
 typedef struct OverlayContext {
 
@@ -36,5 +35,3 @@ typedef struct OverlayContext {
     bool draw_navigation_center;
 
 } OverlayContext;
-
-#endif    // OVERLAYS_H

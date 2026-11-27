@@ -1,5 +1,4 @@
-#ifndef LEVEL_HEADER_C
-#define LEVEL_HEADER_C
+#pragma once
 
 #include "level_types.h"
 #include "level_geom.c"
@@ -41,5 +40,3 @@ void read_level_header(
     }
 
 }
-
-#endif    // LEVEL_HEADER_C

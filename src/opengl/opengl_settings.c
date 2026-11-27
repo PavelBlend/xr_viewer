@@ -1,5 +1,4 @@
-#ifndef OPENGL_SETTINGS_C
-#define OPENGL_SETTINGS_C
+#pragma once
 
 // Установить настройки рендера
 void set_opengl_render_settings(void) {
@@ -26,5 +25,3 @@ void set_opengl_render_settings(void) {
     glPolygonMode(GL_FRONT, GL_FILL);
 
 }
-
-#endif    // OPENGL_SETTINGS_C

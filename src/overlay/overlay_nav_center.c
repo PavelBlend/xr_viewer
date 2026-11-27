@@ -1,5 +1,4 @@
-#ifndef OVERLAY_NAV_CENTER_C
-#define OVERLAY_NAV_CENTER_C
+#pragma once
 
 // сгенерировать перекрестие для центра навигации (3 ребра)
 void generate_nav_center(Application * app) {
@@ -86,5 +85,3 @@ void generate_nav_center(Application * app) {
     overlay_ctx->nav_indices_count[0] = indices_count;
 
 }
-
-#endif    // OVERLAY_NAV_CENTER_C

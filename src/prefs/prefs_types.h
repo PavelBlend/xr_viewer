@@ -1,5 +1,4 @@
-#ifndef PREF_TYPES_H
-#define PREF_TYPES_H
+#pragma once
 
 typedef struct Preferences {
 
@@ -7,5 +6,3 @@ typedef struct Preferences {
     char* tex_ext;
 
 } Preferences;
-
-#endif    // PREF_TYPES_H

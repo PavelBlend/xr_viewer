@@ -1,5 +1,4 @@
-#ifndef LEVEL_READER_C
-#define LEVEL_READER_C
+#pragma once
 
 #include <stdint.h>
 #include <stdio.h>
@@ -62,5 +61,3 @@ static float level_reader_f32(LevelReader * r) {
     r->pos += 4;
     return v;
 }
-
-#endif    // LEVEL_READER_C

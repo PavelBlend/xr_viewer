@@ -1,5 +1,4 @@
-#ifndef OPENGL_CLEAR
-#define OPENGL_CLEAR
+#pragma once
 
 #include "..\tex_io.c"
 
@@ -44,5 +43,3 @@ void clear_gl_data(RenderContext * render_ctx) {
     glDeleteProgram(render_ctx->ShaderProgram);
 
 }
-
-#endif    // OPENGL_CLEAR

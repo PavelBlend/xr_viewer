@@ -1,5 +1,4 @@
-#ifndef REND_SETTINGS_C
-#define REND_SETTINGS_C
+#pragma once
 
 void set_render_settings(Application * app) {
 
@@ -67,5 +66,3 @@ void set_render_settings(Application * app) {
     render_ctx->meshes_color = NULL;
 
 }
-
-#endif    // REND_SETTINGS_C

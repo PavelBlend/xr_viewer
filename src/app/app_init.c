@@ -1,5 +1,4 @@
-#ifndef APP_INIT_C
-#define APP_INIT_C
+#pragma once
 
 // Инициализировать программу
 void init_app(Application * app) {
@@ -32,5 +31,3 @@ void init_app(Application * app) {
     c_im_gui_init(app);
 
 }
-
-#endif    // APP_INIT_C

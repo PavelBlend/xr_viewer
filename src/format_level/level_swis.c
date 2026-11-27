@@ -1,5 +1,4 @@
-#ifndef LEVEL_SWIS_C
-#define LEVEL_SWIS_C
+#pragma once
 
 #include "level_types.h"
 #include "level_swis.h"
@@ -94,5 +93,3 @@ void read_level_swis(LevelFile * level, FileData * geom_data, Chunks * chunks, u
     }
 
 }
-
-#endif    // LEVEL_SWIS_C

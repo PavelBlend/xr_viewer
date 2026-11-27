@@ -1,5 +1,4 @@
-#ifndef APP_DEINIT_C
-#define APP_DEINIT_C
+#pragma once
 
 // Деинициализировать программу
 void deinit_app(Application * app) {
@@ -14,5 +13,3 @@ void deinit_app(Application * app) {
     glfw_deinit(app);
 
 }
-
-#endif    // APP_DEINIT_C

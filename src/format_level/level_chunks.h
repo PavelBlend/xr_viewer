@@ -1,5 +1,4 @@
-#ifndef LEVEL_CHUNKS_H
-#define LEVEL_CHUNKS_H
+#pragma once
 
 enum Level_Chunks {
 
@@ -13,5 +12,3 @@ enum Level_Chunks {
     LEVEL_14_SWIS       = 11,
 
 };
-
-#endif    // LEVEL_CHUNKS_H

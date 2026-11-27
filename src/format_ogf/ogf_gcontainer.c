@@ -1,5 +1,4 @@
-#ifndef OGF_GCONTAINER_C
-#define OGF_GCONTAINER_C
+#pragma once
 
 #include "..\types.h"
 #include "..\chunk_io.h"
@@ -31,5 +30,3 @@ void read_ogf_gcontainer(GContainer* gcontainer, Application * app, Chunks* chun
     offset += sizeof(uint32_t);
 
 }
-
-#endif    // OGF_GCONTAINER_C

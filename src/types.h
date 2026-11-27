@@ -1,5 +1,4 @@
-#ifndef TYPES_H
-#define TYPES_H
+#pragma once
 
 #pragma pack(push, 1)
 
@@ -193,4 +192,4 @@ typedef struct LevelVisual {
     GContainer      gcontainer;
 } LevelVisual;
 
-#endif    // TYPES_H
+#pragma pack(pop)

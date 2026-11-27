@@ -1,5 +1,4 @@
-#ifndef OGF_IO_C
-#define OGF_IO_C
+#pragma once
 
 #include "ogf_chunks.h"
 #include "ogf_tex.c"
@@ -174,5 +173,3 @@ void read_ogf_file(Application * app, char* argv[]) {
     app->file_type = FILE_OGF;
 
 }
-
-#endif    // OGF_IO_C

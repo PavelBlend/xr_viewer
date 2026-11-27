@@ -1,5 +1,4 @@
-#ifndef GLFW_DEINIT_C
-#define GLFW_DEINIT_C
+#pragma once
 
 // Деинициализировать GLFW
 void glfw_deinit(Application * app) {
@@ -8,5 +7,3 @@ void glfw_deinit(Application * app) {
     glfwTerminate();
 
 }
-
-#endif    // GLFW_DEINIT_C

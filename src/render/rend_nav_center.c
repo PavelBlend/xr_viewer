@@ -1,5 +1,4 @@
-#ifndef REND_NAV_CENTER_C
-#define REND_NAV_CENTER_C
+#pragma once
 
 void render_navigation_center(RenderContext * render_ctx, OverlayContext * overlay_ctx) {
 
@@ -23,5 +22,3 @@ void render_navigation_center(RenderContext * render_ctx, OverlayContext * overl
     }
 
 }
-
-#endif    // REND_NAV_CENTER_C

@@ -1,5 +1,4 @@
-#ifndef RENDER_H
-#define RENDER_H
+#pragma once
 
 typedef struct RenderContext {
 
@@ -62,5 +61,3 @@ typedef struct RenderContext {
     uint32_t    children_count;
 
 } RenderContext;
-
-#endif    // RENDER_H

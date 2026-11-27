@@ -1,5 +1,4 @@
-#ifndef STRING_C
-#define STRING_C
+#pragma once
 
 #include "encoding_utils.c"
 #include "file_io.h"
@@ -101,5 +100,3 @@ void create_window_title_string(Application * app) {
     }
 
 }
-
-#endif

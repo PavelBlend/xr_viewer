@@ -1,5 +1,4 @@
-#ifndef TEX_IO_C
-#define TEX_IO_C
+#pragma once
 
 typedef struct TexCacheEntry {
     char*   path;
@@ -130,5 +129,3 @@ char * get_abs_tex_path(Application * app, char* rel_tex_path) {
     return abc_tex_path;
 
 }
-
-#endif    // TEX_IO_C

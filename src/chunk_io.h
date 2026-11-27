@@ -1,5 +1,4 @@
-#ifndef CHUNK_IO_H
-#define CHUNK_IO_H
+#pragma once
 
 typedef struct Chunk {
     uint32_t* id;
@@ -15,5 +14,3 @@ typedef struct Chunks {
 void        free_chunks         (Chunks*   chunked_file                                     );
 uint32_t    get_chunks_count    (FileData* file_data,   uint32_t start,     uint32_t end    );
 Chunks*     read_chunks         (FileData* file_data,   uint32_t start,     uint32_t end    );
-
-#endif    // CHUNK_IO_H

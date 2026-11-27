@@ -1,5 +1,4 @@
-#ifndef LEVEL_VISUALS_C
-#define LEVEL_VISUALS_C
+#pragma once
 
 #include "level_types.h"
 #include "..\format_ogf\ogf_chunks.h"
@@ -58,5 +57,3 @@ void read_level_visuals_14(LevelFile * level_file, Application * app, Chunks * c
     free_chunks(visuals_chunks);
 
 }
-
-#endif    // LEVEL_VISUALS_C

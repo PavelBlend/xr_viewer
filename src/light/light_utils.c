@@ -1,5 +1,4 @@
-#ifndef LIGHT_UTILS_C
-#define LIGHT_UTILS_C
+#pragma once
 
 void add_light(GLFWwindow* window_glfw, RenderContext * render_ctx) {
 
@@ -51,5 +50,3 @@ void add_light(GLFWwindow* window_glfw, RenderContext * render_ctx) {
     glUniform3f(render_ctx->lightDirLoc, light_world[0], light_world[1], light_world[2]);
 
 }
-
-#endif    // LIGHT_UTILS_C

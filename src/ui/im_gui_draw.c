@@ -1,5 +1,4 @@
-#ifndef IM_GUI_DRAW_C
-#define IM_GUI_DRAW_C
+#pragma once
 
 #include "..\overlay\overlay_grid.c"
 #include "..\overlay\overlay_types.h"
@@ -612,5 +611,3 @@ void draw_ui(Application* app) {
     ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());
 
 }
-
-#endif    // IM_GUI_DRAW_C

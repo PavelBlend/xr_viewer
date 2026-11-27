@@ -1,5 +1,4 @@
-#ifndef IM_GUI_INIT_C
-#define IM_GUI_INIT_C
+#pragma once
 
 #include "im_gui_utils.c"
 #include "im_gui_theme.c"
@@ -18,5 +17,3 @@ void c_im_gui_init(Application * app) {
     cimgui_set_theme();
 
 }
-
-#endif    // IM_GUI_INIT_C

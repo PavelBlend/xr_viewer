@@ -1,5 +1,4 @@
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#pragma once
 
 float camera_angle_x = 45.0f;
 float camera_angle_y = -45.0f;
@@ -18,5 +17,3 @@ int last_mouse_y;
 
 int last_pan_x;
 int last_pan_y;
-
-#endif    // GLOBALS_H

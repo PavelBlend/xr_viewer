@@ -1,5 +1,4 @@
-#ifndef WIN_UTILS_C
-#define WIN_UTILS_C
+#pragma once
 
 #define IDI_ICON1 101
 
@@ -102,5 +101,3 @@ void create_window(Application* app) {
     set_window_transforms(app);
 
 }
-
-#endif    // WIN_UTILS_C
