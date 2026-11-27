@@ -39,7 +39,7 @@ static void get_camera_right_and_up(vec3 right, vec3 up) {
 
 }
 
-void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
+void mouse_fun(GLFWwindow* window_glfw, int button, int action, int mods) {
 
     // Игнорировать действия мыши в интерфейсе
     if (igGetIO_Nil()->WantCaptureMouse) {
@@ -47,7 +47,7 @@ void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
     }
 
     double xpos, ypos;
-    glfwGetCursorPos(window, &xpos, &ypos);
+    glfwGetCursorPos(window_glfw, &xpos, &ypos);
 
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
         if (action == GLFW_PRESS) {
@@ -71,7 +71,7 @@ void mouse_fun(GLFWwindow* window, int button, int action, int mods) {
 
 }
 
-void motion_fun(GLFWwindow* window, double xpos, double ypos) {
+void motion_fun(GLFWwindow* window_glfw, double xpos, double ypos) {
 
     // Игнорировать действия мыши в интерфейсе
     if (igGetIO_Nil()->WantCaptureMouse) {
@@ -132,7 +132,7 @@ void motion_fun(GLFWwindow* window, double xpos, double ypos) {
 
 }
 
-void mouse_wheel(GLFWwindow* window, double xoffset, double yoffset) {
+void mouse_wheel(GLFWwindow* window_glfw, double xoffset, double yoffset) {
 
     // Игнорировать действия мыши в интерфейсе
     if (igGetIO_Nil()->WantCaptureMouse) {
@@ -148,7 +148,7 @@ void mouse_wheel(GLFWwindow* window, double xoffset, double yoffset) {
 }
 
 // Обработка клавиатуры
-void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mods) {
+void keyboard_fun(GLFWwindow* window_glfw, int key, int scancode, int action, int mods) {
 
     // Игнорировать действия клавиатуры в интерфейсе
     if (igGetIO_Nil()->WantCaptureKeyboard) {
@@ -156,11 +156,11 @@ void keyboard_fun(GLFWwindow* window, int key, int scancode, int action, int mod
     }
 
     // Извлечь указатель на основную структуру программы
-    Application* app = (Application*)glfwGetWindowUserPointer(window);
+    Application* app = (Application*)glfwGetWindowUserPointer(window_glfw);
 
     // Escape
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
+        glfwSetWindowShouldClose(window_glfw, GLFW_TRUE);
 
     // W - рисовать рёбра
     } else if (key == GLFW_KEY_W && action == GLFW_PRESS) {

@@ -7,18 +7,18 @@
 void set_glfw_callbacks(Application * app) {
 
     // Привязать структуру программы к окну GLFW
-    glfwSetWindowUserPointer(app->window, app);
+    glfwSetWindowUserPointer(app->window.window_glfw, app);
 
     // Обработка изменения размера окна
-    glfwSetFramebufferSizeCallback(app->window, reshape);
+    glfwSetFramebufferSizeCallback(app->window.window_glfw, reshape);
 
     // Обработка событий мыши
-    glfwSetCursorPosCallback    (app->window, motion_fun    );
-    glfwSetMouseButtonCallback  (app->window, mouse_fun     );
-    glfwSetScrollCallback       (app->window, mouse_wheel   );
+    glfwSetCursorPosCallback    (app->window.window_glfw, motion_fun    );
+    glfwSetMouseButtonCallback  (app->window.window_glfw, mouse_fun     );
+    glfwSetScrollCallback       (app->window.window_glfw, mouse_wheel   );
 
     // Обработка событий клавиатуры
-    glfwSetKeyCallback(app->window, keyboard_fun);
+    glfwSetKeyCallback(app->window.window_glfw, keyboard_fun);
 
 }
 

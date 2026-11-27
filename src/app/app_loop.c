@@ -12,13 +12,13 @@ void app_loop_iteration(Application * app) {
     glfwPollEvents();
 
     // Рендер сцены
-    display_draw(app->window, app);
+    display_draw(app->window.window_glfw, app);
 
     // Рендер интерфейса
     draw_ui(app);
 
     // Меняем буферы
-    glfwSwapBuffers(app->window);
+    glfwSwapBuffers(app->window.window_glfw);
 
 }
 
@@ -39,7 +39,7 @@ void set_camera_position(Application * app) {
 
     // вычислить aspect
     int width, height;
-    glfwGetWindowSize(app->window, &width, &height);
+    glfwGetWindowSize(app->window.window_glfw, &width, &height);
 
     float aspect;
     if (height == 0) {
@@ -71,7 +71,7 @@ void app_main_loop(Application * app) {
     // Установить начальную позицию камеры
     set_camera_position(app);
 
-    while (!glfwWindowShouldClose(app->window)) {
+    while (!glfwWindowShouldClose(app->window.window_glfw)) {
 
         if (app->running) {
             app_loop_iteration(app);

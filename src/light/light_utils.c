@@ -1,13 +1,13 @@
 #ifndef LIGHT_UTILS_C
 #define LIGHT_UTILS_C
 
-void add_light(GLFWwindow* window, RenderContext * render_ctx) {
+void add_light(GLFWwindow* window_glfw, RenderContext * render_ctx) {
 
     // направление света в пространстве вида (следует за камерой),
     // переведённое обратно в мир через инверсию view
 
     int w, h;
-    glfwGetWindowSize(window, &w, &h);
+    glfwGetWindowSize(window_glfw, &w, &h);
 
     float rad_x = glm_rad(camera_angle_x);
     float rad_y = glm_rad(-camera_angle_y);

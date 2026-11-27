@@ -3,6 +3,7 @@
 
 #include "..\file_io.c"
 
+#include "..\window\window_types.h"
 #include "..\file_formats.h"
 #include "..\render.h"
 #include "..\overlay\overlay_types.h"
@@ -14,11 +15,8 @@ typedef struct Application {
     // Работает ли программа или нет
     bool running;
 
-    // GLFW Окно
-    GLFWwindow * window;
-
-    // Строка для заголовка окна
-    char * window_title;
+    // Окно программы
+    Window window;
 
     // Абсолютный путь к exe файлу программы
     char exe_dir[MAX_PATH];
@@ -47,12 +45,9 @@ typedef struct Application {
     // Статистика
     Stats stats;
 
-    // Нативный дескриптор окна GLFW
-    HWND hwnd;
-
 } Application;
 
 Application     create_app  (int argc, char* argv[]);
 void            free_mem    (Application * app);
 
-#endif
+#endif    // APPLICATION_H

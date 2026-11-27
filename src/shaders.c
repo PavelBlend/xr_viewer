@@ -82,10 +82,10 @@ char* read_shader_file(char* exe_dir, char* file_name) {
     return file_data;
 }
 
-static void set_shader_matrices(GLFWwindow* window, GLuint ShaderProgram, GLuint ShaderProgramNav) {
+static void set_shader_matrices(GLFWwindow* window_glfw, GLuint ShaderProgram, GLuint ShaderProgramNav) {
 
     int width, height;
-    glfwGetWindowSize(window, &width, &height);    // Получаем ширину и высоту окна
+    glfwGetWindowSize(window_glfw, &width, &height);    // Получаем ширину и высоту окна
 
     float aspect;
 

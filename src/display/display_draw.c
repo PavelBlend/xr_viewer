@@ -13,7 +13,7 @@
 #include "..\render\rend_grid.c"
 #include "..\shaders.c"
 
-void display_draw(GLFWwindow* window, Application* app) {
+void display_draw(GLFWwindow* window_glfw, Application* app) {
 
     // Контекст рендера
     RenderContext * render_ctx = &app->render_ctx;
@@ -31,10 +31,10 @@ void display_draw(GLFWwindow* window, Application* app) {
     glUseProgram(render_ctx->ShaderProgram);
 
     // Установить матрицы для шейдера
-    set_shader_matrices(window, render_ctx->ShaderProgram, render_ctx->ShaderProgramNavCenter);
+    set_shader_matrices(window_glfw, render_ctx->ShaderProgram, render_ctx->ShaderProgramNavCenter);
 
     // Добавить источник света
-    add_light(window, render_ctx);
+    add_light(window_glfw, render_ctx);
 
     // Отрисовка треугольников
     render_faces(render_ctx, overlay_ctx);

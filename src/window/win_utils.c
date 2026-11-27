@@ -8,25 +8,25 @@
 // Развернуть окно на весь экран
 void maximize_window(Application* app) {
 
-    if (!app->hwnd || !IsWindow(app->hwnd))
+    if (!app->window.hwnd || !IsWindow(app->window.hwnd))
         return;
 
     // максимизировать окно
-    ShowWindow(app->hwnd, SW_MAXIMIZE);
+    ShowWindow(app->window.hwnd, SW_MAXIMIZE);
 
     // Загружаем иконку из файла
     HICON hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1));
 
     if (hIcon) {
         // Устанавливаем иконку для окна
-        SendMessage(app->hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
-        SendMessage(app->hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+        SendMessage(app->window.hwnd, WM_SETICON, ICON_BIG,   (LPARAM)hIcon);
+        SendMessage(app->window.hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
     }
 
 }
 
 // Функция изменения размера окна
-void reshape(GLFWwindow* window, int w, int h) {
+void reshape(GLFWwindow* window_glfw, int w, int h) {
     int side_bar_width = 350;    // ширина боковой панели с параметрами
     glViewport(side_bar_width, 0, w - side_bar_width, h);
 }
@@ -46,14 +46,14 @@ void center_window(Application* app) {
     int win_size_y = screen_height * 0.8;
 
     // Устанавливаем размер окна
-    glfwSetWindowSize(app->window, win_size_x, win_size_y);
+    glfwSetWindowSize(app->window.window_glfw, win_size_x, win_size_y);
 
     // Вычисляем позицию окна так, чтобы оно было по центру экрана
     int pos_x = (screen_width  - win_size_x) / 2;
     int pos_y = (screen_height - win_size_y) / 2;
 
     // Установить позицию окна
-    glfwSetWindowPos(app->window, pos_x, pos_y);
+    glfwSetWindowPos(app->window.window_glfw, pos_x, pos_y);
 
 }
 
@@ -72,8 +72,8 @@ void set_window_transforms(Application* app) {
 
     // Обновить вьюпорт
     int width, height;
-    glfwGetFramebufferSize(app->window, &width, &height);
-    reshape(app->window, width, height);
+    glfwGetFramebufferSize(app->window.window_glfw, &width, &height);
+    reshape(app->window.window_glfw, width, height);
 
 }
 
@@ -84,19 +84,19 @@ void create_window(Application* app) {
     create_window_title_string(app);
 
     // Создание окна
-    app->window = glfwCreateWindow(800, 600, app->window_title, NULL, NULL);
+    app->window.window_glfw = glfwCreateWindow(800, 600, app->window.window_title, NULL, NULL);
 
     // Проверка корректности создания
-    if (!app->window) {
+    if (!app->window.window_glfw) {
         glfwTerminate();
         printf("GLFW Window Creation Error!\n");
         exit(-1);
     }
 
-    glfwMakeContextCurrent(app->window);
+    glfwMakeContextCurrent(app->window.window_glfw);
 
     // Сохраняем нативный дескриптор
-    app->hwnd = glfwGetWin32Window(app->window);
+    app->window.hwnd = glfwGetWin32Window(app->window.window_glfw);
 
     // Установить позицию и размер окна
     set_window_transforms(app);

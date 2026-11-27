@@ -41,7 +41,7 @@ char* read_string_zero(FileData* file_data, uint32_t* offset) {
 
 void create_window_title_string(Application * app) {
 
-    app->window_title = NULL;
+    app->window.window_title = NULL;
     char* window_name = "X-Ray Viewer";
 
     if (app->file_path != NULL) {
@@ -70,10 +70,10 @@ void create_window_title_string(Application * app) {
         size_t window_title_size = win_name_size + separator_1_size + file_path_size + separator_2_size + 1;
 
         // выделить память для строки заголовка окна
-        app->window_title = malloc(window_title_size);
+        app->window.window_title = malloc(window_title_size);
 
         // текущая позиция записи для строки заголовка
-        char* pos = app->window_title;
+        char* pos = app->window.window_title;
 
         // скопировать имя программы в итоговую строку
         memcpy(pos, window_name, win_name_size);
@@ -97,7 +97,7 @@ void create_window_title_string(Application * app) {
         free(file_path_utf8);
 
     } else {
-        app->window_title = window_name;
+        app->window.window_title = window_name;
     }
 
 }
