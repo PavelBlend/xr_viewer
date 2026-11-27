@@ -94,14 +94,16 @@ add_custom_target(GenerateIcon
     COMMENT "icon generation"
 )
 
-# исходные файлы
-set(SOURCES "src/main.c")
-
 # ресурсы
 set(RESOURCES "icon/icon.o")
 
 # исполняемый файл
-add_executable(xr_viewer ${SOURCES} ${RESOURCES})
+add_executable(xr_viewer ${RESOURCES})
+
+# добавить исходные файлы
+target_sources(xr_viewer PRIVATE
+    "src/main.c"
+)
 
 add_dependencies(xr_viewer GenerateIcon)
 
