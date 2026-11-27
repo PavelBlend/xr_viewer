@@ -3,7 +3,7 @@
 #include "level_types.h"
 #include "level_ib.h"
 #include "level_reader.c"
-#include "..\chunk_io.c"
+#include "..\chunk_io.h"
 
 static void read_one_ib(LevelReader * r, LevelIndexBuffer * ib) {
 

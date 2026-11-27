@@ -103,6 +103,7 @@ add_executable(xr_viewer ${RESOURCES})
 # добавить исходные файлы
 target_sources(xr_viewer PRIVATE
     "src/main.c"
+    "src/chunk_io.c"
 )
 
 add_dependencies(xr_viewer GenerateIcon)

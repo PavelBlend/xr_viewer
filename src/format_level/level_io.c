@@ -5,7 +5,7 @@
 #include "level_header.c"
 #include "level_shaders.c"
 #include "level_visuals.c"
-#include "..\chunk_io.c"
+#include "..\chunk_io.h"
 #include "..\file_io.c"
 #include "..\types.h"
 #include "..\file_formats.h"

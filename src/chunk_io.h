@@ -1,5 +1,7 @@
 #pragma once
 
+#include <inttypes.h>
+
 typedef struct Chunk {
     uint32_t* id;
     uint32_t* size;

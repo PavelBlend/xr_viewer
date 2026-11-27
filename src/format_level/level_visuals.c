@@ -3,7 +3,7 @@
 #include "level_types.h"
 #include "..\format_ogf\ogf_chunks.h"
 #include "..\format_ogf\ogf_gcontainer.c"
-#include "..\chunk_io.c"
+#include "..\chunk_io.h"
 
 void read_level_visual(Application * app, LevelFile * level_file, Chunks *visuals_chunks, uint32_t visual_id) {
 

@@ -2,7 +2,7 @@
 
 #include "level_types.h"
 #include "level_vb.h"
-#include "..\chunk_io.c"
+#include "..\chunk_io.h"
 
 typedef struct LevelVBReader {
     const uint8_t * data;

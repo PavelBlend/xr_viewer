@@ -5,7 +5,7 @@
 #include "ogf_verts.c"
 #include "ogf_indices.c"
 #include "ogf_swis.c"
-#include "..\chunk_io.c"
+#include "..\chunk_io.h"
 #include "..\file_io.c"
 #include "..\types.h"
 #include "..\file_formats.h"

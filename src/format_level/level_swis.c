@@ -3,7 +3,7 @@
 #include "level_types.h"
 #include "level_swis.h"
 #include "level_reader.c"
-#include "..\chunk_io.c"
+#include "..\chunk_io.h"
 
 // Прочитать один SWI-буфер
 static void import_swi_buffer(LevelReader * r, LevelSWIBuffer * buf) {
