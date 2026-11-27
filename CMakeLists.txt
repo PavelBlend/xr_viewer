@@ -100,10 +100,13 @@ set(RESOURCES "icon/icon.o")
 # исполняемый файл
 add_executable(xr_viewer ${RESOURCES})
 
+# путь к исходному коду
+set(SRC "src/")
+
 # добавить исходные файлы
 target_sources(xr_viewer PRIVATE
-    "src/main.c"
-    "src/chunk_io.c"
+    "${SRC}main.c"
+    "${SRC}chunk_io.c"
 )
 
 add_dependencies(xr_viewer GenerateIcon)
